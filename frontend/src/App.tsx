@@ -9,15 +9,12 @@ import { LoginPage } from './pages/LoginPage';
 import { AlertSettingsPage } from './pages/AlertSettingsPage';
 import { DashboardPage } from './pages/DashboardPage';
 
-// Layout wrapper for authenticated pages — renders TopBar + page content.
-// DashboardPage is overflow-hidden and self-sized, so no pt-14 padding needed
-// on it — it uses dashboard-page-height (calc(100vh - 56px)) directly.
+// Layout wrapper for authenticated pages — renders fixed TopBar + page content.
 function AuthenticatedLayout({ children }: { children: React.ReactNode }) {
   return (
     <>
       <TopBar />
-      {/* Offset content below fixed TopBar (h-14 = 56px) */}
-      <div className="pt-14">{children}</div>
+      {children}
     </>
   );
 }

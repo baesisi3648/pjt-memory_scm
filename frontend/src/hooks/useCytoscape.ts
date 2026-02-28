@@ -1,6 +1,7 @@
 // @TASK P3-S1-T1 - Custom hook for Cytoscape.js instance management
 import { useRef, useEffect, useCallback } from 'react';
-import cytoscape, { Core, ElementDefinition, Stylesheet } from 'cytoscape';
+import cytoscape from 'cytoscape';
+import type { Core, ElementDefinition, Stylesheet } from 'cytoscape';
 
 interface UseCytoscapeOptions {
   elements: ElementDefinition[];
@@ -26,6 +27,7 @@ export function useCytoscape({
   const containerRef = useRef<HTMLDivElement | null>(null);
   const cyRef = useRef<Core | null>(null);
   const onNodeClickRef = useRef(onNodeClick);
+  const fittedRef = useRef(false);
 
   // Keep callback ref current without reinitializing cytoscape
   useEffect(() => {
@@ -34,15 +36,14 @@ export function useCytoscape({
 
   // Initialize cytoscape once when container mounts
   useEffect(() => {
-    if (!containerRef.current) return;
+    const container = containerRef.current;
+    if (!container) return;
 
     const cy = cytoscape({
-      container: containerRef.current,
+      container,
       elements,
       style: stylesheet,
       layout: { name: 'preset' },
-      zoom: 1,
-      pan: { x: 0, y: 0 },
       minZoom: 0.2,
       maxZoom: 3,
       wheelSensitivity: 0.2,
@@ -54,23 +55,76 @@ export function useCytoscape({
     });
 
     cyRef.current = cy;
+    fittedRef.current = false;
+    initDoneRef.current = false; // Reset for StrictMode double-mount
 
-    // Fit to screen after initial render
-    requestAnimationFrame(() => {
-      cy.fit(undefined, 60);
+    // Diagnostic: log init state
+    console.log('[Cytoscape] Init:', {
+      elements: elements.length,
+      containerW: container.clientWidth,
+      containerH: container.clientHeight,
     });
 
+    // Use ResizeObserver to fit when container actually has dimensions
+    const observer = new ResizeObserver((entries) => {
+      const entry = entries[0];
+      if (!entry) return;
+      const { width, height } = entry.contentRect;
+      if (width > 0 && height > 0) {
+        cy.resize();
+        if (!fittedRef.current) {
+          fittedRef.current = true;
+          cy.fit(undefined, 60);
+          console.log('[Cytoscape] Fit via ResizeObserver:', { width, height, nodes: cy.nodes().length });
+        }
+      }
+    });
+    observer.observe(container);
+
+    // Fallback: if ResizeObserver hasn't triggered fit after 500ms, force it
+    const fallbackTimer = setTimeout(() => {
+      if (!fittedRef.current) {
+        cy.resize();
+        fittedRef.current = true;
+        cy.fit(undefined, 60);
+        console.log('[Cytoscape] Fit via fallback timer:', {
+          containerW: container.clientWidth,
+          containerH: container.clientHeight,
+          nodes: cy.nodes().length,
+          zoom: cy.zoom(),
+        });
+      }
+    }, 500);
+
     return () => {
+      clearTimeout(fallbackTimer);
+      observer.disconnect();
       cy.destroy();
       cyRef.current = null;
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []); // Only run once on mount
 
-  // Update elements when data changes without reinitializing
+  // Track whether the init effect has completed at least once
+  const initDoneRef = useRef(false);
+
+  // Update elements when data changes (skip runs where init just created cy with these elements)
+  const prevElementsRef = useRef(elements);
   useEffect(() => {
     const cy = cyRef.current;
     if (!cy || elements.length === 0) return;
+
+    // Skip if elements haven't actually changed (init already used them)
+    if (prevElementsRef.current === elements && initDoneRef.current) {
+      return;
+    }
+    prevElementsRef.current = elements;
+
+    // On the very first run, just mark init as done — init effect already has these elements
+    if (!initDoneRef.current) {
+      initDoneRef.current = true;
+      return;
+    }
 
     cy.batch(() => {
       // Add or update elements
@@ -95,16 +149,9 @@ export function useCytoscape({
       });
     });
 
-    // Re-apply layout only for non-preset (preset uses stored positions)
     cy.layout({ name: 'preset' }).run();
+    cy.fit(undefined, 60);
   }, [elements]);
-
-  // Update stylesheet when it changes
-  useEffect(() => {
-    const cy = cyRef.current;
-    if (!cy) return;
-    cy.style(stylesheet);
-  }, [stylesheet]);
 
   const zoomIn = useCallback(() => {
     cyRef.current?.zoom({

@@ -57,10 +57,6 @@ body {
 .legend-dot-critical { background-color: var(--color-node-alert); }
 .legend-dot-warning  { background-color: var(--color-warning); }
 
-/* Dashboard page: fill viewport below fixed TopBar (h-14 = 56px) */
-.dashboard-page-height {
-  height: calc(100vh - 56px);
-}
 
 /* Side panel: relation strength bar — width driven by --strength CSS variable
    set on the parent wrapper via a Tailwind arbitrary-property class.

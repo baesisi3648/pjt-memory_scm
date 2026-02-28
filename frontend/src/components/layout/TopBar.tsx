@@ -22,7 +22,7 @@ export function TopBar() {
   return (
     <header
       role="banner"
-      className="fixed top-0 left-0 right-0 z-50 h-14 bg-neutral-900 border-b border-neutral-800 flex items-center px-4"
+      className="fixed top-0 left-0 right-0 h-14 bg-neutral-900 border-b border-neutral-800 flex items-center px-4 z-50"
     >
       {/* Logo */}
       <div className="flex items-center gap-2 flex-1">

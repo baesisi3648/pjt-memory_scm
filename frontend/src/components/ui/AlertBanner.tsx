@@ -163,7 +163,7 @@ export function AlertBanner({
     if (alerts.length <= MAX_VISIBLE) setShowAll(false);
   }, [alerts.length]);
 
-  const companyMap = new Map(companies.map((c) => [c.id, c.name]));
+  const companyMap = new Map(Array.isArray(companies) ? companies.map((c) => [c.id, c.name_kr || c.name]) : []);
 
   // Sort: critical first, then warning, then info
   const severityOrder: Record<Alert['severity'], number> = { critical: 0, warning: 1, info: 2 };

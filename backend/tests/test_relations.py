@@ -164,7 +164,10 @@ class TestCompanyRelations:
         # Samsung->ASE (supplier) + Samsung->SK Hynix (partner)
         assert data["count"] == 2
         for item in data["items"]:
-            assert item["source_id"] == samsung_id or item["target_id"] == samsung_id
+            # Enriched format: company_id is the partner, direction shows relationship
+            assert "company_id" in item
+            assert "company_name" in item
+            assert item["direction"] in ("upstream", "downstream")
 
     def test_company_not_found(self, client: TestClient, session: Session):
         """Non-existent company ID returns 404."""

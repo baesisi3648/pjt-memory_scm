@@ -1,0 +1,412 @@
+entries:
+  - date: "2026-02-28T15:08:28"
+    type: refactor
+    domain: root
+    files:
+      - "frontend\\src\\hooks\\useCytoscape.ts"
+    description: Refactor useCytoscape
+    impact:
+      - none
+  - date: "2026-02-28T15:10:59"
+    type: refactor
+    domain: root
+    files:
+      - "frontend\\src\\stores\\authStore.ts"
+    description: Refactor authStore
+    impact:
+      - none
+  - date: "2026-02-28T15:11:07"
+    type: feature
+    domain: root
+    files:
+      - "frontend\\src\\stores\\authStore.ts"
+    description: Add new functionality to authStore in root
+    impact:
+      - none
+  - date: "2026-02-28T15:13:05"
+    type: refactor
+    domain: root
+    files:
+      - "frontend\\src\\pages\\DashboardPage.tsx"
+    description: Refactor DashboardPage
+    impact:
+      - none
+  - date: "2026-02-28T15:13:40"
+    type: refactor
+    domain: root
+    files:
+      - "frontend\\src\\components\\graph\\SidePanel.tsx"
+    description: Refactor SidePanel
+    impact:
+      - none
+  - date: "2026-02-28T15:21:07"
+    type: refactor
+    domain: root
+    files:
+      - "frontend\\src\\hooks\\useCytoscape.ts"
+    description: Refactor useCytoscape
+    impact:
+      - none
+  - date: "2026-02-28T15:21:13"
+    type: refactor
+    domain: root
+    files:
+      - "frontend\\src\\components\\graph\\ValueChainGraph.tsx"
+    description: Refactor ValueChainGraph
+    impact:
+      - none
+  - date: "2026-02-28T15:21:18"
+    type: refactor
+    domain: root
+    files:
+      - "frontend\\src\\components\\graph\\ValueChainGraph.tsx"
+    description: Refactor ValueChainGraph
+    impact:
+      - none
+  - date: "2026-02-28T15:21:23"
+    type: refactor
+    domain: root
+    files:
+      - "frontend\\src\\components\\graph\\ValueChainGraph.tsx"
+    description: Refactor ValueChainGraph
+    impact:
+      - none
+  - date: "2026-02-28T15:21:28"
+    type: refactor
+    domain: root
+    files:
+      - "frontend\\src\\components\\graph\\ValueChainGraph.tsx"
+    description: Refactor ValueChainGraph
+    impact:
+      - none
+  - date: "2026-02-28T15:21:33"
+    type: refactor
+    domain: root
+    files:
+      - "frontend\\src\\components\\graph\\ValueChainGraph.tsx"
+    description: Refactor ValueChainGraph
+    impact:
+      - none
+  - date: "2026-02-28T15:21:38"
+    type: refactor
+    domain: root
+    files:
+      - "frontend\\src\\components\\ui\\AlertBanner.tsx"
+    description: Refactor AlertBanner
+    impact:
+      - none
+  - date: "2026-02-28T15:21:49"
+    type: refactor
+    domain: root
+    files:
+      - "frontend\\src\\components\\graph\\ValueChainGraph.tsx"
+    description: Refactor ValueChainGraph
+    impact:
+      - none
+  - date: "2026-02-28T15:21:53"
+    type: refactor
+    domain: root
+    files:
+      - "frontend\\src\\components\\graph\\ValueChainGraph.tsx"
+    description: Refactor ValueChainGraph
+    impact:
+      - none
+  - date: "2026-02-28T15:22:01"
+    type: refactor
+    domain: root
+    files:
+      - "frontend\\src\\components\\graph\\ValueChainGraph.tsx"
+    description: Refactor ValueChainGraph
+    impact:
+      - none
+  - date: "2026-02-28T15:22:27"
+    type: refactor
+    domain: root
+    files:
+      - "frontend\\src\\pages\\DashboardPage.tsx"
+    description: Refactor DashboardPage
+    impact:
+      - none
+  - date: "2026-02-28T15:22:49"
+    type: refactor
+    domain: root
+    files:
+      - "frontend\\src\\components\\graph\\ValueChainGraph.tsx"
+    description: Refactor ValueChainGraph
+    impact:
+      - none
+  - date: "2026-02-28T15:22:55"
+    type: refactor
+    domain: root
+    files:
+      - "frontend\\src\\components\\graph\\ValueChainGraph.tsx"
+    description: Refactor ValueChainGraph
+    impact:
+      - none
+  - date: "2026-02-28T15:32:00"
+    type: refactor
+    domain: root
+    files:
+      - "frontend\\src\\components\\layout\\TopBar.tsx"
+    description: Refactor TopBar
+    impact:
+      - none
+  - date: "2026-02-28T15:32:09"
+    type: refactor
+    domain: root
+    files:
+      - "frontend\\src\\App.tsx"
+    description: Refactor App
+    impact:
+      - none
+  - date: "2026-02-28T15:32:16"
+    type: refactor
+    domain: root
+    files:
+      - "frontend\\src\\pages\\DashboardPage.tsx"
+    description: Refactor DashboardPage
+    impact:
+      - none
+  - date: "2026-02-28T15:32:26"
+    type: refactor
+    domain: root
+    files:
+      - "frontend\\src\\index.css"
+    description: Refactor index
+    impact:
+      - none
+  - date: "2026-02-28T15:34:15"
+    type: refactor
+    domain: root
+    files:
+      - "backend\\app\\core\\config.py"
+    description: Refactor config
+    impact:
+      - none
+  - date: "2026-02-28T15:34:48"
+    type: feature
+    domain: "backend\\app\\services\\\news"
+    files:
+      - "backend\\app\\services\\\news_service.py"
+    description: "Create news_service in backend\\app\\services\\\news"
+    impact:
+      - "external dependency added: datetime, httpx, sqlmodel"
+      - "internal dependency added: app.core.config, app.models.news_item"
+  - date: "2026-02-28T15:35:02"
+    type: feature
+    domain: root
+    files:
+      - "backend\\app\\api\\\news.py"
+    description: Create news in root
+    impact:
+      - "external dependency added: fastapi, sqlmodel"
+      - "internal dependency added: app.core.database, app.core.security, app.models.company (+more)"
+  - date: "2026-02-28T15:36:11"
+    type: feature
+    domain: root
+    files:
+      - "backend\\app\\api\\\news.py"
+    description: Create news in root
+    impact:
+      - "external dependency added: fastapi, sqlmodel"
+      - "internal dependency added: app.core.database, app.core.security, app.models.company (+more)"
+  - date: "2026-02-28T15:40:05"
+    type: refactor
+    domain: root
+    files:
+      - "frontend\\src\\App.tsx"
+    description: Refactor App
+    impact:
+      - none
+  - date: "2026-02-28T15:40:11"
+    type: refactor
+    domain: root
+    files:
+      - "frontend\\src\\pages\\DashboardPage.tsx"
+    description: Refactor DashboardPage
+    impact:
+      - none
+  - date: "2026-02-28T15:41:01"
+    type: refactor
+    domain: root
+    files:
+      - "frontend\\src\\components\\layout\\TopBar.tsx"
+    description: Refactor TopBar
+    impact:
+      - none
+  - date: "2026-02-28T15:41:11"
+    type: fix
+    domain: root
+    files:
+      - "frontend\\src\\App.tsx"
+    description: Fix issue in App
+    impact:
+      - none
+  - date: "2026-02-28T15:41:17"
+    type: refactor
+    domain: root
+    files:
+      - "frontend\\src\\pages\\DashboardPage.tsx"
+    description: Refactor DashboardPage
+    impact:
+      - none
+  - date: "2026-02-28T15:41:25"
+    type: fix
+    domain: root
+    files:
+      - "frontend\\src\\hooks\\useCytoscape.ts"
+    description: Fix issue in useCytoscape
+    impact:
+      - none
+  - date: "2026-02-28T15:41:31"
+    type: refactor
+    domain: root
+    files:
+      - "frontend\\src\\hooks\\useCytoscape.ts"
+    description: Refactor useCytoscape
+    impact:
+      - none
+  - date: "2026-02-28T15:43:15"
+    type: refactor
+    domain: "backend\\app\\services\\\news"
+    files:
+      - "backend\\app\\services\\\news_service.py"
+    description: Refactor news_service
+    impact:
+      - none
+  - date: "2026-02-28T15:48:25"
+    type: feature
+    domain: root
+    files:
+      - "frontend\\src\\hooks\\useCytoscape.ts"
+    description: Create useCytoscape in root
+    impact:
+      - "external dependency added: react, cytoscape, cytoscape"
+  - date: "2026-02-28T15:51:24"
+    type: refactor
+    domain: root
+    files:
+      - "frontend\\src\\components\\graph\\ValueChainGraph.tsx"
+    description: Refactor ValueChainGraph
+    impact:
+      - none
+  - date: "2026-02-28T15:51:30"
+    type: refactor
+    domain: root
+    files:
+      - "frontend\\src\\components\\ui\\AlertBanner.tsx"
+    description: Refactor AlertBanner
+    impact:
+      - none
+  - date: "2026-02-28T15:51:39"
+    type: refactor
+    domain: root
+    files:
+      - "frontend\\src\\components\\graph\\SidePanel.tsx"
+    description: Refactor SidePanel
+    impact:
+      - none
+  - date: "2026-02-28T15:51:44"
+    type: refactor
+    domain: root
+    files:
+      - "frontend\\src\\components\\graph\\SidePanel.tsx"
+    description: Refactor SidePanel
+    impact:
+      - none
+  - date: "2026-02-28T15:52:52"
+    type: feature
+    domain: root
+    files:
+      - "backend\\app\\schemas\\relation.py"
+    description: Add new functionality to relation in root
+    impact:
+      - none
+  - date: "2026-02-28T15:52:58"
+    type: feature
+    domain: root
+    files:
+      - "backend\\app\\api\\relations.py"
+    description: Add new functionality to relations in root
+    impact:
+      - none
+  - date: "2026-02-28T15:53:12"
+    type: refactor
+    domain: root
+    files:
+      - "backend\\app\\api\\relations.py"
+    description: Refactor relations
+    impact:
+      - none
+  - date: "2026-02-28T15:53:46"
+    type: refactor
+    domain: root
+    files:
+      - "backend\\tests\\test_relations.py"
+    description: Refactor test_relations
+    impact:
+      - none
+  - date: "2026-02-28T15:55:22"
+    type: refactor
+    domain: "backend\\app\\services\\\news"
+    files:
+      - "backend\\app\\services\\\news_service.py"
+    description: Refactor news_service
+    impact:
+      - none
+  - date: "2026-02-28T16:02:00"
+    type: refactor
+    domain: root
+    files:
+      - "frontend\\src\\components\\graph\\ValueChainGraph.tsx"
+    description: Refactor ValueChainGraph
+    impact:
+      - none
+  - date: "2026-02-28T16:02:08"
+    type: refactor
+    domain: root
+    files:
+      - "frontend\\src\\components\\graph\\ValueChainGraph.tsx"
+    description: Refactor ValueChainGraph
+    impact:
+      - none
+  - date: "2026-02-28T16:02:32"
+    type: refactor
+    domain: root
+    files:
+      - "frontend\\src\\hooks\\useCytoscape.ts"
+    description: Refactor useCytoscape
+    impact:
+      - none
+  - date: "2026-02-28T16:05:51"
+    type: refactor
+    domain: root
+    files:
+      - "frontend\\src\\hooks\\useCytoscape.ts"
+    description: Refactor useCytoscape
+    impact:
+      - none
+  - date: "2026-02-28T16:12:33"
+    type: refactor
+    domain: root
+    files:
+      - "frontend\\src\\hooks\\useCytoscape.ts"
+    description: Refactor useCytoscape
+    impact:
+      - none
+  - date: "2026-02-28T16:12:46"
+    type: refactor
+    domain: root
+    files:
+      - "frontend\\src\\hooks\\useCytoscape.ts"
+    description: Refactor useCytoscape
+    impact:
+      - none
+  - date: "2026-02-28T16:12:54"
+    type: refactor
+    domain: root
+    files:
+      - "frontend\\src\\components\\graph\\ValueChainGraph.tsx"
+    description: Refactor ValueChainGraph
+    impact:
+      - none

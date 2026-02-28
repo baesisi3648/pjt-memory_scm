@@ -37,14 +37,9 @@ export const useAuthStore = create<AuthState>((set) => ({
   login: async (email: string, password: string) => {
     set({ isLoading: true, error: null });
     try {
-      const formData = new URLSearchParams();
-      formData.append('username', email);
-      formData.append('password', password);
-
       const response = await api.post<{ access_token: string; token_type: string }>(
         '/auth/login',
-        formData.toString(),
-        { headers: { 'Content-Type': 'application/x-www-form-urlencoded' } }
+        { email, password },
       );
 
       const { access_token } = response.data;
@@ -65,9 +60,11 @@ export const useAuthStore = create<AuthState>((set) => ({
 
       set({ token: access_token, user, isAuthenticated: true, isLoading: false, error: null });
     } catch (err: unknown) {
+      const detail = (err as { response?: { data?: { detail?: unknown } } })?.response?.data?.detail;
       const message =
-        (err as { response?: { data?: { detail?: string } } })?.response?.data?.detail ??
-        '로그인에 실패했습니다. 이메일과 비밀번호를 확인해주세요.';
+        typeof detail === 'string'
+          ? detail
+          : '로그인에 실패했습니다. 이메일과 비밀번호를 확인해주세요.';
       set({ isLoading: false, error: message, isAuthenticated: false });
       throw err;
     }

@@ -248,7 +248,7 @@ function PanelHeader({ company, onClose }: PanelHeaderProps) {
       <div className="flex justify-between items-start mb-4">
         <div className="w-14 h-14 rounded-lg bg-slate-50 border border-slate-200 flex items-center justify-center">
           <span className="text-lg font-bold text-slate-400" aria-hidden="true">
-            {initials(company.name)}
+            {initials(company.name_kr || company.name)}
           </span>
         </div>
         <button
@@ -262,7 +262,7 @@ function PanelHeader({ company, onClose }: PanelHeaderProps) {
 
       {/* Name + flag */}
       <div className="flex items-center gap-2 mb-1">
-        <h2 className="text-xl font-bold text-slate-900 leading-tight">{company.name}</h2>
+        <h2 className="text-xl font-bold text-slate-900 leading-tight">{company.name_kr || company.name}</h2>
         <span aria-label={`Country: ${company.country}`}>{flag}</span>
       </div>
 
@@ -561,7 +561,7 @@ export function SidePanel({ companyId, onClose, onRelationClick }: SidePanelProp
         api.get<CompanyDetail>(`/companies/${id}`),
         api.get<Alert[]>(`/companies/${id}/alerts`),
         api.get<NewsItem[]>(`/companies/${id}/news`, { params: { limit: 5 } }),
-        api.get<PanelRelation[]>(`/companies/${id}/relations`),
+        api.get<{ items: PanelRelation[]; count: number }>(`/companies/${id}/relations`),
       ]);
 
       // Guard against stale responses
@@ -573,7 +573,7 @@ export function SidePanel({ companyId, onClose, onRelationClick }: SidePanelProp
           company:   companyRes.data,
           alerts:    alertsRes.data,
           news:      newsRes.data,
-          relations: relationsRes.data,
+          relations: relationsRes.data.items,
         },
       });
     } catch {

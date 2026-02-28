@@ -12,7 +12,12 @@ from app.core.security import get_current_user
 from app.models.company import Company
 from app.models.company_relation import CompanyRelation
 from app.models.user import User
-from app.schemas.relation import RelationListResponse, RelationResponse
+from app.schemas.relation import (
+    CompanyRelationDetail,
+    CompanyRelationListResponse,
+    RelationListResponse,
+    RelationResponse,
+)
 
 router = APIRouter()
 
@@ -71,17 +76,18 @@ company_relations_router = APIRouter()
 
 
 @company_relations_router.get(
-    "/{company_id}/relations", response_model=RelationListResponse
+    "/{company_id}/relations", response_model=CompanyRelationListResponse
 )
 def get_company_relations(
     company_id: int,
     session: Session = Depends(get_session),
     current_user: User = Depends(get_current_user),
-) -> RelationListResponse:
+) -> CompanyRelationListResponse:
     """
-    Get all relations for a specific company (as source or target).
+    Get enriched relations for a specific company.
 
-    Returns 404 if the company does not exist.
+    Returns partner company name (Korean preferred) and direction
+    (upstream = this company is the target, downstream = this company is the source).
     """
     company = session.get(Company, company_id)
     if company is None:
@@ -98,7 +104,25 @@ def get_company_relations(
             )
         )
     ).all()
-    return RelationListResponse(
-        items=[RelationResponse.model_validate(r) for r in relations],
-        count=len(relations),
-    )
+
+    enriched: list[CompanyRelationDetail] = []
+    for rel in relations:
+        if rel.source_id == company_id:
+            partner = session.get(Company, rel.target_id)
+            direction = "downstream"
+        else:
+            partner = session.get(Company, rel.source_id)
+            direction = "upstream"
+
+        partner_name = (partner.name_kr or partner.name) if partner else "Unknown"
+
+        enriched.append(CompanyRelationDetail(
+            id=rel.id,
+            company_id=partner.id if partner else 0,
+            company_name=partner_name,
+            relation_type=rel.relation_type or "supplier",
+            strength=rel.strength,
+            direction=direction,
+        ))
+
+    return CompanyRelationListResponse(items=enriched, count=len(enriched))

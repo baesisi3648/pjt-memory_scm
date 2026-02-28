@@ -23,3 +23,21 @@ class RelationListResponse(BaseModel):
 
     items: list[RelationResponse]
     count: int
+
+
+class CompanyRelationDetail(BaseModel):
+    """Enriched relation for a specific company's perspective."""
+
+    id: int
+    company_id: int
+    company_name: str
+    relation_type: str
+    strength: Optional[float] = None
+    direction: str  # 'upstream' | 'downstream'
+
+
+class CompanyRelationListResponse(BaseModel):
+    """Response body for company-specific enriched relations."""
+
+    items: list[CompanyRelationDetail]
+    count: int

@@ -1,6 +1,6 @@
 // @TASK P3-S1-T1 - Value Chain Graph component using Cytoscape.js
 // @SPEC main_supply_chain_dashboard design reference
-import { useEffect, useState, useCallback, useRef } from 'react';
+import { useEffect, useState, useCallback, useRef, useMemo } from 'react';
 import type { ElementDefinition, Stylesheet } from 'cytoscape';
 import { useCytoscape } from '../../hooks/useCytoscape';
 import type { Company, Cluster, CompanyRelation, Alert } from '../../types/index';
@@ -93,7 +93,7 @@ function buildElements(
       elements.push({
         data: {
           id: `company-${company.id}`,
-          label: company.name,
+          label: company.name_kr || company.name,
           type: 'company',
           companyId: company.id,
           tier,
@@ -173,11 +173,9 @@ function buildStylesheet(): Stylesheet[] {
         'font-weight': 700,
         'color': '#64748b',
         'text-margin-y': -8,
-        'letter-spacing': 1,
-        'text-transform': 'uppercase',
         'text-background-color': '#f8fafc',
         'text-background-opacity': 1,
-        'text-background-padding': '4px',
+        'text-background-padding': 4,
         'text-background-shape': 'roundrectangle',
       },
     },
@@ -201,12 +199,11 @@ function buildStylesheet(): Stylesheet[] {
         'text-margin-y': 4,
         'text-background-color': 'rgba(248,250,252,0.9)',
         'text-background-opacity': 1,
-        'text-background-padding': '2px',
+        'text-background-padding': 2,
         'text-background-shape': 'roundrectangle',
         'text-wrap': 'wrap',
-        'text-max-width': '80px',
-        'cursor': 'pointer',
-        'transition-property': 'border-color, border-width, background-color, shadow-blur',
+        'text-max-width': 80,
+        'transition-property': 'border-color, border-width, background-color',
         'transition-duration': 200,
       },
     },
@@ -217,11 +214,9 @@ function buildStylesheet(): Stylesheet[] {
         'border-color': '#f59e0b',
         'border-width': 3,
         'background-color': '#fffbeb',
-        'shadow-blur': 8,
-        'shadow-color': '#f59e0b',
-        'shadow-opacity': 0.5,
-        'shadow-offset-x': 0,
-        'shadow-offset-y': 0,
+        'overlay-color': '#f59e0b',
+        'overlay-padding': 6,
+        'overlay-opacity': 0.15,
       },
     },
     // Critical node overlay
@@ -231,11 +226,9 @@ function buildStylesheet(): Stylesheet[] {
         'border-color': '#ef4444',
         'border-width': 3,
         'background-color': '#fef2f2',
-        'shadow-blur': 12,
-        'shadow-color': '#ef4444',
-        'shadow-opacity': 0.6,
-        'shadow-offset-x': 0,
-        'shadow-offset-y': 0,
+        'overlay-color': '#ef4444',
+        'overlay-padding': 8,
+        'overlay-opacity': 0.2,
       },
     },
     // Company node hover
@@ -252,11 +245,9 @@ function buildStylesheet(): Stylesheet[] {
       style: {
         'border-width': 4,
         'border-color': '#2563eb',
-        'shadow-blur': 16,
-        'shadow-color': '#2563eb',
-        'shadow-opacity': 0.7,
-        'shadow-offset-x': 0,
-        'shadow-offset-y': 0,
+        'overlay-color': '#2563eb',
+        'overlay-padding': 10,
+        'overlay-opacity': 0.2,
       },
     },
     // Selected node
@@ -318,8 +309,11 @@ export function ValueChainGraph({
   onFocusRef,
 }: ValueChainGraphProps) {
   const [zoomPercent, setZoomPercent] = useState(100);
-  const stylesheet = buildStylesheet();
-  const elements = buildElements(companies, clusters, relations, alerts);
+  const stylesheet = useMemo(() => buildStylesheet(), []);
+  const elements = useMemo(
+    () => buildElements(companies, clusters, relations, alerts),
+    [companies, clusters, relations, alerts],
+  );
 
   const handleNodeClick = useCallback(
     (nodeId: string) => {
@@ -411,9 +405,8 @@ export function ValueChainGraph({
       {/* Cytoscape canvas */}
       <div
         ref={containerRef}
-        className="absolute inset-0"
+        className="absolute inset-0 z-[1]"
         aria-label="Supply chain value graph"
-        role="img"
       />
 
       {/* ── Zoom controls (bottom-left) ─────────────────────────── */}

@@ -147,16 +147,16 @@ export function DashboardPage() {
     setError(null);
     try {
       const [companiesRes, clustersRes, relationsRes, alertsRes] = await Promise.all([
-        api.get<Company[]>('/companies'),
-        api.get<Cluster[]>('/clusters'),
-        api.get<CompanyRelation[]>('/relations'),
+        api.get<{ items: Company[]; count: number }>('/companies'),
+        api.get<{ items: Cluster[]; count: number }>('/clusters'),
+        api.get<{ items: CompanyRelation[]; count: number }>('/relations'),
         api.get<Alert[]>('/alerts', { params: { is_read: false } }),
       ]);
 
       setData({
-        companies: companiesRes.data,
-        clusters:  clustersRes.data,
-        relations: relationsRes.data,
+        companies: companiesRes.data.items,
+        clusters:  clustersRes.data.items,
+        relations: relationsRes.data.items,
         alerts:    alertsRes.data,
       });
     } catch {
@@ -186,9 +186,10 @@ export function DashboardPage() {
     setSelectedCompanyId(companyId);
   }, []);
 
-  // ── Alert "View Details" → focus graph node ───────────────────────────────────
+  // ── Alert "View Details" → focus graph node + open side panel ─────────────────
   const handleViewDetails = useCallback((companyId: number) => {
     focusNodeRef.current?.(companyId);
+    setSelectedCompanyId(companyId);
   }, []);
 
   // ── Alert dismiss updates local state ────────────────────────────────────────
@@ -199,7 +200,7 @@ export function DashboardPage() {
   // ── Render ────────────────────────────────────────────────────────────────────
   return (
     // Full-screen below fixed TopBar (h-14 = 56px), injected via AuthenticatedLayout
-    <div className="flex flex-col dashboard-page-height">
+    <div className="fixed top-14 left-0 right-0 bottom-0 flex flex-col">
 
       {/* Alert banner — zero height when no alerts */}
       {data && (
