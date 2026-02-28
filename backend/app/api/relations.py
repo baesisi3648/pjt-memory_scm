@@ -105,13 +105,22 @@ def get_company_relations(
         )
     ).all()
 
+    # Prefetch all partner companies in a single query (avoid N+1)
+    partner_ids = set()
+    for rel in relations:
+        partner_ids.add(rel.target_id if rel.source_id == company_id else rel.source_id)
+    partners = {
+        c.id: c
+        for c in session.exec(select(Company).where(Company.id.in_(partner_ids))).all()
+    } if partner_ids else {}
+
     enriched: list[CompanyRelationDetail] = []
     for rel in relations:
         if rel.source_id == company_id:
-            partner = session.get(Company, rel.target_id)
+            partner = partners.get(rel.target_id)
             direction = "downstream"
         else:
-            partner = session.get(Company, rel.source_id)
+            partner = partners.get(rel.source_id)
             direction = "upstream"
 
         partner_name = (partner.name_kr or partner.name) if partner else "Unknown"
