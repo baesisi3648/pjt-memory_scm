@@ -1,14 +1,19 @@
 import pytest
 from fastapi.testclient import TestClient
+from sqlalchemy.pool import StaticPool
 from sqlmodel import SQLModel, Session, create_engine
 
 from app.core.database import get_session
 from app.main import app
 
-TEST_DATABASE_URL = "sqlite:///./test.db"
+# Ensure all models are registered with SQLModel metadata before create_all
+from app.models import *  # noqa: F401, F403
+
+TEST_DATABASE_URL = "sqlite://"
 engine = create_engine(
     TEST_DATABASE_URL,
     connect_args={"check_same_thread": False},
+    poolclass=StaticPool,
 )
 
 
