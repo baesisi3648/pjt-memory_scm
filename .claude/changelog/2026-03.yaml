@@ -410,3 +410,181 @@ entries:
     description: Refactor ValueChainGraph
     impact:
       - none
+  - date: "2026-02-28T16:25:23"
+    type: docs
+    domain: root
+    files:
+      - "docs\\planning\\08-improvements.md"
+    description: Add documentation 08-improvements.md
+    impact:
+      - none
+  - date: "2026-02-28T16:34:06"
+    type: refactor
+    domain: root
+    files:
+      - "frontend\\src\\components\\graph\\ValueChainGraph.tsx"
+    description: Refactor ValueChainGraph
+    impact:
+      - none
+  - date: "2026-02-28T16:34:33"
+    type: refactor
+    domain: root
+    files:
+      - "frontend\\src\\components\\graph\\ValueChainGraph.tsx"
+    description: Refactor ValueChainGraph
+    impact:
+      - none
+  - date: "2026-02-28T16:34:48"
+    type: refactor
+    domain: root
+    files:
+      - "frontend\\src\\components\\graph\\ValueChainGraph.tsx"
+    description: Refactor ValueChainGraph
+    impact:
+      - none
+  - date: "2026-02-28T16:35:36"
+    type: refactor
+    domain: root
+    files:
+      - "backend\\app\\api\\relations.py"
+    description: Refactor relations
+    impact:
+      - none
+  - date: "2026-02-28T16:37:05"
+    type: refactor
+    domain: root
+    files:
+      - "backend\\app\\core\\config.py"
+    description: Refactor config
+    impact:
+      - none
+  - date: "2026-02-28T16:37:11"
+    type: feature
+    domain: root
+    files:
+      - "backend\\.env"
+    description: Create .env in root
+    impact:
+      - none
+  - date: "2026-02-28T16:37:13"
+    type: feature
+    domain: root
+    files:
+      - "backend\\.env.example"
+    description: Create .env in root
+    impact:
+      - none
+  - date: "2026-02-28T16:38:45"
+    type: refactor
+    domain: root
+    files:
+      - "backend\\app\\models\\company.py"
+    description: Refactor company
+    impact:
+      - none
+  - date: "2026-02-28T16:38:49"
+    type: refactor
+    domain: root
+    files:
+      - "backend\\app\\schemas\\company.py"
+    description: Refactor company
+    impact:
+      - none
+  - date: "2026-02-28T16:39:20"
+    type: refactor
+    domain: root
+    files:
+      - "backend\\scripts\\seed.py"
+    description: Refactor seed
+    impact:
+      - none
+  - date: "2026-02-28T16:39:26"
+    type: refactor
+    domain: root
+    files:
+      - "backend\\scripts\\seed.py"
+    description: Refactor seed
+    impact:
+      - none
+  - date: "2026-02-28T16:41:09"
+    type: feature
+    domain: "backend\\app\\services\\stock"
+    files:
+      - "backend\\app\\services\\stock_service.py"
+    description: "Create stock_service in backend\\app\\services\\stock"
+    impact:
+      - "external dependency added: logging, time, dataclasses (+more)"
+  - date: "2026-02-28T16:41:22"
+    type: feature
+    domain: root
+    files:
+      - "backend\\app\\api\\stock.py"
+    description: Create stock in root
+    impact:
+      - "external dependency added: datetime, typing, fastapi (+more)"
+      - "internal dependency added: app.core.database, app.core.security, app.models.company (+more)"
+  - date: "2026-02-28T16:41:29"
+    type: refactor
+    domain: root
+    files:
+      - "backend\\app\\api\\__init__.py"
+    description: Refactor __init__
+    impact:
+      - none
+  - date: "2026-02-28T16:41:34"
+    type: refactor
+    domain: root
+    files:
+      - "backend\\app\\main.py"
+    description: Refactor main
+    impact:
+      - none
+  - date: "2026-02-28T16:41:39"
+    type: fix
+    domain: root
+    files:
+      - "backend\\app\\main.py"
+    description: Fix issue in main
+    impact:
+      - none
+  - date: "2026-02-28T16:41:59"
+    type: feature
+    domain: root
+    files:
+      - "backend\\tests\\test_stock.py"
+    description: Create test_stock in root
+    impact:
+      - "external dependency added: unittest.mock, fastapi.testclient, sqlmodel"
+      - "internal dependency added: app.core.security, app.models.cluster, app.models.company (+more)"
+  - date: "2026-02-28T16:42:49"
+    type: refactor
+    domain: root
+    files:
+      - "frontend\\src\\components\\graph\\SidePanel.tsx"
+    description: Refactor SidePanel
+    impact:
+      - none
+  - date: "2026-02-28T16:42:58"
+    type: feature
+    domain: root
+    files:
+      - "frontend\\src\\components\\graph\\SidePanel.tsx"
+    description: Add new functionality to SidePanel in root
+    impact:
+      - none
+  - date: "2026-02-28T16:43:16"
+    type: fix
+    domain: root
+    files:
+      - "frontend\\src\\components\\graph\\SidePanel.tsx"
+    description: Fix issue in SidePanel
+    impact:
+      - none
+  - date: "2026-02-28T16:43:32"
+    type: refactor
+    domain: root
+    files:
+      - "frontend\\src\\components\\graph\\SidePanel.tsx"
+    description: Refactor SidePanel
+    impact:
+      - none

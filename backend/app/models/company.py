@@ -19,6 +19,7 @@ class Company(SQLModel, table=True):
     name_kr: Optional[str] = Field(default=None, max_length=255)
     cluster_id: Optional[int] = Field(default=None, foreign_key="clusters.id", index=True)
     tier: Optional[str] = Field(default=None, max_length=50, index=True)
+    ticker: Optional[str] = Field(default=None, max_length=20, index=True)
     country: Optional[str] = Field(default=None, max_length=100)
     description: Optional[str] = Field(default=None)
     meta_data: Optional[str] = Field(default=None, alias="metadata")  # JSON stored as string in SQLite

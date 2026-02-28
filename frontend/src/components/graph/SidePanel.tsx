@@ -1,6 +1,6 @@
 // @TASK P4-S1-T1 - Company Detail Side Panel
 // @SPEC company_detail_side_panel design reference
-import { useEffect, useRef, useCallback, useReducer } from 'react';
+import { useEffect, useRef, useCallback, useReducer, useState } from 'react';
 import api from '../../services/api';
 import type { Alert, NewsItem, CompanyRelation, Severity, Tier } from '../../types/index';
 
@@ -14,6 +14,15 @@ interface CompanyDetail {
   tier: Tier;
   country: string;
   description?: string;
+}
+
+interface StockData {
+  ticker: string | null;
+  price: number | null;
+  change_percent: number | null;
+  currency: string | null;
+  market_cap: number | null;
+  updated_at: string | null;
 }
 
 interface PanelRelation {
@@ -230,6 +239,92 @@ function PanelSkeleton() {
   );
 }
 
+// ─── Stock price display ──────────────────────────────────────────────────────
+
+/** Format large numbers with K/M/B suffixes */
+function formatMarketCap(value: number): string {
+  if (value >= 1_000_000_000_000) return `${(value / 1_000_000_000_000).toFixed(1)}T`;
+  if (value >= 1_000_000_000) return `${(value / 1_000_000_000).toFixed(1)}B`;
+  if (value >= 1_000_000) return `${(value / 1_000_000).toFixed(1)}M`;
+  return value.toLocaleString();
+}
+
+interface StockPriceProps {
+  companyId: number;
+}
+
+function StockPrice({ companyId }: StockPriceProps) {
+  const [stock, setStock] = useState<StockData | null>(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    let cancelled = false;
+    setLoading(true);
+
+    api
+      .get<StockData>(`/companies/${companyId}/stock`)
+      .then((res) => {
+        if (!cancelled) setStock(res.data);
+      })
+      .catch(() => {
+        if (!cancelled) setStock(null);
+      })
+      .finally(() => {
+        if (!cancelled) setLoading(false);
+      });
+
+    return () => {
+      cancelled = true;
+    };
+  }, [companyId]);
+
+  // Loading skeleton
+  if (loading) {
+    return (
+      <div className="flex items-center gap-2 mt-2" aria-label="Loading stock data" role="status">
+        <SkeletonBlock className="w-16 h-5 rounded" />
+        <SkeletonBlock className="w-12 h-4 rounded" />
+      </div>
+    );
+  }
+
+  // No ticker or no data
+  if (!stock || !stock.ticker || stock.price === null) {
+    return null;
+  }
+
+  const isPositive = (stock.change_percent ?? 0) >= 0;
+  const changeColor = isPositive ? 'text-emerald-600' : 'text-red-600';
+  const changeBg = isPositive ? 'bg-emerald-50' : 'bg-red-50';
+  const arrow = isPositive ? '+' : '';
+
+  return (
+    <div className="flex items-center gap-2 mt-2 flex-wrap">
+      {/* Price */}
+      <span className="text-lg font-bold text-slate-900">
+        {stock.currency === 'KRW'
+          ? `${stock.price.toLocaleString()}`
+          : `${stock.price.toFixed(2)}`}
+        <span className="text-xs font-normal text-slate-400 ml-1">{stock.currency}</span>
+      </span>
+
+      {/* Change percent badge */}
+      {stock.change_percent !== null && (
+        <span className={`px-1.5 py-0.5 rounded text-xs font-semibold ${changeColor} ${changeBg}`}>
+          {arrow}{stock.change_percent.toFixed(2)}%
+        </span>
+      )}
+
+      {/* Market cap */}
+      {stock.market_cap !== null && stock.market_cap > 0 && (
+        <span className="text-xs text-slate-400" title={`Market Cap: ${stock.market_cap.toLocaleString()}`}>
+          MCap {formatMarketCap(stock.market_cap)}
+        </span>
+      )}
+    </div>
+  );
+}
+
 // ─── Panel header ──────────────────────────────────────────────────────────────
 
 interface PanelHeaderProps {
@@ -274,8 +369,11 @@ function PanelHeader({ company, onClose }: PanelHeaderProps) {
         <span className="text-xs text-slate-500">Manufacturing Node</span>
       </div>
 
+      {/* Stock price */}
+      <StockPrice companyId={company.id} />
+
       {/* Meta */}
-      <p className="text-sm text-slate-500 leading-relaxed">
+      <p className="text-sm text-slate-500 leading-relaxed mt-2">
         {company.country}
         {company.description && (
           <>

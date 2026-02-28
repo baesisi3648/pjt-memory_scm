@@ -56,46 +56,47 @@ def seed_clusters(session: Session) -> dict[str, int]:
 
 
 def seed_companies(session: Session, cluster_map: dict[str, int]) -> dict[str, int]:
+    # (name, name_kr, tier, country, description, ticker)
     companies_data = [
         # Raw Materials
-        ("SK Materials", "SK머티리얼즈", "raw_material", "KR", "특수가스 및 반도체 소재"),
-        ("Soulbrain", "솔브레인", "raw_material", "KR", "반도체 공정용 화학소재"),
-        ("DNF", "디엔에프", "raw_material", "KR", "반도체 전구체 소재"),
-        ("Hansol Chemical", "한솔케미칼", "raw_material", "KR", "과산화수소, CMP 슬러리"),
-        ("SUMCO", "SUMCO", "raw_material", "JP", "실리콘 웨이퍼"),
-        ("Shin-Etsu Chemical", "신에츠화학", "raw_material", "JP", "실리콘 웨이퍼, 포토마스크"),
+        ("SK Materials", "SK머티리얼즈", "raw_material", "KR", "특수가스 및 반도체 소재", None),
+        ("Soulbrain", "솔브레인", "raw_material", "KR", "반도체 공정용 화학소재", "357780.KQ"),
+        ("DNF", "디엔에프", "raw_material", "KR", "반도체 전구체 소재", "092070.KQ"),
+        ("Hansol Chemical", "한솔케미칼", "raw_material", "KR", "과산화수소, CMP 슬러리", "014680.KS"),
+        ("SUMCO", "SUMCO", "raw_material", "JP", "실리콘 웨이퍼", "3436.T"),
+        ("Shin-Etsu Chemical", "신에츠화학", "raw_material", "JP", "실리콘 웨이퍼, 포토마스크", "4063.T"),
         # Equipment
-        ("ASML", "ASML", "equipment", "NL", "EUV/DUV 노광장비"),
-        ("Applied Materials", "어플라이드머티리얼즈", "equipment", "US", "반도체 장비"),
-        ("Lam Research", "램리서치", "equipment", "US", "식각/증착 장비"),
-        ("Tokyo Electron", "도쿄일렉트론", "equipment", "JP", "코터/디벨로퍼, CVD"),
-        ("SEMES", "세메스", "equipment", "KR", "세정/코팅 장비 (삼성 자회사)"),
-        ("PSK", "피에스케이", "equipment", "KR", "애싱/식각 장비"),
+        ("ASML", "ASML", "equipment", "NL", "EUV/DUV 노광장비", "ASML"),
+        ("Applied Materials", "어플라이드머티리얼즈", "equipment", "US", "반도체 장비", "AMAT"),
+        ("Lam Research", "램리서치", "equipment", "US", "식각/증착 장비", "LRCX"),
+        ("Tokyo Electron", "도쿄일렉트론", "equipment", "JP", "코터/디벨로퍼, CVD", "8035.T"),
+        ("SEMES", "세메스", "equipment", "KR", "세정/코팅 장비 (삼성 자회사)", None),
+        ("PSK", "피에스케이", "equipment", "KR", "애싱/식각 장비", None),
         # FAB
-        ("Samsung Electronics", "삼성전자", "fab", "KR", "DRAM, NAND, 파운드리"),
-        ("SK hynix", "SK하이닉스", "fab", "KR", "DRAM, NAND"),
-        ("Micron Technology", "마이크론", "fab", "US", "DRAM, NAND"),
-        ("TSMC", "TSMC", "fab", "TW", "파운드리"),
-        ("Intel", "인텔", "fab", "US", "CPU, 파운드리"),
-        ("Kioxia", "키옥시아", "fab", "JP", "NAND Flash"),
+        ("Samsung Electronics", "삼성전자", "fab", "KR", "DRAM, NAND, 파운드리", "005930.KS"),
+        ("SK hynix", "SK하이닉스", "fab", "KR", "DRAM, NAND", "000660.KS"),
+        ("Micron Technology", "마이크론", "fab", "US", "DRAM, NAND", "MU"),
+        ("TSMC", "TSMC", "fab", "TW", "파운드리", "TSM"),
+        ("Intel", "인텔", "fab", "US", "CPU, 파운드리", "INTC"),
+        ("Kioxia", "키옥시아", "fab", "JP", "NAND Flash", None),
         # Packaging
-        ("ASE Group", "ASE그룹", "packaging", "TW", "OSAT (후공정)"),
-        ("Amkor Technology", "앰코테크놀로지", "packaging", "US", "반도체 패키징/테스트"),
-        ("JCET", "JCET", "packaging", "CN", "반도체 패키징"),
-        ("NEPES", "네패스", "packaging", "KR", "WLP, Fan-Out 패키징"),
-        ("SFA Semicon", "SFA반도체", "packaging", "KR", "메모리 패키징/테스트"),
-        ("Hana Micron", "하나마이크론", "packaging", "KR", "메모리 패키징"),
+        ("ASE Group", "ASE그룹", "packaging", "TW", "OSAT (후공정)", "ASX"),
+        ("Amkor Technology", "앰코테크놀로지", "packaging", "US", "반도체 패키징/테스트", "AMKR"),
+        ("JCET", "JCET", "packaging", "CN", "반도체 패키징", None),
+        ("NEPES", "네패스", "packaging", "KR", "WLP, Fan-Out 패키징", "033640.KQ"),
+        ("SFA Semicon", "SFA반도체", "packaging", "KR", "메모리 패키징/테스트", None),
+        ("Hana Micron", "하나마이크론", "packaging", "KR", "메모리 패키징", "067310.KQ"),
         # Module
-        ("Samsung SDI", "삼성SDI", "module", "KR", "배터리 모듈"),
-        ("SK Nexilis", "SK넥실리스", "module", "KR", "동박 (배터리/반도체)"),
-        ("LG Innotek", "LG이노텍", "module", "KR", "카메라 모듈, 기판"),
-        ("Innox Advanced Materials", "이녹스첨단소재", "module", "KR", "FPCB, OLED 소재"),
-        ("BH", "BH", "module", "KR", "카메라 모듈"),
-        ("Daeduck Electronics", "대덕전자", "module", "KR", "반도체 기판, PCB"),
+        ("Samsung SDI", "삼성SDI", "module", "KR", "배터리 모듈", "006400.KS"),
+        ("SK Nexilis", "SK넥실리스", "module", "KR", "동박 (배터리/반도체)", None),
+        ("LG Innotek", "LG이노텍", "module", "KR", "카메라 모듈, 기판", "011070.KS"),
+        ("Innox Advanced Materials", "이녹스첨단소재", "module", "KR", "FPCB, OLED 소재", None),
+        ("BH", "BH", "module", "KR", "카메라 모듈", None),
+        ("Daeduck Electronics", "대덕전자", "module", "KR", "반도체 기판, PCB", "353200.KS"),
     ]
 
     company_map = {}
-    for name, name_kr, tier, country, desc in companies_data:
+    for name, name_kr, tier, country, desc, ticker in companies_data:
         c = Company(
             name=name,
             name_kr=name_kr,
@@ -103,6 +104,7 @@ def seed_companies(session: Session, cluster_map: dict[str, int]) -> dict[str, i
             tier=tier,
             country=country,
             description=desc,
+            ticker=ticker,
         )
         session.add(c)
         session.flush()

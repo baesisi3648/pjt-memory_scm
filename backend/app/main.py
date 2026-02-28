@@ -11,6 +11,7 @@ from app.api import (
     filters_router,
     news_router,
     relations_router,
+    stock_router,
 )
 from app.core.config import settings
 
@@ -45,6 +46,8 @@ app.include_router(news_router, prefix="/api/v1", tags=["news"])
 app.include_router(filters_router, prefix="/api/v1/filters", tags=["filters"])
 # Alert Rules: GET/POST/PUT/PATCH/DELETE /api/v1/alert-rules
 app.include_router(alert_rules_router, prefix="/api/v1/alert-rules", tags=["alert-rules"])
+# Stock: GET /api/v1/companies/{company_id}/stock
+app.include_router(stock_router, prefix="/api/v1/companies", tags=["stock"])
 
 
 @app.get("/api/v1/health")

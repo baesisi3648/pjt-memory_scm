@@ -15,6 +15,7 @@ class CompanyResponse(BaseModel):
     name_kr: Optional[str] = None
     cluster_id: Optional[int] = None
     tier: Optional[str] = None
+    ticker: Optional[str] = None
     country: Optional[str] = None
     description: Optional[str] = None
     created_at: datetime

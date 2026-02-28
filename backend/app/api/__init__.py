@@ -13,6 +13,7 @@ from app.api.alerts import router as alerts_router
 from app.api.news import router as news_router
 from app.api.filters import router as filters_router
 from app.api.alert_rules import router as alert_rules_router
+from app.api.stock import router as stock_router
 
 __all__ = [
     "auth_router",
@@ -24,4 +25,5 @@ __all__ = [
     "news_router",
     "filters_router",
     "alert_rules_router",
+    "stock_router",
 ]
