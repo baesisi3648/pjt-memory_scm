@@ -1,10 +1,14 @@
 // @TASK P3-S1-T3 - Main dashboard page
 // @SPEC main_supply_chain_dashboard design reference
+// @TASK P4-S1-T1 - Side Panel (Company Detail) integration
+// @TASK P4-S2-T1 - Filter Overlay Panel integration
 import { useEffect, useState, useRef, useCallback } from 'react';
 import api from '../services/api';
 import type { Company, Cluster, CompanyRelation, Alert } from '../types/index';
 import { ValueChainGraph } from '../components/graph/ValueChainGraph';
 import { AlertBanner } from '../components/ui/AlertBanner';
+import { FilterPanel } from '../components/graph/FilterPanel';
+import { SidePanel } from '../components/graph/SidePanel';
 
 // ─── Loading spinner ───────────────────────────────────────────────────────────
 
@@ -63,17 +67,37 @@ function ErrorState({ message, onRetry }: { message: string; onRetry: () => void
   );
 }
 
-// ─── Filter placeholder button ─────────────────────────────────────────────────
+// ─── Filter toggle button ──────────────────────────────────────────────────────
 
-function FilterButton() {
+function FilterToggleButton({
+  isActive,
+  hasFilter,
+  onClick,
+}: {
+  isActive: boolean;
+  hasFilter: boolean;
+  onClick: () => void;
+}) {
   return (
     <button
-      aria-label="Filter supply chain (coming in P4)"
-      title="Filter — coming in P4"
-      className="flex items-center gap-2 bg-primary hover:bg-primary-hover text-white px-4 py-2.5 rounded-lg shadow-lg transition-colors text-sm font-medium"
+      type="button"
+      onClick={onClick}
+      aria-label={isActive ? '필터 패널 닫기' : '기업 필터 열기'}
+      aria-expanded={isActive}
+      className={`relative flex items-center gap-2 px-4 py-2.5 rounded-lg shadow-lg transition-colors text-sm font-medium
+        ${isActive
+          ? 'bg-slate-700 hover:bg-slate-800 text-white'
+          : 'bg-primary hover:bg-primary-hover text-white'
+        }`}
     >
       <FilterIcon />
-      Filter
+      필터
+      {hasFilter && !isActive && (
+        <span
+          className="absolute -top-1 -right-1 w-3 h-3 bg-warning rounded-full border-2 border-white"
+          aria-label="필터 적용 중"
+        />
+      )}
     </button>
   );
 }
@@ -109,6 +133,14 @@ export function DashboardPage() {
   // Ref to the graph's focusNode function — wired up by ValueChainGraph via onFocusRef
   const focusNodeRef = useRef<((companyId: number) => void) | null>(null);
 
+  // ── P4-S1-T1: Selected company for side panel (null = panel closed) ───────────
+  const [selectedCompanyId, setSelectedCompanyId] = useState<number | null>(null);
+
+  // ── Filter panel state ────────────────────────────────────────────────────────
+  const [filterPanelOpen, setFilterPanelOpen] = useState(false);
+  // null = show all companies; number[] = show only those IDs
+  const [selectedCompanyIds, setSelectedCompanyIds] = useState<number[] | null>(null);
+
   // ── Fetch all dashboard data in parallel ──────────────────────────────────────
   const loadData = useCallback(async () => {
     setIsLoading(true);
@@ -138,9 +170,20 @@ export function DashboardPage() {
     loadData();
   }, [loadData]);
 
-  // ── Graph node click ──────────────────────────────────────────────────────────
-  const handleNodeClick = useCallback((_companyId: number) => {
-    // P4 will open the company side panel; handler wired, no action yet
+  // ── Graph node click → open side panel ───────────────────────────────────────
+  const handleNodeClick = useCallback((companyId: number) => {
+    setSelectedCompanyId(companyId);
+  }, []);
+
+  // ── Side panel close ──────────────────────────────────────────────────────────
+  const handlePanelClose = useCallback(() => {
+    setSelectedCompanyId(null);
+  }, []);
+
+  // ── Relation click → focus graph node + switch panel to that company ──────────
+  const handleRelationClick = useCallback((companyId: number) => {
+    focusNodeRef.current?.(companyId);
+    setSelectedCompanyId(companyId);
   }, []);
 
   // ── Alert "View Details" → focus graph node ───────────────────────────────────
@@ -182,19 +225,43 @@ export function DashboardPage() {
             clusters={data.clusters}
             relations={data.relations}
             alerts={data.alerts}
+            filteredCompanyIds={selectedCompanyIds}
             onNodeClick={handleNodeClick}
             onFocusRef={focusNodeRef}
           />
         )}
       </div>
 
-      {/* Filter toggle — floating bottom-right, placeholder for P4 */}
+      {/* Filter toggle — floating bottom-right */}
       <div className="absolute bottom-6 right-6 z-20 pointer-events-none">
-        {/* Positioned via parent relative; pointer-events re-enabled on button */}
         <div className="pointer-events-auto">
-          <FilterButton />
+          <FilterToggleButton
+            isActive={filterPanelOpen}
+            hasFilter={selectedCompanyIds !== null}
+            onClick={() => setFilterPanelOpen((v) => !v)}
+          />
         </div>
       </div>
+
+      {/* Filter panel — rendered at this level so it overlays the graph */}
+      {data && (
+        <FilterPanel
+          isOpen={filterPanelOpen}
+          companies={data.companies}
+          clusters={data.clusters}
+          alerts={data.alerts}
+          currentFilter={selectedCompanyIds}
+          onApply={(ids) => setSelectedCompanyIds(ids)}
+          onClose={() => setFilterPanelOpen(false)}
+        />
+      )}
+
+      {/* P4-S1-T1: Company Detail Side Panel — overlays graph, slides in from right */}
+      <SidePanel
+        companyId={selectedCompanyId}
+        onClose={handlePanelClose}
+        onRelationClick={handleRelationClick}
+      />
     </div>
   );
 }

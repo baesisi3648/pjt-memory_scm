@@ -301,6 +301,7 @@ interface ValueChainGraphProps {
   clusters: Cluster[];
   relations: CompanyRelation[];
   alerts: Alert[];
+  filteredCompanyIds?: number[] | null;
   onNodeClick?: (companyId: number) => void;
   onFocusRef?: React.MutableRefObject<((companyId: number) => void) | null>;
 }
@@ -312,6 +313,7 @@ export function ValueChainGraph({
   clusters,
   relations,
   alerts,
+  filteredCompanyIds,
   onNodeClick,
   onFocusRef,
 }: ValueChainGraphProps) {
@@ -341,6 +343,40 @@ export function ValueChainGraph({
       };
     }
   }, [onFocusRef, focusNode]);
+
+  // Apply company visibility filter to the Cytoscape graph.
+  // null  → show all nodes/edges (reset to visible)
+  // number[] → hide company nodes not in the list, hide edges with no visible endpoint
+  useEffect(() => {
+    const instance = cy.current;
+    if (!instance) return;
+
+    instance.batch(() => {
+      if (!filteredCompanyIds) {
+        // Show everything
+        instance.elements().style('display', 'element');
+        return;
+      }
+
+      const visibleSet = new Set(filteredCompanyIds.map((id) => `company-${id}`));
+
+      // Company nodes: show only those in the filter set
+      instance.nodes('[type = "company"]').forEach((node) => {
+        const visible = visibleSet.has(node.id());
+        node.style('display', visible ? 'element' : 'none');
+      });
+
+      // Cluster nodes: always visible
+      instance.nodes('[type = "cluster"]').style('display', 'element');
+
+      // Edges: hide if either endpoint is hidden
+      instance.edges().forEach((edge) => {
+        const srcVisible = visibleSet.has(edge.data('source') as string);
+        const tgtVisible = visibleSet.has(edge.data('target') as string);
+        edge.style('display', srcVisible && tgtVisible ? 'element' : 'none');
+      });
+    });
+  }, [cy, filteredCompanyIds]);
 
   // Update zoom display on cy events
   const cyRef = cy;
