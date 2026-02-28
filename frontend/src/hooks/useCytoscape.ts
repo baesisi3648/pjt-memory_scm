@@ -90,10 +90,12 @@ export function useCytoscape({
       });
     });
 
-    // Apply preset layout and fit to viewport
+    // Apply preset layout then fit after a frame to ensure container has dimensions
     cy.layout({ name: 'preset' }).run();
-    cy.resize();
-    cy.fit(undefined, 60);
+    requestAnimationFrame(() => {
+      cy.resize();
+      cy.fit(undefined, 60);
+    });
   }, [elements]);
 
   const zoomIn = useCallback(() => {

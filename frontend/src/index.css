@@ -40,6 +40,11 @@ body {
   font-family: var(--font-sans);
 }
 
+/* Graph canvas wrapper — needs min-height:0 to allow flex-child shrinking */
+.graph-canvas-wrapper {
+  min-height: 0;
+}
+
 /* Dot-grid decorative background for the graph area */
 .graph-dot-grid {
   background-image: radial-gradient(var(--color-primary) 1px, transparent 1px);

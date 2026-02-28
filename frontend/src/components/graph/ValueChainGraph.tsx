@@ -267,9 +267,9 @@ function buildStylesheet(): Stylesheet[] {
         'target-arrow-color': '#cbd5e1',
         'target-arrow-shape': 'triangle',
         'arrow-scale': 0.8,
-        'width': 'mapData(strength, 0, 1, 1, 4)',
+        'width': 1.5,
         'curve-style': 'bezier',
-        'opacity': 'mapData(strength, 0, 1, 0.4, 0.9)',
+        'opacity': 0.7,
       },
     },
     // Edge hover
@@ -372,7 +372,7 @@ export function ValueChainGraph({
     });
   }, [cy, filteredCompanyIds]);
 
-  // Update zoom display on cy zoom events (no polling needed)
+  // Update zoom display on cy events
   const cyRef = cy;
   useEffect(() => {
     const instance = cyRef.current;
@@ -391,14 +391,16 @@ export function ValueChainGraph({
         className="absolute inset-0 pointer-events-none graph-dot-grid"
       />
 
-      {/* Cytoscape canvas */}
-      <div
-        ref={containerRef}
-        className="absolute inset-0 z-[1]"
-        aria-label="Supply chain value graph"
-      />
+      {/* Cytoscape canvas — wrapper needed because Cytoscape overrides container position to relative */}
+      <div className="absolute inset-0 z-[1]">
+        <div
+          ref={containerRef}
+          className="w-full h-full"
+          aria-label="Supply chain value graph"
+        />
+      </div>
 
-      {/* ── Zoom controls (bottom-left) ─────────────────────────── */}
+{/* ── Zoom controls (bottom-left) ─────────────────────────── */}
       <div className="absolute bottom-6 left-6 flex flex-col z-10">
         <div className="flex flex-col bg-white shadow-lg rounded-lg border border-slate-200 overflow-hidden">
           <button
