@@ -1,6 +1,6 @@
 // @TASK P3-S1-T1 - Value Chain Graph component using Cytoscape.js
 // @SPEC main_supply_chain_dashboard design reference
-import { useEffect, useState, useCallback, useRef, useMemo } from 'react';
+import { useEffect, useState, useCallback, useMemo } from 'react';
 import type { ElementDefinition, Stylesheet } from 'cytoscape';
 import { useCytoscape } from '../../hooks/useCytoscape';
 import type { Company, Cluster, CompanyRelation, Alert } from '../../types/index';
@@ -372,7 +372,7 @@ export function ValueChainGraph({
     });
   }, [cy, filteredCompanyIds]);
 
-  // Update zoom display on cy events
+  // Update zoom display on cy zoom events (no polling needed)
   const cyRef = cy;
   useEffect(() => {
     const instance = cyRef.current;
@@ -382,17 +382,6 @@ export function ValueChainGraph({
     instance.on('zoom', update);
     return () => { instance.off('zoom', update); };
   }, [cyRef, getZoomPercent]);
-
-  // Interval-free zoom label sync on mount
-  const zoomIntervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
-  useEffect(() => {
-    zoomIntervalRef.current = setInterval(() => {
-      setZoomPercent(getZoomPercent());
-    }, 500);
-    return () => {
-      if (zoomIntervalRef.current) clearInterval(zoomIntervalRef.current);
-    };
-  }, [getZoomPercent]);
 
   return (
     <div className="relative w-full h-full overflow-hidden bg-slate-50 graph-canvas-wrapper">
