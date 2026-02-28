@@ -384,7 +384,7 @@ export function ValueChainGraph({
   }, [cyRef, getZoomPercent]);
 
   return (
-    <div className="relative w-full h-full overflow-hidden bg-slate-50 graph-canvas-wrapper">
+    <div className="absolute inset-0 overflow-hidden bg-slate-50">
       {/* Dot grid background */}
       <div
         aria-hidden="true"
