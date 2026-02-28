@@ -1,0 +1,132 @@
+version: "2.0"
+
+resources:
+  companies:
+    description: 메모리 반도체 밸류체인 기업
+    fields:
+      - id: int
+      - name: string
+      - name_kr: string
+      - cluster_id: int
+      - tier: string          # raw_material, equipment, fab, packaging, module
+      - country: string
+      - description: text
+      - metadata: json
+      - created_at: datetime
+      - updated_at: datetime
+    relations:
+      - cluster: belongs_to clusters
+      - relations_as_source: has_many company_relations (source_id)
+      - relations_as_target: has_many company_relations (target_id)
+      - alerts: has_many alerts
+      - news_items: has_many news_items
+      - data_points: has_many data_points
+
+  clusters:
+    description: 밸류체인 클러스터 (원자재, 장비사, 팹, 패키징, 모듈)
+    fields:
+      - id: int
+      - name: string
+      - parent_id: int        # nullable, self-reference
+      - tier: string
+    relations:
+      - parent: belongs_to clusters
+      - children: has_many clusters
+      - companies: has_many companies
+
+  company_relations:
+    description: 기업 간 공급 관계
+    fields:
+      - id: int
+      - source_id: int        # 공급사
+      - target_id: int        # 수요사
+      - relation_type: string  # supplier, customer, partner
+      - strength: float        # 0-1
+      - metadata: json
+    relations:
+      - source: belongs_to companies
+      - target: belongs_to companies
+
+  alerts:
+    description: 공급망 이상 알림
+    fields:
+      - id: int
+      - company_id: int
+      - severity: string       # critical, warning, info
+      - title: string
+      - description: text
+      - is_read: boolean
+      - created_at: datetime
+    relations:
+      - company: belongs_to companies
+
+  alert_rules:
+    description: 사용자 알림 규칙
+    fields:
+      - id: int
+      - user_id: int
+      - name: string
+      - condition: json
+      - is_active: boolean
+    relations:
+      - user: belongs_to users
+
+  news_items:
+    description: 관련 뉴스
+    fields:
+      - id: int
+      - title: string
+      - url: string
+      - source: string
+      - company_id: int
+      - published_at: datetime
+      - created_at: datetime
+    relations:
+      - company: belongs_to companies
+
+  users:
+    description: 플랫폼 사용자
+    fields:
+      - id: int
+      - email: string
+      - hashed_password: string
+      - name: string
+      - role: string           # admin, analyst, viewer
+      - created_at: datetime
+    relations:
+      - alert_rules: has_many alert_rules
+      - user_filters: has_many user_filters
+
+  user_filters:
+    description: 사용자 필터 프리셋
+    fields:
+      - id: int
+      - user_id: int
+      - name: string
+      - company_ids: json
+      - is_default: boolean
+    relations:
+      - user: belongs_to users
+
+  data_sources:
+    description: 데이터 수집 소스
+    fields:
+      - id: int
+      - name: string
+      - type: string           # api, crawl, manual
+      - config: json
+      - is_active: boolean
+
+  data_points:
+    description: 수집된 데이터 포인트
+    fields:
+      - id: int
+      - source_id: int
+      - company_id: int
+      - metric: string         # price, inventory, lead_time
+      - value: float
+      - unit: string
+      - timestamp: datetime
+    relations:
+      - source: belongs_to data_sources
+      - company: belongs_to companies

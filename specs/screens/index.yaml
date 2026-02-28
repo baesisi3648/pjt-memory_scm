@@ -1,0 +1,34 @@
+version: "2.0"
+
+screens:
+  - id: login
+    name: 로그인
+    route: /login
+    file: login.yaml
+    auth: false
+
+  - id: dashboard
+    name: 메인 대시보드
+    route: /dashboard
+    file: dashboard.yaml
+    auth: true
+
+  - id: side-panel
+    name: 사이드 패널
+    route: null
+    file: side-panel.yaml
+    auth: true
+    parent: dashboard
+
+  - id: filter-panel
+    name: 필터 오버레이 패널
+    route: null
+    file: filter-panel.yaml
+    auth: true
+    parent: dashboard
+
+  - id: alert-settings
+    name: 알림 설정
+    route: /settings/alerts
+    file: alert-settings.yaml
+    auth: true

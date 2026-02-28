@@ -1,0 +1,60 @@
+version: "2.0"
+
+shared_components:
+  - id: top_bar
+    type: navigation
+    used_in: [dashboard, alert-settings]
+    function: 로고, 설정 링크, 사용자 프로필
+    elements:
+      - logo_text: "Memory SCM"
+      - settings_link: /settings/alerts
+      - user_avatar: 현재 사용자 이니셜
+
+  - id: alert_card
+    type: card
+    used_in: [dashboard, side-panel]
+    function: 알림 정보 카드 (severity별 색상 구분)
+    variants:
+      - critical: bg-red-50, border-red-500
+      - warning: bg-amber-50, border-amber-500
+      - info: bg-blue-50, border-blue-500
+
+  - id: company_node
+    type: chart
+    used_in: [dashboard]
+    function: Cytoscape.js 그래프 노드 (기업)
+    states:
+      - default: fill #3B82F6
+      - alert: border #EF4444 + warning icon
+      - selected: border #8B5CF6 + glow
+
+  - id: cluster_node
+    type: chart
+    used_in: [dashboard]
+    function: Cytoscape.js 그래프 노드 (클러스터)
+    states:
+      - default: bg rgba(59,130,246,0.1), dashed border
+
+  - id: panel_container
+    type: drawer
+    used_in: [side-panel, filter-panel]
+    function: 우측 슬라이드인 패널 컨테이너
+    animation: slide-in-right 200ms
+
+  - id: primary_button
+    type: button
+    variant: primary
+    used_in: [login, filter-panel, alert-settings]
+    style: bg-blue-600, text-white, rounded-lg
+
+  - id: secondary_button
+    type: button
+    variant: secondary
+    used_in: [filter-panel, alert-settings]
+    style: bg-white, border, text-slate-700, rounded-lg
+
+  - id: ghost_button
+    type: button
+    variant: ghost
+    used_in: [dashboard, side-panel, alert-settings]
+    style: bg-transparent, text-slate-600, hover:bg-slate-100

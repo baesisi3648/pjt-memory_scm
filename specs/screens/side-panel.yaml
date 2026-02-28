@@ -1,0 +1,111 @@
+version: "2.0"
+
+screen:
+  name: 사이드 패널
+  route: null  # 대시보드 내 오버레이
+  layout: main-sidebar
+  auth: true
+
+data_requirements:
+  - resource: companies
+    needs: [id, name, name_kr, cluster_id, tier, country, description]
+    filters: { id: ":company_id" }
+
+  - resource: clusters
+    needs: [id, name]
+    filters: { id: ":cluster_id" }
+
+  - resource: alerts
+    needs: [id, severity, title, description, created_at]
+    filters: { company_id: ":company_id" }
+
+  - resource: news_items
+    needs: [id, title, url, source, published_at]
+    filters: { company_id: ":company_id", limit: 5 }
+
+  - resource: company_relations
+    needs: [id, source_id, target_id, relation_type]
+    filters: { company_id: ":company_id" }
+
+components:
+  - id: panel_header
+    type: container
+    position: header
+    function: 기업명, 클러스터 배지, 국가, 닫기 버튼
+    data_source:
+      resource: [companies, clusters]
+
+  - id: issue_summary
+    type: list
+    position: main
+    function: 해당 기업의 활성 이슈 카드 목록
+    data_source:
+      resource: alerts
+
+  - id: related_news
+    type: list
+    position: main
+    function: 관련 뉴스 헤드라인 3-5개 표시
+    data_source:
+      resource: news_items
+    events:
+      - on: click
+        action: open_external(news.url)
+
+  - id: upstream_relations
+    type: list
+    position: main
+    function: 업스트림(공급사) 기업 목록
+    data_source:
+      resource: company_relations
+      filter: { target_id: ":company_id" }
+    events:
+      - on: click
+        action: focus_node(relation.source_id) + open(side_panel, { company_id: relation.source_id })
+
+  - id: downstream_relations
+    type: list
+    position: main
+    function: 다운스트림(수요사) 기업 목록
+    data_source:
+      resource: company_relations
+      filter: { source_id: ":company_id" }
+    events:
+      - on: click
+        action: focus_node(relation.target_id) + open(side_panel, { company_id: relation.target_id })
+
+  - id: close_button
+    type: button
+    variant: ghost
+    position: header
+    function: 패널 닫기
+    events:
+      - on: click
+        action: close(side_panel)
+
+connections:
+  navigations:
+    - upstream_click: focus_node + open(side_panel)
+    - downstream_click: focus_node + open(side_panel)
+
+tests:
+  - name: 패널 열기
+    when: 대시보드에서 기업 노드 클릭
+    then: [사이드 패널 슬라이드 인, 기업 정보 표시]
+
+  - name: 이슈 표시
+    when: 이슈 있는 기업 패널 열기
+    then: [이슈 카드 severity 색상으로 표시, 관련 뉴스 헤드라인 표시]
+
+  - name: 관계 네비게이션
+    when: 업스트림 기업 링크 클릭
+    then: [그래프 해당 노드로 포커스 이동, 새 사이드 패널 열림]
+
+design_reference:
+  image: memory_scm_design/company_detail_side_panel/screen.png
+  html: memory_scm_design/company_detail_side_panel/code.html
+  notes:
+    - 기업 로고 아이콘 + 국기 표시
+    - FAB 배지 + "Manufacturing Node" 서브타입 표시
+    - RELATED NEWS 섹션에 카테고리별 아이콘 (뉴스/트렌드/에너지)
+    - 하단 "View Full Profile" + "Contact Node" 버튼

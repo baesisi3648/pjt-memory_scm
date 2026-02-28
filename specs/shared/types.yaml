@@ -1,0 +1,62 @@
+version: "2.0"
+
+types:
+  Severity:
+    enum: [critical, warning, info]
+
+  Tier:
+    enum: [raw_material, equipment, fab, packaging, module]
+
+  RelationType:
+    enum: [supplier, customer, partner]
+
+  UserRole:
+    enum: [admin, analyst, viewer]
+
+  DataSourceType:
+    enum: [api, crawl, manual]
+
+  AlertRule:
+    fields:
+      id: int
+      name: string
+      condition:
+        type: object
+        fields:
+          metric: string
+          operator: string      # gt, lt, gte, lte, change_pct
+          threshold: float
+          unit: string
+      severity: Severity
+      channels: string[]        # email, in_app
+      is_active: boolean
+
+  GraphNode:
+    fields:
+      id: int
+      label: string
+      type: string              # company | cluster
+      tier: Tier
+      cluster_id: int
+      has_alert: boolean
+      alert_severity: Severity
+
+  GraphEdge:
+    fields:
+      id: int
+      source: int
+      target: int
+      relation_type: RelationType
+      strength: float
+
+  FilterPreset:
+    fields:
+      id: string
+      label: string
+      company_ids: int[]
+
+  AuthToken:
+    fields:
+      access_token: string
+      token_type: string        # bearer
+      expires_in: int

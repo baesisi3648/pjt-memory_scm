@@ -1,0 +1,34 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.eggs/
+*.egg
+dist/
+build/
+.venv/
+*.db
+
+# Node
+node_modules/
+frontend/dist/
+.DS_Store
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Environment
+.env
+.env.local
+.env.*.local
+
+# OS
+Thumbs.db
+Desktop.ini
+
+# Stitch outputs (keep tracked in memory_scm_design/)
+design/screens/
+design/html/

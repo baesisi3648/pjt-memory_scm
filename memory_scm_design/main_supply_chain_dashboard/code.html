@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Memory SCM Intelligence Platform</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script>
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "primary": "#2463eb",
+              "background-light": "#f6f6f8",
+              "background-dark": "#111621",
+            },
+            fontFamily: {
+              "display": ["Inter", "sans-serif"]
+            },
+            borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+          },
+        },
+      }
+    </script>
+</head>
+<body class="bg-background-light dark:bg-background-dark font-display text-slate-900 dark:text-slate-100 overflow-hidden h-screen flex flex-col">
+<!-- Top Navigation Bar -->
+<header class="h-14 flex items-center justify-between px-6 bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-800 shadow-sm z-50 relative shrink-0">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 flex items-center justify-center bg-primary/10 rounded-lg text-primary">
+<span class="material-symbols-outlined text-2xl">memory</span>
+</div>
+<h1 class="text-lg font-bold tracking-tight text-slate-900 dark:text-white">Memory SCM</h1>
+</div>
+<div class="flex items-center gap-4">
+<button class="p-2 text-slate-500 hover:text-primary transition-colors rounded-full hover:bg-slate-100 dark:hover:bg-slate-800">
+<span class="material-symbols-outlined text-[20px]">search</span>
+</button>
+<button class="p-2 text-slate-500 hover:text-primary transition-colors rounded-full hover:bg-slate-100 dark:hover:bg-slate-800 relative">
+<span class="material-symbols-outlined text-[20px]">notifications</span>
+<span class="absolute top-2 right-2 w-2 h-2 bg-red-500 rounded-full border-2 border-white dark:border-slate-900"></span>
+</button>
+<button class="p-2 text-slate-500 hover:text-primary transition-colors rounded-full hover:bg-slate-100 dark:hover:bg-slate-800">
+<span class="material-symbols-outlined text-[20px]">settings</span>
+</button>
+<div class="h-6 w-px bg-slate-200 dark:bg-slate-700 mx-1"></div>
+<div class="w-8 h-8 rounded-full bg-slate-200 bg-cover bg-center ring-2 ring-white dark:ring-slate-800 cursor-pointer" data-alt="User Avatar" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuBonhtybpTeXHGbmE_mG0OSBhDa9x6e4p80NteAYwLgCQtpUgFtPL49we6pAzkuW0n_93f39WTRuE_siiOvKwaUvEkvcKBqsQmrlYxRmCbb_MECi2eoLJKaZqD9Y38FTnFj_SA7BveVwv9qFgkhgsKfKpG4pZm_WuB2_hl1JIhsZ8Ft0LoijEO4ndpnpGLj-L8aHL3o4n3Y0XpqSUnut4khfTH2iCzFvGLxtY9eoZFP3YsrV-55odSAJ4z93L6f-cIRn1WoAwgNauw');"></div>
+</div>
+</header>
+<!-- Alert Banners -->
+<div class="flex flex-col shrink-0 z-40 relative">
+<div class="bg-red-50 dark:bg-red-900/20 border-b border-red-100 dark:border-red-900/50 px-6 py-2 flex items-center justify-between text-sm">
+<div class="flex items-center gap-3 text-red-700 dark:text-red-400">
+<span class="material-symbols-outlined text-[18px]">error</span>
+<span class="font-medium">Critical: Supply disruption at FAB 2 (Raw Material Shortage)</span>
+</div>
+<button class="text-red-600 dark:text-red-400 hover:text-red-800 dark:hover:text-red-300 text-xs font-semibold">View Details</button>
+</div>
+<div class="bg-amber-50 dark:bg-amber-900/20 border-b border-amber-100 dark:border-amber-900/50 px-6 py-2 flex items-center justify-between text-sm">
+<div class="flex items-center gap-3 text-amber-700 dark:text-amber-400">
+<span class="material-symbols-outlined text-[18px]">warning</span>
+<span class="font-medium">Warning: Shipping delay expected for Module Cluster B</span>
+</div>
+<button class="text-amber-600 dark:text-amber-400 hover:text-amber-800 dark:hover:text-amber-300 text-xs font-semibold">View Details</button>
+</div>
+</div>
+<!-- Main Content / Graph Area -->
+<main class="flex-1 relative overflow-hidden bg-slate-50 dark:bg-[#0f141a] w-full h-full cursor-grab active:cursor-grabbing">
+<!-- Background Grid Pattern -->
+<div class="absolute inset-0 opacity-[0.03] pointer-events-none" style="background-image: radial-gradient(#2463eb 1px, transparent 1px); background-size: 24px 24px;"></div>
+<!-- Graph Container (Simulated Visualization) -->
+<div class="absolute inset-0 flex items-center justify-center p-10 min-w-[1200px] overflow-auto">
+<!-- Connection Lines (SVG Layer - Absolute behind nodes) -->
+<svg class="absolute inset-0 w-full h-full pointer-events-none z-0" style="min-width: 1200px;">
+<!-- Path from Raw Materials to FAB -->
+<path class="dark:stroke-slate-700" d="M 200 300 C 350 300, 350 450, 500 450" fill="none" stroke="#cbd5e1" stroke-dasharray="4 4" stroke-width="2"></path>
+<path class="dark:stroke-slate-700" d="M 200 450 C 350 450, 350 450, 500 450" fill="none" stroke="#cbd5e1" stroke-width="2"></path>
+<!-- Path from Equipment to FAB -->
+<path class="dark:stroke-slate-700" d="M 350 150 C 425 150, 425 450, 500 450" fill="none" stroke="#cbd5e1" stroke-width="2"></path>
+<!-- Path from FAB to Packaging -->
+<path class="dark:stroke-slate-600" d="M 500 450 C 650 450, 650 300, 800 300" fill="none" stroke="#94a3b8" stroke-width="2"></path>
+<path d="M 500 450 C 650 450, 650 600, 800 600" fill="none" stroke="#ef4444" stroke-width="2"></path> <!-- Critical Path -->
+<!-- Path from Packaging to Module -->
+<path class="dark:stroke-slate-600" d="M 800 300 C 950 300, 950 450, 1100 450" fill="none" stroke="#94a3b8" stroke-width="2"></path>
+<path d="M 800 600 C 950 600, 950 450, 1100 450" fill="none" stroke="#ef4444" stroke-width="2"></path>
+</svg>
+<div class="flex justify-between items-center w-full max-w-7xl relative z-10 gap-8">
+<!-- Cluster 1: Raw Materials -->
+<div class="flex flex-col items-center gap-6">
+<div class="text-xs font-bold text-slate-500 uppercase tracking-wider bg-white dark:bg-slate-800 px-3 py-1 rounded-full shadow-sm border border-slate-200 dark:border-slate-700">Raw Materials</div>
+<div class="p-6 rounded-2xl border-2 border-dashed border-primary/20 bg-primary/5 min-w-[140px] flex flex-col items-center gap-8 relative group">
+<!-- Node -->
+<div class="w-10 h-10 rounded-full bg-primary text-white flex items-center justify-center shadow-lg shadow-primary/20 hover:scale-110 transition-transform cursor-pointer relative">
+<span class="material-symbols-outlined text-[20px]">science</span>
+<div class="absolute -bottom-6 text-[10px] font-medium text-slate-600 whitespace-nowrap bg-white/80 px-1 rounded">Chem Corp A</div>
+</div>
+<!-- Node with Alert -->
+<div class="w-10 h-10 rounded-full bg-white border-2 border-primary text-primary flex items-center justify-center shadow-sm relative hover:scale-110 transition-transform cursor-pointer">
+<span class="material-symbols-outlined text-[20px]">diamond</span>
+<div class="absolute -top-1 -right-1 w-4 h-4 bg-red-500 rounded-full flex items-center justify-center text-[8px] text-white">!</div>
+<div class="absolute -bottom-6 text-[10px] font-medium text-slate-600 whitespace-nowrap bg-white/80 px-1 rounded">Wafer Supply</div>
+</div>
+</div>
+</div>
+<!-- Cluster 2: Equipment -->
+<div class="flex flex-col items-center gap-6 self-start mt-10">
+<div class="text-xs font-bold text-slate-500 uppercase tracking-wider bg-white dark:bg-slate-800 px-3 py-1 rounded-full shadow-sm border border-slate-200 dark:border-slate-700">Equipment</div>
+<div class="p-6 rounded-2xl border-2 border-dashed border-primary/20 bg-primary/5 min-w-[140px] flex flex-col items-center gap-8">
+<!-- Node -->
+<div class="w-10 h-10 rounded-full bg-white border-2 border-primary text-primary flex items-center justify-center shadow-sm hover:scale-110 transition-transform cursor-pointer">
+<span class="material-symbols-outlined text-[20px]">precision_manufacturing</span>
+<div class="absolute -bottom-6 text-[10px] font-medium text-slate-600 whitespace-nowrap bg-white/80 px-1 rounded">Litho Tech</div>
+</div>
+</div>
+</div>
+<!-- Cluster 3: FAB -->
+<div class="flex flex-col items-center gap-6">
+<div class="text-xs font-bold text-slate-500 uppercase tracking-wider bg-white dark:bg-slate-800 px-3 py-1 rounded-full shadow-sm border border-slate-200 dark:border-slate-700">FAB</div>
+<div class="p-8 rounded-2xl border-2 border-dashed border-primary/20 bg-primary/5 min-w-[180px] flex flex-col items-center gap-8">
+<!-- Center Node (Main FAB) -->
+<div class="w-14 h-14 rounded-full bg-slate-900 text-white flex items-center justify-center shadow-xl hover:scale-110 transition-transform cursor-pointer relative z-20">
+<span class="material-symbols-outlined text-[28px]">factory</span>
+<div class="absolute -top-1 -right-1 w-5 h-5 bg-red-500 rounded-full flex items-center justify-center border-2 border-white">
+<span class="material-symbols-outlined text-[12px] text-white">warning</span>
+</div>
+<div class="absolute -bottom-7 text-xs font-bold text-slate-900 whitespace-nowrap">Main FAB 2</div>
+</div>
+</div>
+</div>
+<!-- Cluster 4: Packaging -->
+<div class="flex flex-col items-center gap-6">
+<div class="text-xs font-bold text-slate-500 uppercase tracking-wider bg-white dark:bg-slate-800 px-3 py-1 rounded-full shadow-sm border border-slate-200 dark:border-slate-700">Packaging</div>
+<div class="p-6 rounded-2xl border-2 border-dashed border-primary/20 bg-primary/5 min-w-[140px] flex flex-col items-center gap-12">
+<!-- Node -->
+<div class="w-10 h-10 rounded-full bg-white border-2 border-primary text-primary flex items-center justify-center shadow-sm hover:scale-110 transition-transform cursor-pointer">
+<span class="material-symbols-outlined text-[20px]">inventory_2</span>
+<div class="absolute -bottom-6 text-[10px] font-medium text-slate-600 whitespace-nowrap bg-white/80 px-1 rounded">Pack West</div>
+</div>
+<!-- Node with Alert -->
+<div class="w-10 h-10 rounded-full bg-white border-2 border-primary text-primary flex items-center justify-center shadow-sm relative hover:scale-110 transition-transform cursor-pointer">
+<span class="material-symbols-outlined text-[20px]">deployed_code</span>
+<div class="absolute -top-2 -right-2 w-0 h-0 border-l-[6px] border-l-transparent border-r-[6px] border-r-transparent border-b-[10px] border-b-red-500"></div>
+<div class="absolute -bottom-6 text-[10px] font-medium text-slate-600 whitespace-nowrap bg-white/80 px-1 rounded">Pack East</div>
+</div>
+</div>
+</div>
+<!-- Cluster 5: Module -->
+<div class="flex flex-col items-center gap-6">
+<div class="text-xs font-bold text-slate-500 uppercase tracking-wider bg-white dark:bg-slate-800 px-3 py-1 rounded-full shadow-sm border border-slate-200 dark:border-slate-700">Module</div>
+<div class="p-6 rounded-2xl border-2 border-dashed border-primary/20 bg-primary/5 min-w-[140px] flex flex-col items-center gap-8">
+<!-- Node -->
+<div class="w-10 h-10 rounded-full bg-primary text-white flex items-center justify-center shadow-lg shadow-primary/20 hover:scale-110 transition-transform cursor-pointer">
+<span class="material-symbols-outlined text-[20px]">memory_alt</span>
+<div class="absolute -bottom-6 text-[10px] font-medium text-slate-600 whitespace-nowrap bg-white/80 px-1 rounded">DRAM Mod A</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Floating Controls: Bottom Left (Zoom) -->
+<div class="absolute bottom-8 left-8 flex flex-col bg-white dark:bg-slate-800 shadow-lg rounded-lg border border-slate-200 dark:border-slate-700 overflow-hidden">
+<button class="p-2 hover:bg-slate-50 dark:hover:bg-slate-700 text-slate-600 dark:text-slate-300 border-b border-slate-100 dark:border-slate-700">
+<span class="material-symbols-outlined text-[20px]">add</span>
+</button>
+<button class="p-2 hover:bg-slate-50 dark:hover:bg-slate-700 text-slate-600 dark:text-slate-300">
+<span class="material-symbols-outlined text-[20px]">remove</span>
+</button>
+</div>
+<div class="absolute bottom-8 left-20 bg-white dark:bg-slate-800 px-3 py-1 rounded-md shadow border border-slate-200 dark:border-slate-700 text-xs font-medium text-slate-600">
+            100%
+        </div>
+<!-- Floating Controls: Bottom Right (Filter & Legend) -->
+<div class="absolute bottom-8 right-8 flex gap-3">
+<div class="bg-white dark:bg-slate-800 shadow-lg rounded-lg border border-slate-200 dark:border-slate-700 py-2 px-4 flex items-center gap-4">
+<div class="flex items-center gap-2">
+<span class="w-3 h-3 rounded-full bg-primary"></span>
+<span class="text-xs font-medium text-slate-600 dark:text-slate-300">Normal</span>
+</div>
+<div class="flex items-center gap-2">
+<span class="w-3 h-3 rounded-full bg-red-500"></span>
+<span class="text-xs font-medium text-slate-600 dark:text-slate-300">Critical</span>
+</div>
+<div class="flex items-center gap-2">
+<span class="w-3 h-3 rounded-full bg-amber-500"></span>
+<span class="text-xs font-medium text-slate-600 dark:text-slate-300">Warning</span>
+</div>
+</div>
+<button class="flex items-center gap-2 bg-primary hover:bg-blue-700 text-white px-4 py-2 rounded-lg shadow-lg shadow-primary/30 transition-all">
+<span class="material-symbols-outlined text-[20px]">filter_list</span>
+<span class="font-medium text-sm">Filter</span>
+</button>
+</div>
+</main>
+</body></html>

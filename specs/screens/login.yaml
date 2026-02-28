@@ -1,0 +1,61 @@
+version: "2.0"
+
+screen:
+  name: 로그인
+  route: /login
+  layout: full-width
+  auth: false
+
+data_requirements:
+  - resource: users
+    needs: [email, hashed_password]
+    note: 인증 처리 (JWT 토큰 반환)
+
+components:
+  - id: login_form
+    type: form
+    position: main
+    function: 이메일/비밀번호 입력 및 인증 요청
+    children:
+      - id: email_input
+        type: input
+        variant: email
+        function: 이메일 입력
+      - id: password_input
+        type: input
+        variant: password
+        function: 비밀번호 입력
+      - id: login_button
+        type: button
+        variant: primary
+        function: 로그인 실행
+      - id: error_message
+        type: alert
+        variant: error
+        function: 인증 실패 메시지 표시
+    events:
+      - on: submit
+        action: authenticate
+        success: navigate(/dashboard)
+        failure: show(error_message)
+
+connections:
+  navigations:
+    - on_success: /dashboard
+
+tests:
+  - name: 정상 로그인
+    when: 올바른 이메일/비밀번호 입력 후 로그인 클릭
+    then: [대시보드로 이동, JWT 토큰 저장]
+
+  - name: 로그인 실패
+    when: 잘못된 비밀번호 입력 후 로그인 클릭
+    then: [에러 메시지 표시, 입력 필드 유지]
+
+  - name: 미인증 리다이렉트
+    when: 인증 없이 /dashboard 접근
+    then: [/login으로 리다이렉트]
+
+design_reference:
+  image: memory_scm_design/memory_scm_platform_login/screen.png
+  html: memory_scm_design/memory_scm_platform_login/code.html

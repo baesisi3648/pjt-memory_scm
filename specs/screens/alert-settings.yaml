@@ -1,0 +1,122 @@
+version: "2.0"
+
+screen:
+  name: 알림 설정
+  route: /settings/alerts
+  layout: full-width
+  auth: true
+  roles: [admin, analyst]
+
+data_requirements:
+  - resource: alert_rules
+    needs: [id, name, condition, is_active]
+    filters: { user_id: ":current_user" }
+
+components:
+  - id: top_bar
+    type: navigation
+    position: header
+    function: 로고, 브레드크럼 (대시보드 > 알림 설정)
+
+  - id: back_link
+    type: button
+    variant: ghost
+    position: header
+    function: 대시보드로 돌아가기 링크
+    events:
+      - on: click
+        action: navigate(/dashboard)
+
+  - id: rule_list
+    type: list
+    variant: card
+    position: main
+    function: 알림 규칙 카드 목록 (이름, 설명, severity, 채널, 토글)
+    data_source:
+      resource: alert_rules
+    children:
+      - id: rule_toggle
+        type: toggle
+        function: 규칙 활성/비활성 토글
+        events:
+          - on: toggle
+            action: update_rule(rule.id, { is_active: value })
+      - id: edit_button
+        type: button
+        variant: ghost
+        function: 규칙 편집 모달 열기
+        events:
+          - on: click
+            action: open(rule_editor, { rule_id: rule.id })
+      - id: delete_button
+        type: button
+        variant: ghost
+        function: 규칙 삭제
+        events:
+          - on: click
+            action: confirm + delete_rule(rule.id)
+
+  - id: add_rule_button
+    type: button
+    variant: secondary
+    position: main
+    function: 새 규칙 추가 (편집 모달 열기)
+    events:
+      - on: click
+        action: open(rule_editor, { mode: create })
+
+  - id: rule_editor
+    type: modal
+    position: overlay
+    function: 규칙 생성/편집 폼 (규칙명, 조건 유형, 임계값, 심각도, 알림 채널)
+    children:
+      - id: rule_name_input
+        type: input
+        function: 규칙명 입력
+      - id: condition_select
+        type: select
+        function: 조건 유형 (가격 변동, 리드타임, 뉴스 감지, 재고)
+      - id: threshold_input
+        type: input
+        variant: number
+        function: 임계값 입력
+      - id: severity_radio
+        type: select
+        function: 심각도 선택 (Critical, Warning, Info)
+      - id: channel_checkbox
+        type: checkbox
+        function: 알림 채널 선택 (이메일, 인앱)
+      - id: save_button
+        type: button
+        variant: primary
+        function: 규칙 저장
+        events:
+          - on: click
+            action: save_rule + close(rule_editor)
+
+connections:
+  navigations:
+    - back: /dashboard
+
+tests:
+  - name: 규칙 목록 표시
+    when: 알림 설정 페이지 접속
+    then: [현재 사용자의 규칙 목록 표시, 각 규칙 토글 상태 표시]
+
+  - name: 규칙 추가
+    when: 새 규칙 추가 클릭 → 폼 작성 → 저장
+    then: [규칙 생성, 목록에 추가됨]
+
+  - name: 규칙 토글
+    when: 규칙 토글 클릭
+    then: [is_active 상태 변경, UI 즉시 반영]
+
+design_reference:
+  image: memory_scm_design/alert_configuration_settings/screen.png
+  html: memory_scm_design/alert_configuration_settings/code.html
+  notes:
+    - 상단 네비게이션에 Dashboard, Analytics, Alerts, Reports 메뉴
+    - 규칙 편집 모달에 감지 조건 드롭다운 + 임계값 입력
+    - 중요도 3단계 버튼 (Critical/Warning/Info)
+    - 알림 채널 (이메일, 인앱 알림)
+    - "변경사항 저장" / "취소" 버튼

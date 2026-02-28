@@ -1,0 +1,116 @@
+version: "2.0"
+
+screen:
+  name: 메인 대시보드
+  route: /dashboard
+  layout: full-width
+  auth: true
+
+data_requirements:
+  - resource: companies
+    needs: [id, name, name_kr, cluster_id, tier, country]
+    filters: { company_ids: "?filter" }
+
+  - resource: clusters
+    needs: [id, name, tier, parent_id]
+
+  - resource: company_relations
+    needs: [id, source_id, target_id, relation_type, strength]
+    filters: { company_ids: "?filter" }
+
+  - resource: alerts
+    needs: [id, company_id, severity, title, is_read, created_at]
+    filters: { is_read: false }
+
+components:
+  - id: top_bar
+    type: navigation
+    position: header
+    function: 로고, 설정 링크, 사용자 프로필 표시
+
+  - id: alert_banner
+    type: alert
+    position: header
+    function: 미읽은 Critical/Warning 알림 배너 표시
+    data_source:
+      resource: alerts
+      filter: { severity: [critical, warning], is_read: false }
+    events:
+      - on: click_detail
+        action: focus_node(alert.company_id)
+      - on: dismiss
+        action: mark_read(alert.id)
+
+  - id: value_chain_graph
+    type: chart
+    variant: network
+    position: main
+    function: Cytoscape.js 기반 밸류체인 동적 그래프
+    data_source:
+      resource: [companies, clusters, company_relations]
+    events:
+      - on: node_click
+        action: open(side_panel, { company_id: node.id })
+      - on: cluster_click
+        action: zoom_into_cluster(cluster.id)
+      - on: zoom
+        action: toggle_detail_level
+
+  - id: alert_icon_overlay
+    type: container
+    position: main
+    function: 이슈 있는 노드에 경고 아이콘 오버레이
+    data_source:
+      resource: alerts
+
+  - id: zoom_controls
+    type: button
+    variant: ghost
+    position: main
+    function: 줌 인/아웃/피트 컨트롤
+
+  - id: filter_toggle
+    type: button
+    variant: secondary
+    position: main
+    function: 필터 오버레이 패널 토글
+    events:
+      - on: click
+        action: toggle(filter_panel)
+
+connections:
+  navigations:
+    - filter_toggle: open(filter_panel)
+    - node_click: open(side_panel)
+    - settings_link: /settings/alerts
+  shared_components:
+    - side_panel: specs/screens/side-panel.yaml
+    - filter_panel: specs/screens/filter-panel.yaml
+
+tests:
+  - name: 초기 로드
+    when: 대시보드 접속
+    then: [밸류체인 그래프 렌더링, 클러스터 5개 표시, 미읽은 알림 배너 표시]
+
+  - name: 노드 클릭
+    when: 기업 노드 클릭
+    then: [사이드 패널 열림, 해당 기업 정보 표시]
+
+  - name: 알림 노드 포커스
+    when: 알림 배너 "자세히 보기" 클릭
+    then: [해당 기업 노드로 그래프 포커스 이동, 사이드 패널 열림]
+
+  - name: 필터 적용
+    when: 필터 패널에서 기업 선택 후 적용
+    then: [선택된 기업 노드만 그래프에 표시, 관계 엣지 업데이트]
+
+design_reference:
+  image: memory_scm_design/main_supply_chain_dashboard/screen.png
+  html: memory_scm_design/main_supply_chain_dashboard/code.html
+  notes:
+    - 상단바에 검색 아이콘, 알림 벨, 설정 기어, 사용자 아바타 포함
+    - 하단 좌측 줌 컨트롤 (+/- 및 100% 표시)
+    - 하단 우측 상태 범례 (Normal/Critical/Warning) + Filter 버튼
+    - 클러스터 라벨 영문 대문자 (RAW MATERIALS, EQUIPMENT, FAB, PACKAGING, MODULE)
+    - 알림 엣지는 빨간색, 정상 엣지는 회색
+    - 노드에 카테고리별 아이콘 포함

@@ -1,0 +1,437 @@
+entries:
+  - date: "2026-02-28T12:56:00"
+    type: docs
+    domain: root
+    files:
+      - neurion-proposal.md
+    description: Add documentation neurion-proposal.md
+    impact:
+      - none
+  - date: "2026-02-28T12:59:18"
+    type: docs
+    domain: root
+    files:
+      - ".claude\\memory\\user-profile.md"
+    description: Add documentation user-profile.md
+    impact:
+      - none
+  - date: "2026-02-28T13:24:41"
+    type: docs
+    domain: root
+    files:
+      - "docs\\planning\\01-prd.md"
+    description: Add documentation 01-prd.md
+    impact:
+      - none
+  - date: "2026-02-28T13:25:01"
+    type: docs
+    domain: root
+    files:
+      - "docs\\planning\\02-trd.md"
+    description: Add documentation 02-trd.md
+    impact:
+      - none
+  - date: "2026-02-28T13:25:20"
+    type: docs
+    domain: root
+    files:
+      - "docs\\planning\\03-user-flow.md"
+    description: Add documentation 03-user-flow.md
+    impact:
+      - none
+  - date: "2026-02-28T13:25:45"
+    type: docs
+    domain: root
+    files:
+      - "docs\\planning\\04-database-design.md"
+    description: Add documentation 04-database-design.md
+    impact:
+      - none
+  - date: "2026-02-28T13:26:01"
+    type: docs
+    domain: root
+    files:
+      - "docs\\planning\\05-design-system.md"
+    description: Add documentation 05-design-system.md
+    impact:
+      - none
+  - date: "2026-02-28T13:26:20"
+    type: docs
+    domain: root
+    files:
+      - "docs\\planning\\06-screens.md"
+    description: Add documentation 06-screens.md
+    impact:
+      - none
+  - date: "2026-02-28T13:26:39"
+    type: docs
+    domain: root
+    files:
+      - "docs\\planning\\07-coding-convention.md"
+    description: Add documentation 07-coding-convention.md
+    impact:
+      - none
+  - date: "2026-02-28T13:32:03"
+    type: docs
+    domain: root
+    files:
+      - "docs\\planning\\08-stitch-prompts.md"
+    description: Add documentation 08-stitch-prompts.md
+    impact:
+      - none
+  - date: "2026-02-28T13:41:17"
+    type: feature
+    domain: root
+    files:
+      - "specs\\domain\\resources.yaml"
+    description: Create resources in root
+    impact:
+      - configuration change
+  - date: "2026-02-28T13:41:45"
+    type: feature
+    domain: root
+    files:
+      - "specs\\screens\\login.yaml"
+    description: Create login in root
+    impact:
+      - configuration change
+  - date: "2026-02-28T13:42:00"
+    type: feature
+    domain: root
+    files:
+      - "specs\\screens\\dashboard.yaml"
+    description: Create dashboard in root
+    impact:
+      - configuration change
+  - date: "2026-02-28T13:42:13"
+    type: feature
+    domain: root
+    files:
+      - "specs\\screens\\side-panel.yaml"
+    description: Create side-panel in root
+    impact:
+      - configuration change
+  - date: "2026-02-28T13:42:24"
+    type: feature
+    domain: root
+    files:
+      - "specs\\screens\\filter-panel.yaml"
+    description: Create filter-panel in root
+    impact:
+      - configuration change
+  - date: "2026-02-28T13:42:37"
+    type: feature
+    domain: root
+    files:
+      - "specs\\screens\\alert-settings.yaml"
+    description: Create alert-settings in root
+    impact:
+      - configuration change
+  - date: "2026-02-28T13:42:52"
+    type: feature
+    domain: root
+    files:
+      - "specs\\screens\\index.yaml"
+    description: Create index in root
+    impact:
+      - configuration change
+  - date: "2026-02-28T13:43:02"
+    type: feature
+    domain: root
+    files:
+      - "specs\\shared\\components.yaml"
+    description: Create components in root
+    impact:
+      - configuration change
+  - date: "2026-02-28T13:43:07"
+    type: feature
+    domain: root
+    files:
+      - "specs\\shared\\types.yaml"
+    description: Create types in root
+    impact:
+      - configuration change
+  - date: "2026-02-28T13:47:15"
+    type: feature
+    domain: root
+    files:
+      - "specs\\screens\\login.yaml"
+    description: Add new functionality to login in root
+    impact:
+      - configuration change
+  - date: "2026-02-28T13:47:22"
+    type: feature
+    domain: root
+    files:
+      - "specs\\screens\\dashboard.yaml"
+    description: Add new functionality to dashboard in root
+    impact:
+      - configuration change
+  - date: "2026-02-28T13:47:28"
+    type: feature
+    domain: root
+    files:
+      - "specs\\screens\\side-panel.yaml"
+    description: Add new functionality to side-panel in root
+    impact:
+      - configuration change
+  - date: "2026-02-28T13:47:33"
+    type: feature
+    domain: root
+    files:
+      - "specs\\screens\\filter-panel.yaml"
+    description: Add new functionality to filter-panel in root
+    impact:
+      - configuration change
+  - date: "2026-02-28T13:47:38"
+    type: feature
+    domain: root
+    files:
+      - "specs\\screens\\alert-settings.yaml"
+    description: Add new functionality to alert-settings in root
+    impact:
+      - configuration change
+  - date: "2026-02-28T13:51:09"
+    type: docs
+    domain: root
+    files:
+      - "docs\\planning\\06-tasks.md"
+    description: Add documentation 06-tasks.md
+    impact:
+      - none
+  - date: "2026-02-28T13:53:06"
+    type: refactor
+    domain: root
+    files:
+      - "specs\\screens\\side-panel.yaml"
+    description: Refactor side-panel
+    impact:
+      - configuration change
+  - date: "2026-02-28T13:53:08"
+    type: refactor
+    domain: root
+    files:
+      - "specs\\screens\\alert-settings.yaml"
+    description: Refactor alert-settings
+    impact:
+      - configuration change
+  - date: "2026-02-28T13:53:09"
+    type: docs
+    domain: root
+    files:
+      - "docs\\planning\\06-tasks.md"
+    description: Update documentation 06-tasks.md
+    impact:
+      - none
+  - date: "2026-02-28T13:57:20"
+    type: feature
+    domain: root
+    files:
+      - "backend\\pyproject.toml"
+    description: Create pyproject in root
+    impact:
+      - configuration change
+  - date: "2026-02-28T13:57:41"
+    type: docs
+    domain: root
+    files:
+      - ".claude\\agents\\backend-specialist.md"
+    description: Add documentation backend-specialist.md
+    impact:
+      - none
+  - date: "2026-02-28T13:58:09"
+    type: refactor
+    domain: root
+    files:
+      - "backend\\pyproject.toml"
+    description: Refactor pyproject
+    impact:
+      - configuration change
+  - date: "2026-02-28T13:59:04"
+    type: docs
+    domain: root
+    files:
+      - ".claude\\agents\\frontend-specialist.md"
+    description: Add documentation frontend-specialist.md
+    impact:
+      - none
+  - date: "2026-02-28T13:59:56"
+    type: docs
+    domain: root
+    files:
+      - ".claude\\agents\\database-specialist.md"
+    description: Add documentation database-specialist.md
+    impact:
+      - none
+  - date: "2026-02-28T14:00:30"
+    type: feature
+    domain: root
+    files:
+      - "backend\\app\\__init__.py"
+    description: Create __init__ in root
+    impact:
+      - none
+  - date: "2026-02-28T14:00:33"
+    type: feature
+    domain: root
+    files:
+      - "backend\\app\\main.py"
+    description: Create main in root
+    impact:
+      - "external dependency added: fastapi, fastapi.middleware.cors"
+      - "internal dependency added: app.core.config"
+  - date: "2026-02-28T14:00:35"
+    type: docs
+    domain: root
+    files:
+      - ".claude\\agents\\test-specialist.md"
+    description: Add documentation test-specialist.md
+    impact:
+      - none
+  - date: "2026-02-28T14:00:35"
+    type: feature
+    domain: root
+    files:
+      - "backend\\app\\core\\__init__.py"
+    description: Create __init__ in root
+    impact:
+      - none
+  - date: "2026-02-28T14:00:37"
+    type: feature
+    domain: root
+    files:
+      - "backend\\app\\core\\config.py"
+    description: Create config in root
+    impact:
+      - "external dependency added: pydantic_settings"
+  - date: "2026-02-28T14:00:39"
+    type: feature
+    domain: root
+    files:
+      - "backend\\app\\core\\database.py"
+    description: Create database in root
+    impact:
+      - "external dependency added: sqlmodel"
+      - "internal dependency added: app.core.config"
+  - date: "2026-02-28T14:00:46"
+    type: feature
+    domain: root
+    files:
+      - "backend\\app\\api\\__init__.py"
+    description: Create __init__ in root
+    impact:
+      - none
+  - date: "2026-02-28T14:00:50"
+    type: feature
+    domain: root
+    files:
+      - "backend\\app\\models\\__init__.py"
+    description: Create __init__ in root
+    impact:
+      - none
+  - date: "2026-02-28T14:00:53"
+    type: feature
+    domain: root
+    files:
+      - "backend\\app\\services\\__init__.py"
+    description: Create __init__ in root
+    impact:
+      - none
+  - date: "2026-02-28T14:00:56"
+    type: feature
+    domain: root
+    files:
+      - "backend\\app\\schemas\\__init__.py"
+    description: Create __init__ in root
+    impact:
+      - none
+  - date: "2026-02-28T14:00:59"
+    type: feature
+    domain: root
+    files:
+      - "backend\\app\\collectors\\__init__.py"
+    description: Create __init__ in root
+    impact:
+      - none
+  - date: "2026-02-28T14:01:02"
+    type: feature
+    domain: root
+    files:
+      - "backend\\app\\alerts\\__init__.py"
+    description: Create __init__ in root
+    impact:
+      - none
+  - date: "2026-02-28T14:01:04"
+    type: feature
+    domain: root
+    files:
+      - "backend\\tests\\__init__.py"
+    description: Create __init__ in root
+    impact:
+      - none
+  - date: "2026-02-28T14:01:06"
+    type: feature
+    domain: root
+    files:
+      - "backend\\tests\\conftest.py"
+    description: Create conftest in root
+    impact:
+      - "external dependency added: pytest, fastapi.testclient, sqlmodel"
+      - "internal dependency added: app.core.database, app.main"
+  - date: "2026-02-28T14:02:07"
+    type: docs
+    domain: root
+    files:
+      - ".claude\\commands\\orchestrate.md"
+    description: Add documentation orchestrate.md
+    impact:
+      - none
+  - date: "2026-02-28T14:04:13"
+    type: feature
+    domain: root
+    files:
+      - "frontend\\vite.config.ts"
+    description: Create vite.config in root
+    impact:
+      - "external dependency added: vite, @vitejs/plugin-react, @tailwindcss/vite"
+  - date: "2026-02-28T14:04:28"
+    type: feature
+    domain: root
+    files:
+      - "frontend\\src\\index.css"
+    description: Create index in root
+    impact:
+      - none
+  - date: "2026-02-28T14:04:32"
+    type: feature
+    domain: root
+    files:
+      - "frontend\\src\\App.tsx"
+    description: Create App in root
+    impact:
+      - "external dependency added: react-router-dom"
+      - "internal dependency added: ./index.css"
+  - date: "2026-02-28T14:04:35"
+    type: feature
+    domain: root
+    files:
+      - "frontend\\src\\services\\api.ts"
+    description: Create api in root
+    impact:
+      - "external dependency added: axios"
+  - date: "2026-02-28T14:04:40"
+    type: feature
+    domain: root
+    files:
+      - "frontend\\src\\types\\index.ts"
+    description: Create index in root
+    impact:
+      - none
+  - date: "2026-02-28T14:05:40"
+    type: feature
+    domain: root
+    files:
+      - .gitignore
+    description: Create .gitignore in root
+    impact:
+      - none
