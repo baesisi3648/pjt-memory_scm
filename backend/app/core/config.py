@@ -8,7 +8,7 @@ class Settings(BaseSettings):
     SECRET_KEY: str = "change-me-in-production"
     ACCESS_TOKEN_EXPIRE_MINUTES: int = 60 * 24
     CORS_ORIGINS: list[str] = ["http://localhost:5173"]
-    NEWS_API_KEY: str = "dd71662f7493444ab5361f1bc8699945"
+    NEWS_API_KEY: str = ""
 
     model_config = {"env_file": ".env", "extra": "ignore"}
 
