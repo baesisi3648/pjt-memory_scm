@@ -1,0 +1,161 @@
+// @TASK P3-S1-T1 - Custom hook for Cytoscape.js instance management
+import { useRef, useEffect, useCallback } from 'react';
+import cytoscape, { Core, ElementDefinition, Stylesheet } from 'cytoscape';
+
+interface UseCytoscapeOptions {
+  elements: ElementDefinition[];
+  stylesheet: Stylesheet[];
+  onNodeClick?: (nodeId: string) => void;
+}
+
+interface UseCytoscapeReturn {
+  containerRef: React.RefObject<HTMLDivElement | null>;
+  cy: React.RefObject<Core | null>;
+  zoomIn: () => void;
+  zoomOut: () => void;
+  fitToScreen: () => void;
+  focusNode: (nodeId: string) => void;
+  getZoomPercent: () => number;
+}
+
+export function useCytoscape({
+  elements,
+  stylesheet,
+  onNodeClick,
+}: UseCytoscapeOptions): UseCytoscapeReturn {
+  const containerRef = useRef<HTMLDivElement | null>(null);
+  const cyRef = useRef<Core | null>(null);
+  const onNodeClickRef = useRef(onNodeClick);
+
+  // Keep callback ref current without reinitializing cytoscape
+  useEffect(() => {
+    onNodeClickRef.current = onNodeClick;
+  }, [onNodeClick]);
+
+  // Initialize cytoscape once when container mounts
+  useEffect(() => {
+    if (!containerRef.current) return;
+
+    const cy = cytoscape({
+      container: containerRef.current,
+      elements,
+      style: stylesheet,
+      layout: { name: 'preset' },
+      zoom: 1,
+      pan: { x: 0, y: 0 },
+      minZoom: 0.2,
+      maxZoom: 3,
+      wheelSensitivity: 0.2,
+    });
+
+    cy.on('tap', 'node[type = "company"]', (evt) => {
+      const nodeId = evt.target.id() as string;
+      onNodeClickRef.current?.(nodeId);
+    });
+
+    cyRef.current = cy;
+
+    // Fit to screen after initial render
+    requestAnimationFrame(() => {
+      cy.fit(undefined, 60);
+    });
+
+    return () => {
+      cy.destroy();
+      cyRef.current = null;
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []); // Only run once on mount
+
+  // Update elements when data changes without reinitializing
+  useEffect(() => {
+    const cy = cyRef.current;
+    if (!cy || elements.length === 0) return;
+
+    cy.batch(() => {
+      // Add or update elements
+      elements.forEach((el) => {
+        const existing = cy.getElementById(el.data.id as string);
+        if (existing.length > 0) {
+          existing.data(el.data);
+          if (el.position) {
+            existing.position(el.position);
+          }
+        } else {
+          cy.add(el);
+        }
+      });
+
+      // Remove elements no longer in data
+      const incomingIds = new Set(elements.map((el) => el.data.id as string));
+      cy.elements().forEach((el) => {
+        if (!incomingIds.has(el.id())) {
+          el.remove();
+        }
+      });
+    });
+
+    // Re-apply layout only for non-preset (preset uses stored positions)
+    cy.layout({ name: 'preset' }).run();
+  }, [elements]);
+
+  // Update stylesheet when it changes
+  useEffect(() => {
+    const cy = cyRef.current;
+    if (!cy) return;
+    cy.style(stylesheet);
+  }, [stylesheet]);
+
+  const zoomIn = useCallback(() => {
+    cyRef.current?.zoom({
+      level: (cyRef.current.zoom() * 1.25),
+      renderedPosition: {
+        x: (cyRef.current.width() / 2),
+        y: (cyRef.current.height() / 2),
+      },
+    });
+  }, []);
+
+  const zoomOut = useCallback(() => {
+    cyRef.current?.zoom({
+      level: (cyRef.current.zoom() * 0.8),
+      renderedPosition: {
+        x: (cyRef.current.width() / 2),
+        y: (cyRef.current.height() / 2),
+      },
+    });
+  }, []);
+
+  const fitToScreen = useCallback(() => {
+    cyRef.current?.fit(undefined, 60);
+  }, []);
+
+  const focusNode = useCallback((nodeId: string) => {
+    const cy = cyRef.current;
+    if (!cy) return;
+
+    const node = cy.getElementById(nodeId);
+    if (node.length === 0) return;
+
+    cy.animate({
+      fit: {
+        eles: node,
+        padding: 120,
+      },
+      duration: 600,
+      easing: 'ease-in-out-cubic',
+    });
+
+    // Flash highlight
+    node.addClass('focused');
+    setTimeout(() => node.removeClass('focused'), 2000);
+  }, []);
+
+  const getZoomPercent = useCallback(() => {
+    const cy = cyRef.current;
+    if (!cy) return 100;
+    return Math.round(cy.zoom() * 100);
+  }, []);
+
+  return { containerRef, cy: cyRef, zoomIn, zoomOut, fitToScreen, focusNode, getZoomPercent };
+}

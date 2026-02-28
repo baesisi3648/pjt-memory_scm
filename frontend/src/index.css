@@ -39,3 +39,25 @@ body {
   color: var(--color-text-primary);
   font-family: var(--font-sans);
 }
+
+/* Graph canvas wrapper — needs min-height:0 to allow flex-child shrinking */
+.graph-canvas-wrapper {
+  min-height: 0;
+}
+
+/* Dot-grid decorative background for the graph area */
+.graph-dot-grid {
+  background-image: radial-gradient(var(--color-primary) 1px, transparent 1px);
+  background-size: 24px 24px;
+  opacity: 0.03;
+}
+
+/* Legend dot variants — avoids inline backgroundColor */
+.legend-dot-normal   { background-color: var(--color-primary); }
+.legend-dot-critical { background-color: var(--color-node-alert); }
+.legend-dot-warning  { background-color: var(--color-warning); }
+
+/* Dashboard page: fill viewport below fixed TopBar (h-14 = 56px) */
+.dashboard-page-height {
+  height: calc(100vh - 56px);
+}

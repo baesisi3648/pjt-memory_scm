@@ -1,20 +1,17 @@
 // @TASK P1-S0-T1 - App routing with AuthGuard and TopBar
+// @TASK P3-S1-T3 - Wired real DashboardPage
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import './index.css';
 
 import { AuthGuard } from './components/layout/AuthGuard';
 import { TopBar } from './components/layout/TopBar';
 import { LoginPage } from './pages/LoginPage';
+import { AlertSettingsPage } from './pages/AlertSettingsPage';
+import { DashboardPage } from './pages/DashboardPage';
 
-function DashboardPage() {
-  return <div className="min-h-screen bg-background">Dashboard Page (P3-S1-T1)</div>;
-}
-
-function AlertSettingsPage() {
-  return <div className="min-h-screen bg-background">Alert Settings Page (P5-S1-T1)</div>;
-}
-
-// Layout wrapper for authenticated pages — renders TopBar + page content
+// Layout wrapper for authenticated pages — renders TopBar + page content.
+// DashboardPage is overflow-hidden and self-sized, so no pt-14 padding needed
+// on it — it uses dashboard-page-height (calc(100vh - 56px)) directly.
 function AuthenticatedLayout({ children }: { children: React.ReactNode }) {
   return (
     <>
