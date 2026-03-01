@@ -645,6 +645,7 @@ export interface SidePanelProps {
 
 export function SidePanel({ companyId, onClose, onRelationClick }: SidePanelProps) {
   const [state, dispatch] = useReducer(panelReducer, { status: 'idle' });
+  const [activeTab, setActiveTab] = useState<'alerts' | 'news' | 'relations'>('alerts');
 
   // Track which companyId is currently being loaded to ignore stale responses
   const loadingIdRef = useRef<number | null>(null);
@@ -691,6 +692,11 @@ export function SidePanel({ companyId, onClose, onRelationClick }: SidePanelProp
       loadingIdRef.current = null;
     }
   }, [companyId, loadCompanyData]);
+
+  // Reset active tab to 'alerts' whenever the selected company changes
+  useEffect(() => {
+    setActiveTab('alerts');
+  }, [companyId]);
 
   // ── Click-outside to close ───────────────────────────────────────────────────
   const panelRef = useRef<HTMLDivElement>(null);
@@ -783,14 +789,51 @@ export function SidePanel({ companyId, onClose, onRelationClick }: SidePanelProp
           {/* Header — fixed at top, does not scroll */}
           <PanelHeader company={state.data.company} onClose={onClose} />
 
-          {/* Scrollable content */}
+          {/* Tab bar */}
+          <div className="flex border-b border-slate-200 flex-shrink-0">
+            {[
+              { key: 'alerts',    label: '알림',    count: state.data.alerts.length },
+              { key: 'news',      label: '뉴스',    count: state.data.news.length },
+              { key: 'relations', label: '거래관계', count: state.data.relations.length },
+            ].map((tab) => (
+              <button
+                key={tab.key}
+                onClick={() => setActiveTab(tab.key as typeof activeTab)}
+                className={`flex-1 py-2.5 text-xs font-medium transition-colors relative
+                  ${activeTab === tab.key
+                    ? 'text-primary'
+                    : 'text-slate-500 hover:text-slate-700'
+                  }`}
+              >
+                {tab.label}
+                {tab.count > 0 && (
+                  <span className={`ml-1 px-1.5 py-0.5 rounded-full text-[10px] ${
+                    activeTab === tab.key ? 'bg-primary/10 text-primary' : 'bg-slate-100 text-slate-500'
+                  }`}>
+                    {tab.count}
+                  </span>
+                )}
+                {activeTab === tab.key && (
+                  <span className="absolute bottom-0 left-0 right-0 h-0.5 bg-primary" />
+                )}
+              </button>
+            ))}
+          </div>
+
+          {/* Scrollable content — only the active tab renders */}
           <div className="flex-1 overflow-y-auto" tabIndex={-1}>
-            <IssueSummary alerts={state.data.alerts} />
-            <RelatedNews news={state.data.news} />
-            <Relations
-              relations={state.data.relations}
-              onRelationClick={onRelationClick}
-            />
+            {activeTab === 'alerts' && (
+              <IssueSummary alerts={state.data.alerts} />
+            )}
+            {activeTab === 'news' && (
+              <RelatedNews news={state.data.news} />
+            )}
+            {activeTab === 'relations' && (
+              <Relations
+                relations={state.data.relations}
+                onRelationClick={onRelationClick}
+              />
+            )}
             {/* Bottom padding so last section is not flush with edge */}
             <div className="h-6" aria-hidden="true" />
           </div>
