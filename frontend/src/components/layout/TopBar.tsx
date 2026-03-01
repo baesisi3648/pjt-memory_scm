@@ -1,6 +1,7 @@
 // @TASK P1-S0-T1 - Top navigation bar component
 import { Link } from 'react-router-dom';
 import { useAuthStore } from '../../stores/authStore';
+import { GlobalSearch } from './GlobalSearch';
 
 export function TopBar() {
   const { user, logout } = useAuthStore();
@@ -25,7 +26,7 @@ export function TopBar() {
       className="fixed top-0 left-0 right-0 h-14 bg-neutral-900 border-b border-neutral-800 flex items-center px-4 z-50"
     >
       {/* Logo */}
-      <div className="flex items-center gap-2 flex-1">
+      <div className="flex items-center gap-2">
         <div className="w-7 h-7 bg-primary rounded flex items-center justify-center flex-shrink-0">
           <svg
             aria-hidden="true"
@@ -39,6 +40,11 @@ export function TopBar() {
         <span className="text-white font-semibold text-sm tracking-tight">
           Memory SCM
         </span>
+      </div>
+
+      {/* Global search */}
+      <div className="flex-1 flex justify-center">
+        <GlobalSearch />
       </div>
 
       {/* Right side actions */}

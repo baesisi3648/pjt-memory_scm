@@ -170,6 +170,17 @@ export function DashboardPage() {
     loadData();
   }, [loadData]);
 
+  // ── Global search company selection ──────────────────────────────────────────
+  useEffect(() => {
+    const handler = (e: Event) => {
+      const { companyId } = (e as CustomEvent).detail;
+      focusNodeRef.current?.(companyId);
+      setSelectedCompanyId(companyId);
+    };
+    window.addEventListener('select-company', handler);
+    return () => window.removeEventListener('select-company', handler);
+  }, []);
+
   // ── Graph node click → open side panel ───────────────────────────────────────
   const handleNodeClick = useCallback((companyId: number) => {
     setSelectedCompanyId(companyId);
