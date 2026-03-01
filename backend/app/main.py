@@ -16,10 +16,14 @@ from app.api import (
     clusters_router,
     companies_router,
     company_relations_router,
+    dashboard_router,
+    data_points_router,
     exchange_router,
     filters_router,
+    fred_router,
     news_router,
     relations_router,
+    rss_router,
     stock_router,
 )
 from app.core.config import settings
@@ -90,8 +94,16 @@ app.include_router(filters_router, prefix="/api/v1/filters", tags=["filters"])
 app.include_router(alert_rules_router, prefix="/api/v1/alert-rules", tags=["alert-rules"])
 # Stock: GET /api/v1/companies/{company_id}/stock
 app.include_router(stock_router, prefix="/api/v1/companies", tags=["stock"])
+# Data Points: GET /api/v1/companies/{company_id}/data-points
+app.include_router(data_points_router, prefix="/api/v1/companies", tags=["data-points"])
 # Exchange rates: GET /api/v1/exchange-rates
 app.include_router(exchange_router, prefix="/api/v1", tags=["exchange"])
+# RSS Feeds: GET /api/v1/rss-feeds
+app.include_router(rss_router, prefix="/api/v1", tags=["rss"])
+# FRED macro indicators: GET /api/v1/macro-indicators
+app.include_router(fred_router, prefix="/api/v1", tags=["macro"])
+# Dashboard: GET /api/v1/dashboard (unified endpoint combining 4 data sources)
+app.include_router(dashboard_router, prefix="/api/v1", tags=["dashboard"])
 
 
 async def check_database(session: Session = Depends(get_session)) -> str:
