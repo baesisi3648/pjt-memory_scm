@@ -14,6 +14,7 @@ from app.api.news import router as news_router
 from app.api.filters import router as filters_router
 from app.api.alert_rules import router as alert_rules_router
 from app.api.stock import router as stock_router
+from app.api.exchange import router as exchange_router
 
 __all__ = [
     "auth_router",
@@ -26,4 +27,5 @@ __all__ = [
     "filters_router",
     "alert_rules_router",
     "stock_router",
+    "exchange_router",
 ]
