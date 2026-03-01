@@ -8,6 +8,7 @@ import { TopBar } from './components/layout/TopBar';
 import { LoginPage } from './pages/LoginPage';
 import { AlertSettingsPage } from './pages/AlertSettingsPage';
 import { DashboardPage } from './pages/DashboardPage';
+import { ToastContainer } from './components/ui/Toast';
 
 // Layout wrapper for authenticated pages — renders fixed TopBar + page content.
 function AuthenticatedLayout({ children }: { children: React.ReactNode }) {
@@ -51,6 +52,9 @@ function App() {
         {/* Fallback */}
         <Route path="*" element={<Navigate to="/login" replace />} />
       </Routes>
+
+      {/* Global toast notifications — fixed overlay, renders above all routes */}
+      <ToastContainer />
     </BrowserRouter>
   );
 }
