@@ -1,6 +1,8 @@
 # Memory SCM - 개선 로드맵
 
 > 42개 개선 포인트 | 95% 무료 | 5단계 우선순위
+>
+> **완료 현황**: 14/42 (✅ 표시)
 
 ---
 
@@ -8,9 +10,9 @@
 
 | # | API | 용도 | 비용 | 난이도 | 우선순위 |
 |---|-----|------|------|--------|----------|
-| 1.1 | **Yahoo Finance** (`yfinance`) | 반도체 기업 주가/시가총액 실시간 조회 | 무료 | Low | **HIGH** |
+| 1.1 | ✅ **Yahoo Finance** (`yfinance`) | 반도체 기업 주가/시가총액 실시간 조회 | 무료 | Low | **HIGH** |
 | 1.2 | **FRED API** (미연준 경제데이터) | 반도체 관련 매크로 지표 (ISM PMI, 산업생산지수) | 무료 | Low | MEDIUM |
-| 1.3 | **frankfurter.app** (환율) | KRW/USD, JPY/USD, TWD/USD 실시간 환율 | 무료 | Low | MEDIUM |
+| 1.3 | ✅ **frankfurter.app** (환율) | KRW/USD, JPY/USD, TWD/USD 실시간 환율 | 무료 | Low | MEDIUM |
 | 1.4 | **GDELT Project** | 지정학적 이벤트 모니터링 (미중 반도체 규제, 대만 리스크) | 무료 | Medium | **HIGH** |
 | 1.5 | **SEC EDGAR** | 미국 반도체 기업 10-K/10-Q/8-K 공시 | 무료 | Medium | LOW |
 | 1.6 | **DART API** (금감원) | 삼성전자, SK하이닉스 분기보고서/사업보고서 | 무료 | Medium | MEDIUM |
@@ -54,15 +56,15 @@
 
 | # | 이슈 | 위치 | 난이도 | 우선순위 |
 |---|------|------|--------|----------|
-| 3.1 | **API 키 하드코딩** | `config.py` - NEWS_API_KEY, SECRET_KEY | Low | **HIGH** |
+| 3.1 | ✅ **API 키 하드코딩** | `config.py` - NEWS_API_KEY, SECRET_KEY | Low | **HIGH** |
 | 3.2 | **SQLite 한계** (JSON 문자열 저장) | AlertRule.condition, UserFilter.company_ids 등 | Medium | MEDIUM |
-| 3.3 | **페이지네이션 없음** | 모든 list 엔드포인트가 전체 레코드 반환 | Low | MEDIUM |
-| 3.4 | **구조화된 로깅 없음** | 백엔드에 logging 없음, 에러 무시됨 | Low | **HIGH** |
-| 3.5 | **datetime.utcnow() 사용** | Python 3.12+ deprecated | Low | LOW |
-| 3.6 | **N+1 쿼리** | `relations.py` - 루프 내 session.get() | Low | MEDIUM |
-| 3.7 | **불필요한 setInterval** | `ValueChainGraph.tsx` - 줌 라벨 500ms 폴링 | Low | LOW |
-| 3.8 | **API Rate Limiting 없음** | 로그인 브루트포스 취약 | Low | MEDIUM |
-| 3.9 | **프론트엔드 에러 처리 부재** | FilterPanel에서 save/delete 실패 시 무반응 | Low | MEDIUM |
+| 3.3 | ✅ **페이지네이션 없음** | 모든 list 엔드포인트가 전체 레코드 반환 | Low | MEDIUM |
+| 3.4 | ✅ **구조화된 로깅 없음** | 백엔드에 logging 없음, 에러 무시됨 | Low | **HIGH** |
+| 3.5 | ✅ **datetime.utcnow() 사용** | Python 3.12+ deprecated | Low | LOW |
+| 3.6 | ✅ **N+1 쿼리** | `relations.py` - 루프 내 session.get() | Low | MEDIUM |
+| 3.7 | ✅ **불필요한 setInterval** | `ValueChainGraph.tsx` - 줌 라벨 500ms 폴링 | Low | LOW |
+| 3.8 | ✅ **API Rate Limiting 없음** | 로그인 브루트포스 취약 | Low | MEDIUM |
+| 3.9 | ✅ **프론트엔드 에러 처리 부재** | FilterPanel에서 save/delete 실패 시 무반응 | Low | MEDIUM |
 
 ### 상세 설명
 
@@ -95,8 +97,8 @@
 | # | 기능 | 현재 상태 | 난이도 | 우선순위 |
 |---|------|-----------|--------|----------|
 | 5.1 | **노드 크기 차등화** | 모든 기업 동일 크기 (34px) | Low | MEDIUM |
-| 5.2 | **엣지 두께 = 관계 강도** | strength 필드 있으나 고정 width: 1.5 | Low | MEDIUM |
-| 5.3 | **Toast 알림 시스템** | 에러/성공 피드백 없음 | Low | **HIGH** |
+| 5.2 | ✅ **엣지 두께 = 관계 강도** | strength 필드 있으나 고정 width: 1.5 | Low | MEDIUM |
+| 5.3 | ✅ **Toast 알림 시스템** | 에러/성공 피드백 없음 | Low | **HIGH** |
 | 5.4 | **다크 모드** | TopBar만 다크, 본문은 라이트 | Medium | LOW |
 | 5.5 | **SidePanel 탭 인터페이스** | 전체 섹션 단일 스크롤 | Low | MEDIUM |
 | 5.6 | **그래프 미니맵** | 줌인 시 전체 맥락 상실 | Low | MEDIUM |
@@ -129,10 +131,10 @@
 | # | 기능 | 현재 상태 | 난이도 | 우선순위 |
 |---|------|-----------|--------|----------|
 | 7.1 | **백그라운드 잡 시스템** | 스케줄러 미구현 (TRD에 APScheduler 명시) | Medium | **CRITICAL** |
-| 7.2 | **Alembic 마이그레이션** | create_all() 직접 호출, 마이그레이션 없음 | Low | **HIGH** |
+| 7.2 | ✅ **Alembic 마이그레이션** | create_all() 직접 호출, 마이그레이션 없음 | Low | **HIGH** |
 | 7.3 | **Docker Compose** | 로컬 직접 실행만 가능 | Low | MEDIUM |
 | 7.4 | **API 버저닝 전략** | /api/v1/ 프리픽스만 존재 | Low | LOW |
-| 7.5 | **헬스체크 강화** | `{"status": "ok"}`만 반환 | Low | MEDIUM |
+| 7.5 | ✅ **헬스체크 강화** | `{"status": "ok"}`만 반환 | Low | MEDIUM |
 | 7.6 | **환경별 설정** | dev/staging/prod 구분 없음 | Low | MEDIUM |
 | 7.7 | **프론트엔드 env 변수** | API URL 하드코딩 | Low | LOW |
 | 7.8 | **테스트 인프라** | 백엔드 71개 테스트 있으나 CI 미연동 | Medium | **HIGH** |

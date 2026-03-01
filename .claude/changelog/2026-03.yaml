@@ -588,3 +588,663 @@ entries:
     description: Refactor SidePanel
     impact:
       - none
+  - date: "2026-02-28T17:01:02"
+    type: feature
+    domain: root
+    files:
+      - "frontend\\src\\hooks\\useCytoscape.ts"
+    description: Create useCytoscape in root
+    impact:
+      - "external dependency added: react, cytoscape, cytoscape"
+  - date: "2026-02-28T17:05:38"
+    type: refactor
+    domain: root
+    files:
+      - "frontend\\src\\components\\graph\\ValueChainGraph.tsx"
+    description: Refactor ValueChainGraph
+    impact:
+      - none
+  - date: "2026-02-28T17:05:45"
+    type: refactor
+    domain: root
+    files:
+      - "frontend\\src\\index.css"
+    description: Refactor index
+    impact:
+      - none
+  - date: "2026-02-28T18:32:39"
+    type: refactor
+    domain: root
+    files:
+      - "frontend\\src\\components\\graph\\ValueChainGraph.tsx"
+    description: Refactor ValueChainGraph
+    impact:
+      - none
+  - date: "2026-02-28T18:32:45"
+    type: refactor
+    domain: root
+    files:
+      - "frontend\\src\\components\\graph\\ValueChainGraph.tsx"
+    description: Refactor ValueChainGraph
+    impact:
+      - none
+  - date: "2026-02-28T18:32:52"
+    type: refactor
+    domain: root
+    files:
+      - "frontend\\src\\components\\graph\\ValueChainGraph.tsx"
+    description: Refactor ValueChainGraph
+    impact:
+      - none
+  - date: "2026-02-28T18:40:45"
+    type: feature
+    domain: root
+    files:
+      - "frontend\\src\\hooks\\useCytoscape.ts"
+    description: Create useCytoscape in root
+    impact:
+      - "external dependency added: react, cytoscape, cytoscape"
+  - date: "2026-02-28T18:41:24"
+    type: feature
+    domain: root
+    files:
+      - "frontend\\src\\components\\graph\\ValueChainGraph.tsx"
+    description: Add new functionality to ValueChainGraph in root
+    impact:
+      - none
+  - date: "2026-02-28T18:42:28"
+    type: feature
+    domain: root
+    files:
+      - "frontend\\src\\components\\graph\\ValueChainGraph.tsx"
+    description: Add new functionality to ValueChainGraph in root
+    impact:
+      - none
+  - date: "2026-02-28T18:43:30"
+    type: refactor
+    domain: root
+    files:
+      - "frontend\\src\\components\\graph\\ValueChainGraph.tsx"
+    description: Refactor ValueChainGraph
+    impact:
+      - none
+  - date: "2026-02-28T18:44:27"
+    type: refactor
+    domain: root
+    files:
+      - "frontend\\src\\components\\graph\\ValueChainGraph.tsx"
+    description: Refactor ValueChainGraph
+    impact:
+      - none
+  - date: "2026-02-28T18:46:12"
+    type: refactor
+    domain: root
+    files:
+      - "frontend\\src\\components\\graph\\ValueChainGraph.tsx"
+    description: Refactor ValueChainGraph
+    impact:
+      - none
+  - date: "2026-02-28T18:47:45"
+    type: refactor
+    domain: root
+    files:
+      - "frontend\\src\\components\\graph\\ValueChainGraph.tsx"
+    description: Refactor ValueChainGraph
+    impact:
+      - none
+  - date: "2026-02-28T18:48:13"
+    type: refactor
+    domain: root
+    files:
+      - "frontend\\src\\components\\graph\\ValueChainGraph.tsx"
+    description: Refactor ValueChainGraph
+    impact:
+      - none
+  - date: "2026-02-28T18:48:26"
+    type: refactor
+    domain: root
+    files:
+      - "frontend\\src\\components\\graph\\ValueChainGraph.tsx"
+    description: Refactor ValueChainGraph
+    impact:
+      - none
+  - date: "2026-02-28T18:48:33"
+    type: refactor
+    domain: root
+    files:
+      - "frontend\\src\\components\\graph\\ValueChainGraph.tsx"
+    description: Refactor ValueChainGraph
+    impact:
+      - none
+  - date: "2026-03-01T07:34:51"
+    type: refactor
+    domain: root
+    files:
+      - "frontend\\src\\components\\graph\\ValueChainGraph.tsx"
+    description: Refactor ValueChainGraph
+    impact:
+      - none
+  - date: "2026-03-01T07:35:16"
+    type: feature
+    domain: root
+    files:
+      - "backend\\app\\core\\logging_config.py"
+    description: Create logging_config in root
+    impact:
+      - "external dependency added: logging, sys"
+  - date: "2026-03-01T07:35:17"
+    type: refactor
+    domain: root
+    files:
+      - "backend\\tests\\test_alerts.py"
+    description: Refactor test_alerts
+    impact:
+      - none
+  - date: "2026-03-01T07:35:18"
+    type: refactor
+    domain: root
+    files:
+      - "backend\\tests\\test_alerts.py"
+    description: Refactor test_alerts
+    impact:
+      - none
+  - date: "2026-03-01T07:35:19"
+    type: refactor
+    domain: root
+    files:
+      - "backend\\tests\\test_alerts.py"
+    description: Refactor test_alerts
+    impact:
+      - none
+  - date: "2026-03-01T07:35:22"
+    type: refactor
+    domain: root
+    files:
+      - "backend\\tests\\test_news.py"
+    description: Refactor test_news
+    impact:
+      - none
+  - date: "2026-03-01T07:35:23"
+    type: refactor
+    domain: root
+    files:
+      - "backend\\tests\\test_news.py"
+    description: Refactor test_news
+    impact:
+      - none
+  - date: "2026-03-01T07:35:24"
+    type: feature
+    domain: root
+    files:
+      - "frontend\\src\\stores\\toastStore.ts"
+    description: Create toastStore in root
+    impact:
+      - "external dependency added: zustand"
+  - date: "2026-03-01T07:35:25"
+    type: refactor
+    domain: root
+    files:
+      - "backend\\tests\\test_news.py"
+    description: Refactor test_news
+    impact:
+      - none
+  - date: "2026-03-01T07:35:26"
+    type: feature
+    domain: root
+    files:
+      - "backend\\app\\main.py"
+    description: Add new functionality to main in root
+    impact:
+      - none
+  - date: "2026-03-01T07:35:26"
+    type: refactor
+    domain: root
+    files:
+      - "backend\\tests\\test_news.py"
+    description: Refactor test_news
+    impact:
+      - none
+  - date: "2026-03-01T07:35:33"
+    type: refactor
+    domain: "backend\\app\\services\\\news"
+    files:
+      - "backend\\app\\services\\\news_service.py"
+    description: Refactor news_service
+    impact:
+      - none
+  - date: "2026-03-01T07:35:42"
+    type: fix
+    domain: "backend\\app\\services\\\news"
+    files:
+      - "backend\\app\\services\\\news_service.py"
+    description: Fix issue in news_service
+    impact:
+      - none
+  - date: "2026-03-01T07:36:15"
+    type: feature
+    domain: root
+    files:
+      - "frontend\\src\\components\\ui\\Toast.tsx"
+    description: Create Toast in root
+    impact:
+      - "external dependency added: react"
+      - "internal dependency added: ../../stores/toastStore"
+  - date: "2026-03-01T07:36:22"
+    type: refactor
+    domain: root
+    files:
+      - "frontend\\src\\App.tsx"
+    description: Refactor App
+    impact:
+      - none
+  - date: "2026-03-01T07:36:30"
+    type: refactor
+    domain: root
+    files:
+      - "frontend\\src\\App.tsx"
+    description: Refactor App
+    impact:
+      - none
+  - date: "2026-03-01T07:39:18"
+    type: feature
+    domain: root
+    files:
+      - "backend\\app\\schemas\\alert.py"
+    description: Add new functionality to alert in root
+    impact:
+      - none
+  - date: "2026-03-01T07:39:22"
+    type: refactor
+    domain: root
+    files:
+      - "frontend\\src\\components\\graph\\FilterPanel.tsx"
+    description: Refactor FilterPanel
+    impact:
+      - none
+  - date: "2026-03-01T07:39:24"
+    type: feature
+    domain: root
+    files:
+      - "backend\\app\\schemas\\alert_rules.py"
+    description: Add new functionality to alert_rules in root
+    impact:
+      - none
+  - date: "2026-03-01T07:39:28"
+    type: refactor
+    domain: root
+    files:
+      - "frontend\\src\\components\\graph\\FilterPanel.tsx"
+    description: Refactor FilterPanel
+    impact:
+      - none
+  - date: "2026-03-01T07:39:29"
+    type: refactor
+    domain: root
+    files:
+      - "backend\\app\\api\\companies.py"
+    description: Refactor companies
+    impact:
+      - none
+  - date: "2026-03-01T07:39:36"
+    type: refactor
+    domain: root
+    files:
+      - "frontend\\src\\components\\graph\\FilterPanel.tsx"
+    description: Refactor FilterPanel
+    impact:
+      - none
+  - date: "2026-03-01T07:39:37"
+    type: refactor
+    domain: root
+    files:
+      - "backend\\app\\main.py"
+    description: Refactor main
+    impact:
+      - none
+  - date: "2026-03-01T07:39:40"
+    type: feature
+    domain: "backend\\app\\services\\exchange"
+    files:
+      - "backend\\app\\services\\exchange_service.py"
+    description: "Create exchange_service in backend\\app\\services\\exchange"
+    impact:
+      - "external dependency added: logging, time, httpx"
+  - date: "2026-03-01T07:39:42"
+    type: refactor
+    domain: root
+    files:
+      - "frontend\\src\\components\\graph\\FilterPanel.tsx"
+    description: Refactor FilterPanel
+    impact:
+      - none
+  - date: "2026-03-01T07:39:43"
+    type: fix
+    domain: root
+    files:
+      - "backend\\app\\main.py"
+    description: Fix issue in main
+    impact:
+      - none
+  - date: "2026-03-01T07:39:46"
+    type: refactor
+    domain: root
+    files:
+      - "backend\\app\\api\\companies.py"
+    description: Refactor companies
+    impact:
+      - none
+  - date: "2026-03-01T07:39:52"
+    type: feature
+    domain: root
+    files:
+      - "backend\\app\\api\\exchange.py"
+    description: Create exchange in root
+    impact:
+      - "external dependency added: datetime, fastapi, pydantic"
+      - "internal dependency added: app.core.security, app.models.user, app.services.exchange_service"
+  - date: "2026-03-01T07:39:52"
+    type: refactor
+    domain: root
+    files:
+      - "backend\\app\\api\\clusters.py"
+    description: Refactor clusters
+    impact:
+      - none
+  - date: "2026-03-01T07:40:01"
+    type: refactor
+    domain: root
+    files:
+      - "backend\\app\\api\\__init__.py"
+    description: Refactor __init__
+    impact:
+      - none
+  - date: "2026-03-01T07:40:03"
+    type: refactor
+    domain: root
+    files:
+      - "backend\\app\\api\\clusters.py"
+    description: Refactor clusters
+    impact:
+      - none
+  - date: "2026-03-01T07:40:08"
+    type: refactor
+    domain: root
+    files:
+      - "backend\\app\\api\\relations.py"
+    description: Refactor relations
+    impact:
+      - none
+  - date: "2026-03-01T07:40:12"
+    type: refactor
+    domain: root
+    files:
+      - "backend\\app\\main.py"
+    description: Refactor main
+    impact:
+      - none
+  - date: "2026-03-01T07:40:14"
+    type: feature
+    domain: root
+    files:
+      - "backend\\app\\core\\rate_limit.py"
+    description: Create rate_limit in root
+    impact:
+      - "external dependency added: slowapi, slowapi.errors, slowapi (+more)"
+      - "internal dependency added: app.core.rate_limit, app.core.rate_limit"
+  - date: "2026-03-01T07:40:17"
+    type: refactor
+    domain: root
+    files:
+      - "backend\\app\\main.py"
+    description: Refactor main
+    impact:
+      - none
+  - date: "2026-03-01T07:40:19"
+    type: refactor
+    domain: root
+    files:
+      - "backend\\pyproject.toml"
+    description: Refactor pyproject
+    impact:
+      - configuration change
+  - date: "2026-03-01T07:40:23"
+    type: refactor
+    domain: root
+    files:
+      - "backend\\app\\api\\relations.py"
+    description: Refactor relations
+    impact:
+      - none
+  - date: "2026-03-01T07:40:31"
+    type: refactor
+    domain: root
+    files:
+      - "backend\\app\\api\\alerts.py"
+    description: Refactor alerts
+    impact:
+      - none
+  - date: "2026-03-01T07:40:35"
+    type: refactor
+    domain: root
+    files:
+      - "backend\\app\\main.py"
+    description: Refactor main
+    impact:
+      - none
+  - date: "2026-03-01T07:40:42"
+    type: refactor
+    domain: root
+    files:
+      - "backend\\app\\main.py"
+    description: Refactor main
+    impact:
+      - none
+  - date: "2026-03-01T07:40:45"
+    type: refactor
+    domain: root
+    files:
+      - "backend\\app\\api\\alerts.py"
+    description: Refactor alerts
+    impact:
+      - none
+  - date: "2026-03-01T07:40:49"
+    type: feature
+    domain: root
+    files:
+      - "backend\\app\\main.py"
+    description: Add new functionality to main in root
+    impact:
+      - none
+  - date: "2026-03-01T07:40:52"
+    type: refactor
+    domain: root
+    files:
+      - "backend\\app\\api\\alert_rules.py"
+    description: Refactor alert_rules
+    impact:
+      - none
+  - date: "2026-03-01T07:40:58"
+    type: refactor
+    domain: root
+    files:
+      - "backend\\app\\api\\alert_rules.py"
+    description: Refactor alert_rules
+    impact:
+      - none
+  - date: "2026-03-01T07:41:00"
+    type: refactor
+    domain: root
+    files:
+      - "backend\\app\\api\\auth.py"
+    description: Refactor auth
+    impact:
+      - none
+  - date: "2026-03-01T07:41:09"
+    type: refactor
+    domain: root
+    files:
+      - "backend\\app\\api\\auth.py"
+    description: Refactor auth
+    impact:
+      - none
+  - date: "2026-03-01T07:41:12"
+    type: refactor
+    domain: root
+    files:
+      - "backend\\app\\api\\alert_rules.py"
+    description: Refactor alert_rules
+    impact:
+      - none
+  - date: "2026-03-01T07:43:19"
+    type: refactor
+    domain: root
+    files:
+      - "backend\\migrations\\versions\\d023a1016a91_add_ticker_column_and_index_to_companies.py"
+    description: Refactor d023a1016a91_add_ticker_column_and_index_to_companies
+    impact:
+      - database migration
+  - date: "2026-03-01T07:44:00"
+    type: feature
+    domain: root
+    files:
+      - "backend\\migrations\\versions\\d023a1016a91_add_ticker_column_and_index_to_companies.py"
+    description: Create d023a1016a91_add_ticker_column_and_index_to_companies in root
+    impact:
+      - "external dependency added: typing, sqlalchemy, sqlmodel (+more)"
+      - database migration
+  - date: "2026-03-01T07:44:33"
+    type: refactor
+    domain: root
+    files:
+      - "backend\\tests\\test_alerts.py"
+    description: Refactor test_alerts
+    impact:
+      - none
+  - date: "2026-03-01T07:44:47"
+    type: refactor
+    domain: root
+    files:
+      - "backend\\tests\\test_alerts.py"
+    description: Refactor test_alerts
+    impact:
+      - none
+  - date: "2026-03-01T07:44:57"
+    type: refactor
+    domain: root
+    files:
+      - "backend\\tests\\test_alert_rules.py"
+    description: Refactor test_alert_rules
+    impact:
+      - none
+  - date: "2026-03-01T07:45:04"
+    type: refactor
+    domain: root
+    files:
+      - "backend\\tests\\test_alert_rules.py"
+    description: Refactor test_alert_rules
+    impact:
+      - none
+  - date: "2026-03-01T07:45:35"
+    type: refactor
+    domain: root
+    files:
+      - "backend\\migrations\\env.py"
+    description: Refactor env
+    impact:
+      - database migration
+  - date: "2026-03-01T07:49:55"
+    type: docs
+    domain: root
+    files:
+      - "docs\\planning\\08-improvements.md"
+    description: Update documentation 08-improvements.md
+    impact:
+      - none
+  - date: "2026-03-01T07:50:05"
+    type: docs
+    domain: root
+    files:
+      - "docs\\planning\\08-improvements.md"
+    description: Update documentation 08-improvements.md
+    impact:
+      - none
+  - date: "2026-03-01T07:50:20"
+    type: docs
+    domain: root
+    files:
+      - "docs\\planning\\08-improvements.md"
+    description: Update documentation 08-improvements.md
+    impact:
+      - none
+  - date: "2026-03-01T07:50:27"
+    type: docs
+    domain: root
+    files:
+      - "docs\\planning\\08-improvements.md"
+    description: Update documentation 08-improvements.md
+    impact:
+      - none
+  - date: "2026-03-01T07:50:33"
+    type: docs
+    domain: root
+    files:
+      - "docs\\planning\\08-improvements.md"
+    description: Update documentation 08-improvements.md
+    impact:
+      - none
+  - date: "2026-03-01T07:50:39"
+    type: docs
+    domain: root
+    files:
+      - "docs\\planning\\08-improvements.md"
+    description: Update documentation 08-improvements.md
+    impact:
+      - none
+  - date: "2026-03-01T08:06:42"
+    type: refactor
+    domain: root
+    files:
+      - "backend\\app\\core\\security.py"
+    description: Refactor security
+    impact:
+      - none
+  - date: "2026-03-01T08:06:48"
+    type: refactor
+    domain: root
+    files:
+      - "backend\\app\\core\\security.py"
+    description: Refactor security
+    impact:
+      - none
+  - date: "2026-03-01T08:07:01"
+    type: fix
+    domain: root
+    files:
+      - "frontend\\src\\App.tsx"
+    description: Fix issue in App
+    impact:
+      - none
+  - date: "2026-03-01T08:07:09"
+    type: refactor
+    domain: root
+    files:
+      - "frontend\\src\\services\\api.ts"
+    description: Refactor api
+    impact:
+      - none
+  - date: "2026-03-01T08:09:54"
+    type: refactor
+    domain: root
+    files:
+      - "frontend\\src\\pages\\DashboardPage.tsx"
+    description: Refactor DashboardPage
+    impact:
+      - none
+  - date: "2026-03-01T08:10:11"
+    type: refactor
+    domain: root
+    files:
+      - "frontend\\src\\pages\\AlertSettingsPage.tsx"
+    description: Refactor AlertSettingsPage
+    impact:
+      - none
