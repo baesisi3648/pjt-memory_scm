@@ -25,6 +25,7 @@ from app.api.fred import router as fred_router
 from app.api.risk import router as risk_router
 from app.api.concentration import router as concentration_router
 from app.api.sentiment import router as sentiment_router
+from app.api.trends import router as trends_router
 
 __all__ = [
     "auth_router",
@@ -45,4 +46,5 @@ __all__ = [
     "risk_router",
     "concentration_router",
     "sentiment_router",
+    "trends_router",
 ]

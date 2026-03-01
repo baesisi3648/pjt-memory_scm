@@ -28,6 +28,7 @@ from app.api import (
     rss_router,
     sentiment_router,
     stock_router,
+    trends_router,
 )
 from app.core.config import settings
 from app.core.database import get_session
@@ -114,6 +115,8 @@ app.include_router(risk_router, prefix="/api/v1", tags=["risk"])
 app.include_router(concentration_router, prefix="/api/v1", tags=["analytics"])
 # Sentiment: GET /api/v1/companies/{company_id}/sentiment, POST /api/v1/sentiment/analyze
 app.include_router(sentiment_router, prefix="/api/v1", tags=["sentiment"])
+# Google Trends: GET /api/v1/trends?keywords=DRAM,HBM,AI+chip
+app.include_router(trends_router, prefix="/api/v1", tags=["trends"])
 
 
 async def check_database(session: Session = Depends(get_session)) -> str:
