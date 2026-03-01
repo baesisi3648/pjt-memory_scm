@@ -255,11 +255,72 @@ def seed_users(session: Session) -> int:
     return admin.id
 
 
-def seed_alert_rules(session: Session, admin_id: int) -> None:
+def seed_alert_rules(session: Session, admin_id: int, cm: dict[str, int]) -> None:
     rules = [
-        ("Critical 알림", {"severity": "critical", "notify": True}),
-        ("납기 지연 감지", {"keyword": "납기", "severity": ["critical", "warning"]}),
-        ("가격 변동 감지", {"metric": "price", "change_pct": 5}),
+        # price_change: 주가 급변 감지
+        ("삼성전자 주가 급락 감지", {
+            "rule_type": "price_change",
+            "company_id": cm["Samsung Electronics"],
+            "threshold": 5,
+            "direction": "drop",
+        }),
+        ("SK하이닉스 주가 급락 감지", {
+            "rule_type": "price_change",
+            "company_id": cm["SK hynix"],
+            "threshold": 5,
+            "direction": "drop",
+        }),
+        ("TSMC 주가 급등 감지", {
+            "rule_type": "price_change",
+            "company_id": cm["TSMC"],
+            "threshold": 7,
+            "direction": "rise",
+        }),
+        # lead_time: 납기 지연 감지
+        ("ASML 장비 납기 지연", {
+            "rule_type": "lead_time",
+            "company_id": cm["ASML"],
+            "threshold": 30,
+            "unit": "days",
+        }),
+        ("Applied Materials 납기 지연", {
+            "rule_type": "lead_time",
+            "company_id": cm["Applied Materials"],
+            "threshold": 45,
+            "unit": "days",
+        }),
+        # news_detect: 부정 뉴스 감지
+        ("삼성전자 부정 뉴스 감지", {
+            "rule_type": "news_detect",
+            "company_id": cm["Samsung Electronics"],
+            "min_articles": 3,
+            "sentiment_below": -0.3,
+        }),
+        ("Intel 부정 뉴스 감지", {
+            "rule_type": "news_detect",
+            "company_id": cm["Intel"],
+            "min_articles": 3,
+            "sentiment_below": -0.3,
+        }),
+        ("Micron 부정 뉴스 감지", {
+            "rule_type": "news_detect",
+            "company_id": cm["Micron Technology"],
+            "min_articles": 2,
+            "sentiment_below": -0.2,
+        }),
+        # inventory_change: 재고 급변 감지
+        ("SK머티리얼즈 재고 급감", {
+            "rule_type": "inventory_change",
+            "company_id": cm["SK Materials"],
+            "threshold": 20,
+            "direction": "decrease",
+        }),
+        ("Kioxia 재고 급감", {
+            "rule_type": "inventory_change",
+            "company_id": cm["Kioxia"],
+            "threshold": 15,
+            "direction": "decrease",
+        }),
     ]
     for name, condition in rules:
         session.add(AlertRule(
@@ -338,8 +399,8 @@ def main() -> None:
         print("Seeding news (10)...")
         seed_news(session, cm)
 
-        print("Seeding alert rules (3)...")
-        seed_alert_rules(session, admin_id)
+        print("Seeding alert rules (10)...")
+        seed_alert_rules(session, admin_id, cm)
 
         print("Seeding data sources & points (8)...")
         seed_data_sources_and_points(session, cm)
