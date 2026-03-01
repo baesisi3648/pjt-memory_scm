@@ -17,6 +17,7 @@ dependencies = [
     "pydantic-settings>=2.5.0",
     "slowapi>=0.1.9",
     "cachetools>=5.5.0",
+    "textblob>=0.18.0",
 ]
 
 [project.optional-dependencies]

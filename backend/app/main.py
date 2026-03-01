@@ -16,6 +16,7 @@ from app.api import (
     clusters_router,
     companies_router,
     company_relations_router,
+    concentration_router,
     dashboard_router,
     data_points_router,
     exchange_router,
@@ -23,13 +24,16 @@ from app.api import (
     fred_router,
     news_router,
     relations_router,
+    risk_router,
     rss_router,
+    sentiment_router,
     stock_router,
 )
 from app.core.config import settings
 from app.core.database import get_session
 from app.core.logging_config import setup_logging
 from app.core.rate_limit import limiter
+from app.core.scheduler import start_scheduler, stop_scheduler
 
 # Configure structured logging before anything else runs.
 setup_logging()
@@ -104,6 +108,12 @@ app.include_router(rss_router, prefix="/api/v1", tags=["rss"])
 app.include_router(fred_router, prefix="/api/v1", tags=["macro"])
 # Dashboard: GET /api/v1/dashboard (unified endpoint combining 4 data sources)
 app.include_router(dashboard_router, prefix="/api/v1", tags=["dashboard"])
+# Risk scores: GET /api/v1/risk-scores, GET /api/v1/companies/{company_id}/risk
+app.include_router(risk_router, prefix="/api/v1", tags=["risk"])
+# Concentration: GET /api/v1/concentration (HHI per tier)
+app.include_router(concentration_router, prefix="/api/v1", tags=["analytics"])
+# Sentiment: GET /api/v1/companies/{company_id}/sentiment, POST /api/v1/sentiment/analyze
+app.include_router(sentiment_router, prefix="/api/v1", tags=["sentiment"])
 
 
 async def check_database(session: Session = Depends(get_session)) -> str:
@@ -135,3 +145,15 @@ async def health_check(db_status: str = Depends(check_database)):
         "database": db_status,
         "version": settings.VERSION,
     }
+
+
+@app.on_event("startup")
+async def startup_event():
+    """Start background scheduler on app startup."""
+    start_scheduler()
+
+
+@app.on_event("shutdown")
+async def shutdown_event():
+    """Stop background scheduler on app shutdown."""
+    stop_scheduler()

@@ -4,7 +4,9 @@
 # @TASK P2-R5-T1 - News resource router
 # @TASK P2-R6-T1 - User Filters resource router
 # @TASK P2-R7-T1 - Alert Rules resource router
+# @TASK RISK-1 - Risk score calculation router
 # @TASK PERF-2 - Dashboard unified endpoint router
+# @TASK HHI-T1 - Concentration index (HHI) router
 
 from app.api.auth import router as auth_router
 from app.api.dashboard import router as dashboard_router
@@ -20,6 +22,9 @@ from app.api.data_points import router as data_points_router
 from app.api.exchange import router as exchange_router
 from app.api.rss import router as rss_router
 from app.api.fred import router as fred_router
+from app.api.risk import router as risk_router
+from app.api.concentration import router as concentration_router
+from app.api.sentiment import router as sentiment_router
 
 __all__ = [
     "auth_router",
@@ -37,4 +42,7 @@ __all__ = [
     "rss_router",
     "fred_router",
     "dashboard_router",
+    "risk_router",
+    "concentration_router",
+    "sentiment_router",
 ]
