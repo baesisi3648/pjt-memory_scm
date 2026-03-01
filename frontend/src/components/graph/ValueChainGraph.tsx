@@ -1,6 +1,6 @@
 // @TASK P3-S1-T1 - Value Chain Graph component using Cytoscape.js
 // @SPEC main_supply_chain_dashboard design reference
-import { useEffect, useState, useCallback, useMemo } from 'react';
+import { useEffect, useRef, useState, useCallback, useMemo } from 'react';
 import type { ElementDefinition, Stylesheet } from 'cytoscape';
 import { useCytoscape } from '../../hooks/useCytoscape';
 import type { Company, Cluster, CompanyRelation, Alert } from '../../types/index';
@@ -317,6 +317,9 @@ export function ValueChainGraph({
   onFocusRef,
 }: ValueChainGraphProps) {
   const [zoomPercent, setZoomPercent] = useState(100);
+  const minimapRef = useRef<HTMLDivElement | null>(null);
+  const navigatorInitRef = useRef(false);
+
   const stylesheet = useMemo(() => buildStylesheet(), []);
   const elements = useMemo(
     () => buildElements(companies, clusters, relations, alerts),
@@ -334,7 +337,7 @@ export function ValueChainGraph({
     [onNodeClick],
   );
 
-  const { containerRef, cy, zoomIn, zoomOut, fitToScreen, focusNode, getZoomPercent } =
+  const { containerRef, cy, zoomIn, zoomOut, fitToScreen, focusNode, getZoomPercent, initNavigator } =
     useCytoscape({ elements, stylesheet, onNodeClick: handleNodeClick });
 
   // Expose focusNode via ref so parent (DashboardPage) can call it
@@ -391,6 +394,26 @@ export function ValueChainGraph({
     return () => { instance.off('zoom', update); };
   }, [cyRef, getZoomPercent]);
 
+  // Initialize the navigator minimap once the cy instance exists and elements
+  // have been loaded (elements.length > 0 means the first sync has run).
+  // Guard with navigatorInitRef so we only call it once.
+  useEffect(() => {
+    if (navigatorInitRef.current) return;
+    if (!cy.current) return;
+    if (elements.length === 0) return;
+    const container = minimapRef.current;
+    if (!container) return;
+
+    // Small delay so Cytoscape has finished its first layout/fit before the
+    // navigator measures the viewport.
+    const id = setTimeout(() => {
+      initNavigator(container);
+      navigatorInitRef.current = true;
+    }, 300);
+
+    return () => clearTimeout(id);
+  }, [cy, elements, initNavigator]);
+
   return (
     <div className="absolute inset-0 overflow-hidden bg-slate-50">
       {/* Dot grid background */}
@@ -437,6 +460,20 @@ export function ValueChainGraph({
           {zoomPercent}%
         </div>
       </div>
+
+      {/* ── Minimap navigator (above legend, bottom-right) ──────── */}
+      {/*
+        The plugin writes canvas/img children directly into this div.
+        Dimensions and positioning are supplied via Tailwind utilities.
+        The .cytoscape-navigator overrides (position, size, colours) live
+        in index.css so the plugin's injected class is styled correctly.
+        bottom-14 (56px) leaves room for the legend row below.
+      */}
+      <div
+        ref={minimapRef}
+        aria-hidden="true"
+        className="absolute z-10 w-[150px] h-[100px] bottom-14 right-6"
+      />
 
       {/* ── Legend + Filter (bottom-right) ─────────────────────── */}
       <div className="absolute bottom-6 right-6 z-10 flex items-center gap-3">

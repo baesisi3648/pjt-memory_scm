@@ -2,6 +2,11 @@
 import { useRef, useEffect, useCallback } from 'react';
 import cytoscape from 'cytoscape';
 import type { Core, ElementDefinition, Stylesheet } from 'cytoscape';
+import cytoscapeNavigator from 'cytoscape-navigator';
+
+// Register the navigator extension once at module load time.
+// cytoscape-navigator exposes a register(cytoscape) function.
+cytoscapeNavigator(cytoscape as unknown as Parameters<typeof cytoscapeNavigator>[0]);
 
 interface UseCytoscapeOptions {
   elements: ElementDefinition[];
@@ -17,6 +22,8 @@ interface UseCytoscapeReturn {
   fitToScreen: () => void;
   focusNode: (nodeId: string) => void;
   getZoomPercent: () => number;
+  /** Attach the cytoscape-navigator minimap to the given DOM element. */
+  initNavigator: (container: HTMLElement) => void;
 }
 
 export function useCytoscape({
@@ -149,5 +156,18 @@ export function useCytoscape({
     return Math.round(cy.zoom() * 100);
   }, []);
 
-  return { containerRef, cy: cyRef, zoomIn, zoomOut, fitToScreen, focusNode, getZoomPercent };
+  const initNavigator = useCallback((container: HTMLElement) => {
+    const cy = cyRef.current;
+    if (!cy) return;
+    // cytoscape-navigator adds .navigator() to the Core prototype after registration.
+    // Cast through unknown to avoid TypeScript's strict Core type check.
+    (cy as unknown as { navigator: (opts: object) => void }).navigator({
+      container,
+      viewLiveFramerate: 0,
+      rerenderDelay: 100,
+      removeCustomContainer: false,
+    });
+  }, []);
+
+  return { containerRef, cy: cyRef, zoomIn, zoomOut, fitToScreen, focusNode, getZoomPercent, initNavigator };
 }

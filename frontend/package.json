@@ -13,6 +13,7 @@
     "@tanstack/react-query": "^5.90.21",
     "axios": "^1.13.6",
     "cytoscape": "^3.33.1",
+    "cytoscape-navigator": "^2.0.2",
     "react": "^19.2.0",
     "react-dom": "^19.2.0",
     "react-router-dom": "^7.13.1",
