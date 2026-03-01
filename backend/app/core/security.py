@@ -16,7 +16,7 @@ from app.models.user import User
 
 ALGORITHM = "HS256"
 
-oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/api/v1/auth/login")
+oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/api/v1/auth/login", auto_error=False)
 
 
 def verify_password(plain_password: str, hashed_password: str) -> bool:
@@ -59,21 +59,35 @@ def get_current_user(
     token: str = Depends(oauth2_scheme),
     session: Session = Depends(get_session),
 ) -> User:
-    """FastAPI dependency that extracts and validates the current user from JWT."""
-    credentials_exception = HTTPException(
-        status_code=status.HTTP_401_UNAUTHORIZED,
-        detail="Could not validate credentials",
-        headers={"WWW-Authenticate": "Bearer"},
-    )
+    """FastAPI dependency that extracts and validates the current user from JWT.
+
+    DEV MODE: If token validation fails, returns the first user in the database
+    as a fallback so the app can be used without logging in.
+    Remove this fallback before deploying to production.
+    """
     try:
         payload = decode_access_token(token)
         email: Optional[str] = payload.get("sub")
-        if email is None:
-            raise credentials_exception
-    except JWTError:
-        raise credentials_exception
+        if email:
+            user = session.exec(select(User).where(User.email == email)).first()
+            if user:
+                return user
+    except (JWTError, Exception):
+        pass
 
-    user = session.exec(select(User).where(User.email == email)).first()
-    if user is None:
-        raise credentials_exception
-    return user
+    # DEV FALLBACK: return first user in database
+    fallback = session.exec(select(User)).first()
+    if fallback:
+        return fallback
+
+    # No users exist at all — create a default dev user
+    dev_user = User(
+        email="dev@local",
+        hashed_password=hash_password("dev"),
+        name="Dev User",
+        role="admin",
+    )
+    session.add(dev_user)
+    session.commit()
+    session.refresh(dev_user)
+    return dev_user

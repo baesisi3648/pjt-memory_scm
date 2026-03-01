@@ -3,14 +3,14 @@
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import './index.css';
 
-import { AuthGuard } from './components/layout/AuthGuard';
+// import { AuthGuard } from './components/layout/AuthGuard';
 import { TopBar } from './components/layout/TopBar';
-import { LoginPage } from './pages/LoginPage';
+// import { LoginPage } from './pages/LoginPage';
 import { AlertSettingsPage } from './pages/AlertSettingsPage';
 import { DashboardPage } from './pages/DashboardPage';
 import { ToastContainer } from './components/ui/Toast';
 
-// Layout wrapper for authenticated pages — renders fixed TopBar + page content.
+// Layout wrapper — renders fixed TopBar + page content.
 function AuthenticatedLayout({ children }: { children: React.ReactNode }) {
   return (
     <>
@@ -24,33 +24,28 @@ function App() {
   return (
     <BrowserRouter>
       <Routes>
-        {/* Public */}
-        <Route path="/login" element={<LoginPage />} />
+        {/* DEV MODE: Auth bypassed — all routes accessible without login */}
+        {/* <Route path="/login" element={<LoginPage />} /> */}
 
-        {/* Protected */}
         <Route
           path="/dashboard"
           element={
-            <AuthGuard>
-              <AuthenticatedLayout>
-                <DashboardPage />
-              </AuthenticatedLayout>
-            </AuthGuard>
+            <AuthenticatedLayout>
+              <DashboardPage />
+            </AuthenticatedLayout>
           }
         />
         <Route
           path="/settings/alerts"
           element={
-            <AuthGuard>
-              <AuthenticatedLayout>
-                <AlertSettingsPage />
-              </AuthenticatedLayout>
-            </AuthGuard>
+            <AuthenticatedLayout>
+              <AlertSettingsPage />
+            </AuthenticatedLayout>
           }
         />
 
-        {/* Fallback */}
-        <Route path="*" element={<Navigate to="/login" replace />} />
+        {/* Fallback → dashboard */}
+        <Route path="*" element={<Navigate to="/dashboard" replace />} />
       </Routes>
 
       {/* Global toast notifications — fixed overlay, renders above all routes */}
