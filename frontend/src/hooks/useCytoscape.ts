@@ -59,6 +59,19 @@ export function useCytoscape({
       onNodeClickRef.current?.(nodeId);
     });
 
+    // Hover highlight: fade non-connected elements, highlight connected
+    cy.on('mouseover', 'node[type = "company"]', (evt) => {
+      const node = evt.target;
+      const neighborhood = node.neighborhood().add(node);
+
+      cy.elements().not(neighborhood).addClass('faded');
+      neighborhood.addClass('highlighted');
+    });
+
+    cy.on('mouseout', 'node[type = "company"]', () => {
+      cy.elements().removeClass('faded').removeClass('highlighted');
+    });
+
     cyRef.current = cy;
 
     return () => {

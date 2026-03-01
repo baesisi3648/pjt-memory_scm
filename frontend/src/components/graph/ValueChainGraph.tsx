@@ -61,10 +61,10 @@ const COMPANY_LOGOS: Record<string, string> = {
 
 // Layout constants
 const CLUSTER_X_START = 120;
-const CLUSTER_X_GAP   = 260;
-const CLUSTER_Y       = 260;
-const CLUSTER_W       = 180;
-const CLUSTER_H       = 220;
+const CLUSTER_X_GAP   = 300;
+const CLUSTER_Y       = 300;
+const CLUSTER_W       = 220;
+const CLUSTER_H       = 340;
 const COMPANY_RADIUS  = 34;
 
 // ─── Element builder ───────────────────────────────────────────────────────────
@@ -107,10 +107,11 @@ function buildElements(
     if (!usedTiers.has(tier) && clusters.filter((cl) => cl.tier === tier).length === 0) return;
 
     const cx = CLUSTER_X_START + tierIdx * CLUSTER_X_GAP;
+    const tierCompanyCount = companiesByTier.get(tier)?.length ?? 0;
     elements.push({
       data: {
         id: `cluster-${tier}`,
-        label: TIER_LABELS[tier],
+        label: `${TIER_LABELS[tier]} (${tierCompanyCount})`,
         type: 'cluster',
         tier,
         color: TIER_COLORS[tier],
@@ -153,10 +154,12 @@ function buildElements(
     });
   });
 
-  // Edge elements from relations
-  const companyIds = new Set(companies.map((c) => c.id));
+  // Edge elements from relations — colored by source company's tier
+  const companyIdSet = new Set(companies.map((c) => c.id));
+  const companyTierMap = new Map(companies.map((c) => [c.id, c.tier]));
   relations.forEach((rel) => {
-    if (!companyIds.has(rel.source_id) || !companyIds.has(rel.target_id)) return;
+    if (!companyIdSet.has(rel.source_id) || !companyIdSet.has(rel.target_id)) return;
+    const sourceTier = companyTierMap.get(rel.source_id) ?? 'fab';
     elements.push({
       data: {
         id: `edge-${rel.id}`,
@@ -164,6 +167,7 @@ function buildElements(
         target: `company-${rel.target_id}`,
         type: 'relation',
         strength: rel.strength,
+        color: TIER_COLORS[sourceTier] ?? '#94a3b8',
       },
     });
   });
@@ -184,6 +188,7 @@ function buildElements(
               target: `company-${tgt.id}`,
               type: 'relation',
               strength: 1,
+              color: TIER_COLORS[fromTier],
             },
           });
         });
@@ -203,11 +208,11 @@ function buildStylesheet(): Stylesheet[] {
       selector: 'node[type = "cluster"]',
       style: {
         'background-color': 'data(color)',
-        'background-opacity': 0.08,
+        'background-opacity': 0.05,
         'border-color': 'data(color)',
-        'border-width': 2,
-        'border-style': 'dashed',
-        'border-opacity': 0.5,
+        'border-width': 1.5,
+        'border-style': 'solid',
+        'border-opacity': 0.3,
         'shape': 'roundrectangle',
         'width': CLUSTER_W,
         'height': CLUSTER_H,
@@ -216,11 +221,11 @@ function buildStylesheet(): Stylesheet[] {
         'text-halign': 'center',
         'font-size': 10,
         'font-weight': 700,
-        'color': '#64748b',
-        'text-margin-y': -8,
+        'color': '#475569',
+        'text-margin-y': -10,
         'text-background-color': '#f8fafc',
         'text-background-opacity': 1,
-        'text-background-padding': 4,
+        'text-background-padding': 6,
         'text-background-shape': 'roundrectangle',
       },
     },
@@ -232,23 +237,28 @@ function buildStylesheet(): Stylesheet[] {
         'border-color': 'data(color)',
         'border-width': 2,
         'border-opacity': 0.9,
-        'width': 'mapData(relCount, 0, 10, 28, 48)',
-        'height': 'mapData(relCount, 0, 10, 28, 48)',
+        'width': 'mapData(relCount, 0, 10, 44, 64)',
+        'height': 'mapData(relCount, 0, 10, 44, 64)',
         'shape': 'ellipse',
         'label': 'data(label)',
         'text-valign': 'bottom',
         'text-halign': 'center',
-        'font-size': 9,
+        'font-size': 10,
         'font-weight': 500,
-        'color': '#334155',
-        'text-margin-y': 4,
-        'text-background-color': 'rgba(248,250,252,0.9)',
+        'color': '#1e293b',
+        'text-margin-y': 5,
+        'text-background-color': 'rgba(248,250,252,0.95)',
         'text-background-opacity': 1,
         'text-background-padding': 2,
         'text-background-shape': 'roundrectangle',
         'text-wrap': 'wrap',
-        'text-max-width': 80,
-        'transition-property': 'border-color, border-width, background-color',
+        'text-max-width': 100,
+        'shadow-color': '#94a3b8',
+        'shadow-blur': 6,
+        'shadow-offset-x': 0,
+        'shadow-offset-y': 2,
+        'shadow-opacity': 0.2,
+        'transition-property': 'border-color, border-width, background-color, opacity',
         'transition-duration': 200,
       },
     },
@@ -260,8 +270,8 @@ function buildStylesheet(): Stylesheet[] {
         'background-fit': 'contain',
         'background-clip': 'node',
         'background-image-containment': 'over',
-        'background-width': '60%',
-        'background-height': '60%',
+        'background-width': '70%',
+        'background-height': '70%',
       } as Record<string, unknown>,
     },
     // Warning node overlay
@@ -316,17 +326,19 @@ function buildStylesheet(): Stylesheet[] {
         'background-color': '#f5f3ff',
       },
     },
-    // Edge — width proportional to relationship strength
+    // Edge — width proportional to relationship strength, colored by source tier
     {
       selector: 'edge[type = "relation"]',
       style: {
-        'line-color': '#cbd5e1',
-        'target-arrow-color': '#cbd5e1',
-        'target-arrow-shape': 'triangle',
-        'arrow-scale': 0.8,
+        'line-color': 'data(color)',
+        'target-arrow-color': 'data(color)',
+        'target-arrow-shape': 'vee',
+        'arrow-scale': 0.7,
         'width': 'mapData(strength, 0, 1, 1, 4)',
         'curve-style': 'bezier',
-        'opacity': 'mapData(strength, 0, 1, 0.4, 0.9)',
+        'opacity': 'mapData(strength, 0, 1, 0.3, 0.8)',
+        'transition-property': 'opacity, line-color, width',
+        'transition-duration': 200,
       },
     },
     // Edge hover
@@ -337,6 +349,35 @@ function buildStylesheet(): Stylesheet[] {
         'target-arrow-color': '#2563eb',
         'width': 2.5,
         'opacity': 1,
+      },
+    },
+    // Faded elements (non-connected on hover)
+    {
+      selector: '.faded',
+      style: {
+        'opacity': 0.15,
+        'transition-property': 'opacity',
+        'transition-duration': 200,
+      },
+    },
+    // Highlighted elements (connected on hover)
+    {
+      selector: 'node.highlighted',
+      style: {
+        'opacity': 1,
+        'border-width': 3,
+        'shadow-opacity': 0.35,
+        'transition-property': 'opacity, border-width, shadow-opacity',
+        'transition-duration': 200,
+      },
+    },
+    {
+      selector: 'edge.highlighted',
+      style: {
+        'opacity': 0.9,
+        'width': 3,
+        'transition-property': 'opacity, width',
+        'transition-duration': 200,
       },
     },
   ];
