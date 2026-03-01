@@ -3082,3 +3082,91 @@ entries:
     description: Refactor pyproject
     impact:
       - configuration change
+  - date: "2026-03-01T15:13:00"
+    type: docs
+    domain: root
+    files:
+      - "docs\\planning\\07-coding-convention.md"
+    description: Update documentation 07-coding-convention.md
+    impact:
+      - none
+  - date: "2026-03-01T15:13:03"
+    type: docs
+    domain: root
+    files:
+      - "docs\\planning\\08-improvements.md"
+    description: Update documentation 08-improvements.md
+    impact:
+      - none
+  - date: "2026-03-01T15:13:05"
+    type: docs
+    domain: root
+    files:
+      - "docs\\planning\\08-improvements.md"
+    description: Update documentation 08-improvements.md
+    impact:
+      - none
+  - date: "2026-03-01T15:13:14"
+    type: docs
+    domain: root
+    files:
+      - "docs\\planning\\06-tasks.md"
+    description: Update documentation 06-tasks.md
+    impact:
+      - none
+  - date: "2026-03-01T15:13:16"
+    type: docs
+    domain: root
+    files:
+      - "docs\\planning\\06-tasks.md"
+    description: Update documentation 06-tasks.md
+    impact:
+      - none
+  - date: "2026-03-01T15:13:19"
+    type: docs
+    domain: root
+    files:
+      - "docs\\planning\\06-tasks.md"
+    description: Update documentation 06-tasks.md
+    impact:
+      - none
+  - date: "2026-03-01T15:13:21"
+    type: docs
+    domain: root
+    files:
+      - "docs\\planning\\06-tasks.md"
+    description: Update documentation 06-tasks.md
+    impact:
+      - none
+  - date: "2026-03-01T15:13:23"
+    type: docs
+    domain: root
+    files:
+      - "docs\\planning\\06-tasks.md"
+    description: Update documentation 06-tasks.md
+    impact:
+      - none
+  - date: "2026-03-01T15:13:26"
+    type: docs
+    domain: root
+    files:
+      - "docs\\planning\\06-tasks.md"
+    description: Update documentation 06-tasks.md
+    impact:
+      - none
+  - date: "2026-03-01T15:13:47"
+    type: docs
+    domain: root
+    files:
+      - "docs\\planning\\06-tasks.md"
+    description: Update documentation 06-tasks.md
+    impact:
+      - none
+  - date: "2026-03-01T15:13:54"
+    type: docs
+    domain: root
+    files:
+      - "docs\\planning\\08-improvements.md"
+    description: Update documentation 08-improvements.md
+    impact:
+      - none

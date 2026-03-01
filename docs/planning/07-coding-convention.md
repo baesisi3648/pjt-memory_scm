@@ -25,8 +25,6 @@ memory-scm/
 │   │   ├── api/              # API 엔드포인트 (라우터)
 │   │   ├── models/           # SQLModel 모델
 │   │   ├── services/         # 비즈니스 로직
-│   │   ├── collectors/       # 데이터 수집 모듈
-│   │   ├── alerts/           # 알림 엔진
 │   │   ├── schemas/          # Pydantic 스키마
 │   │   ├── core/             # 설정, 보안, DB 연결
 │   │   └── main.py           # FastAPI 앱 진입점

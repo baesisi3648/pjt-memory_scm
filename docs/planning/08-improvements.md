@@ -2,7 +2,7 @@
 
 > 42개 개선 포인트 | 95% 무료 | 5단계 우선순위
 >
-> **완료 현황**: 41/42 (✅ 표시) — 3.2 PostgreSQL 전환은 보류
+> **완료 현황**: 40/42 (✅ 표시) — 3.2 PostgreSQL 전환 보류, 7.3 Docker 삭제(미사용)
 
 ---
 
@@ -132,7 +132,7 @@
 |---|------|-----------|--------|----------|
 | 7.1 | ✅ **백그라운드 잡 시스템** | 스케줄러 미구현 (TRD에 APScheduler 명시) | Medium | **CRITICAL** |
 | 7.2 | ✅ **Alembic 마이그레이션** | create_all() 직접 호출, 마이그레이션 없음 | Low | **HIGH** |
-| 7.3 | ✅ **Docker Compose** | 로컬 직접 실행만 가능 | Low | MEDIUM |
+| 7.3 | ~~Docker Compose~~ (삭제) | 미사용으로 삭제됨 | Low | MEDIUM |
 | 7.4 | **API 버저닝 전략** | /api/v1/ 프리픽스만 존재 | Low | LOW |
 | 7.5 | ✅ **헬스체크 강화** | `{"status": "ok"}`만 반환 | Low | MEDIUM |
 | 7.6 | ✅ **환경별 설정** | dev/staging/prod 구분 없음 | Low | MEDIUM |
@@ -192,7 +192,7 @@
 | 순서 | 항목 | 참조 |
 |------|------|------|
 | 25 | WebSocket 실시간 알림 | 2.3 |
-| 26 | Docker Compose | 7.3 |
+| ~~26~~ | ~~Docker Compose~~ (삭제) | 7.3 |
 | 27 | PostgreSQL 전환 | 3.2 |
 | 28 | Rate Limiting | 3.8 |
 | 29 | 헬스체크 강화 | 7.5 |

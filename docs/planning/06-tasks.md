@@ -106,7 +106,7 @@ P0 (Setup) → P1 (Auth + Layout) → P2 (Resources, 병렬) → P3 (Dashboard) 
   - 공통 Button, Input, Alert 컴포넌트 (디자인 시스템 기반)
 - **완료 기준**: 인증 상태에 따른 라우트 가드 동작
 - **파일**: `frontend/src/components/ui/`, `frontend/src/services/api.ts`, `frontend/src/components/layout/TopBar.tsx`
-- **design**: `memory_scm_design/main_supply_chain_dashboard/screen.png` (TopBar 참조)
+- **design**: `docs/planning/08-stitch-prompts.md` 화면 2 참조
 
 ### P1-S1-T1: 로그인 화면 (Frontend)
 
@@ -124,8 +124,7 @@ P0 (Setup) → P1 (Auth + Layout) → P2 (Resources, 병렬) → P3 (Dashboard) 
   - REFACTOR: 폼 유효성 검사 추가
 - **완료 기준**: 로그인 → 대시보드 이동 플로우 동작
 - **파일**: `frontend/src/pages/LoginPage.tsx`, `frontend/src/pages/__tests__/LoginPage.test.tsx`
-- **design**: `memory_scm_design/memory_scm_platform_login/screen.png`
-- **design_html**: `memory_scm_design/memory_scm_platform_login/code.html`
+- **design**: `docs/planning/08-stitch-prompts.md` 화면 1 참조
 
 ### P1-S1-V: 로그인 화면 검증
 
@@ -252,8 +251,7 @@ P0 (Setup) → P1 (Auth + Layout) → P2 (Resources, 병렬) → P3 (Dashboard) 
   - GREEN: Cytoscape.js 최소 구현
   - REFACTOR: 성능 최적화 (60fps 목표)
 - **파일**: `frontend/src/components/graph/ValueChainGraph.tsx`, `frontend/src/components/graph/`, `frontend/src/hooks/useCytoscape.ts`
-- **design**: `memory_scm_design/main_supply_chain_dashboard/screen.png`
-- **design_html**: `memory_scm_design/main_supply_chain_dashboard/code.html`
+- **design**: `docs/planning/08-stitch-prompts.md` 화면 2 참조
 
 ### P3-S1-T2: 알림 배너 + 노드 알림 오버레이
 
@@ -321,8 +319,7 @@ P0 (Setup) → P1 (Auth + Layout) → P2 (Resources, 병렬) → P3 (Dashboard) 
   - GREEN: 최소 구현
   - REFACTOR: 스크롤 최적화
 - **파일**: `frontend/src/components/graph/SidePanel.tsx`, `frontend/src/components/graph/SidePanel/`
-- **design**: `memory_scm_design/company_detail_side_panel/screen.png`
-- **design_html**: `memory_scm_design/company_detail_side_panel/code.html`
+- **design**: `docs/planning/08-stitch-prompts.md` 화면 3 참조
 
 ### P4-S1-V: 사이드 패널 검증
 
@@ -355,8 +352,7 @@ P0 (Setup) → P1 (Auth + Layout) → P2 (Resources, 병렬) → P3 (Dashboard) 
   - GREEN: 최소 구현
   - REFACTOR: 검색 디바운스 최적화
 - **파일**: `frontend/src/components/graph/FilterPanel.tsx`, `frontend/src/components/graph/FilterPanel/`
-- **design**: `memory_scm_design/company_filter_overlay/screen.png`
-- **design_html**: `memory_scm_design/company_filter_overlay/code.html`
+- **design**: `docs/planning/08-stitch-prompts.md` 화면 4 참조
 
 ### P4-S2-V: 필터 패널 검증
 
@@ -393,8 +389,7 @@ P0 (Setup) → P1 (Auth + Layout) → P2 (Resources, 병렬) → P3 (Dashboard) 
   - RED: 규칙 목록 표시, 토글 동작 테스트
   - GREEN: 최소 구현
 - **파일**: `frontend/src/pages/AlertSettingsPage.tsx`
-- **design**: `memory_scm_design/alert_configuration_settings/screen.png`
-- **design_html**: `memory_scm_design/alert_configuration_settings/code.html`
+- **design**: `docs/planning/08-stitch-prompts.md` 화면 5 참조
 
 ### P5-S1-T2: 규칙 편집 모달
 
@@ -448,13 +443,13 @@ P0 (Setup) → P1 (Auth + Layout) → P2 (Resources, 병렬) → P3 (Dashboard) 
 
 ## 디자인 레퍼런스 매핑
 
-| 화면 | 디자인 폴더 | 적용 태스크 |
+| 화면 | 디자인 참조 | 적용 태스크 |
 |------|-----------|-----------|
-| 로그인 | `memory_scm_design/memory_scm_platform_login/` | P1-S1-T1 |
-| 대시보드 | `memory_scm_design/main_supply_chain_dashboard/` | P3-S1-T1~T3 |
-| 사이드 패널 | `memory_scm_design/company_detail_side_panel/` | P4-S1-T1 |
-| 필터 패널 | `memory_scm_design/company_filter_overlay/` | P4-S2-T1 |
-| 알림 설정 | `memory_scm_design/alert_configuration_settings/` | P5-S1-T1~T2 |
+| 로그인 | `08-stitch-prompts.md` 화면 1 | P1-S1-T1 |
+| 대시보드 | `08-stitch-prompts.md` 화면 2 | P3-S1-T1~T3 |
+| 사이드 패널 | `08-stitch-prompts.md` 화면 3 | P4-S1-T1 |
+| 필터 패널 | `08-stitch-prompts.md` 화면 4 | P4-S2-T1 |
+| 알림 설정 | `08-stitch-prompts.md` 화면 5 | P5-S1-T1~T2 |
 
-> 각 태스크의 프론트엔드 구현 시, 해당 `screen.png`를 시각적 참조로 사용하고,
-> `code.html`의 마크업/스타일을 React 컴포넌트로 변환합니다.
+> 디자인 목업(memory_scm_design/)은 구현 완료 후 삭제됨.
+> 디자인 의도는 `08-stitch-prompts.md`의 프롬프트를 참조.
