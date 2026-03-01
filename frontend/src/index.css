@@ -65,6 +65,33 @@ body {
   width: var(--strength, 0%);
 }
 
+/* Company avatar — 10 distinct hue pairs (bg + text) used by SidePanel.
+   Each class sets two CSS custom properties read by the avatar element.
+   Palette derived from Tailwind's 100/700 tone pairs for sufficient contrast. */
+:root {
+  /* sky */    --avatar-0-bg: #E0F2FE; --avatar-0-text: #0369A1;
+  /* green */  --avatar-1-bg: #DCFCE7; --avatar-1-text: #15803D;
+  /* yellow */ --avatar-2-bg: #FEF9C3; --avatar-2-text: #A16207;
+  /* rose */   --avatar-3-bg: #FFE4E6; --avatar-3-text: #BE123C;
+  /* violet */ --avatar-4-bg: #EDE9FE; --avatar-4-text: #6D28D9;
+  /* amber */  --avatar-5-bg: #FEF3C7; --avatar-5-text: #B45309;
+  /* cyan */   --avatar-6-bg: #CFFAFE; --avatar-6-text: #0E7490;
+  /* pink */   --avatar-7-bg: #FCE7F3; --avatar-7-text: #9D174D;
+  /* emerald */--avatar-8-bg: #D1FAE5; --avatar-8-text: #065F46;
+  /* indigo */ --avatar-9-bg: #E0E7FF; --avatar-9-text: #3730A3;
+}
+
+.avatar-0  { background-color: var(--avatar-0-bg);  color: var(--avatar-0-text); }
+.avatar-1  { background-color: var(--avatar-1-bg);  color: var(--avatar-1-text); }
+.avatar-2  { background-color: var(--avatar-2-bg);  color: var(--avatar-2-text); }
+.avatar-3  { background-color: var(--avatar-3-bg);  color: var(--avatar-3-text); }
+.avatar-4  { background-color: var(--avatar-4-bg);  color: var(--avatar-4-text); }
+.avatar-5  { background-color: var(--avatar-5-bg);  color: var(--avatar-5-text); }
+.avatar-6  { background-color: var(--avatar-6-bg);  color: var(--avatar-6-text); }
+.avatar-7  { background-color: var(--avatar-7-bg);  color: var(--avatar-7-text); }
+.avatar-8  { background-color: var(--avatar-8-bg);  color: var(--avatar-8-text); }
+.avatar-9  { background-color: var(--avatar-9-bg);  color: var(--avatar-9-text); }
+
 /* Filter panel scrollable content — thin scrollbar using design tokens */
 .filter-panel-scroll {
   scrollbar-width: thin;

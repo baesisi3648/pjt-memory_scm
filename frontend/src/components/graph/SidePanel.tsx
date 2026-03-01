@@ -135,7 +135,7 @@ function strengthPct(strength: number): number {
   return Math.round(Math.max(0, Math.min(1, strength)) * 100);
 }
 
-/** Initials from company name */
+/** Initials from company name (up to 2 chars) */
 function initials(name: string): string {
   return name
     .split(/\s+/)
@@ -143,6 +143,39 @@ function initials(name: string): string {
     .map((w) => w[0]?.toUpperCase() ?? '')
     .join('');
 }
+
+/**
+ * Returns an avatar CSS class name (avatar-0 … avatar-9) derived from a
+ * djb2-style hash of the company name.  The actual color values live in
+ * index.css as CSS custom properties so no hex literals appear in JS.
+ */
+const AVATAR_CLASS_COUNT = 10;
+
+function avatarClass(name: string): string {
+  let hash = 5381;
+  for (let i = 0; i < name.length; i++) {
+    hash = (hash * 33) ^ name.charCodeAt(i);
+  }
+  return `avatar-${Math.abs(hash) % AVATAR_CLASS_COUNT}`;
+}
+
+/** Numeric tier rank (1 = most upstream raw material) */
+const TIER_RANK: Record<Tier, number> = {
+  raw_material: 1,
+  equipment:    2,
+  fab:          3,
+  packaging:    4,
+  module:       5,
+};
+
+/** Short friendly label used in the "Tier N · Label" badge */
+const TIER_SHORT: Record<Tier, string> = {
+  raw_material: 'Raw Material',
+  equipment:    'Equipment',
+  fab:          'Foundry',
+  packaging:    'Packaging',
+  module:       'Module',
+};
 
 // ─── Sub-components ────────────────────────────────────────────────────────────
 
@@ -333,55 +366,68 @@ interface PanelHeaderProps {
 }
 
 function PanelHeader({ company, onClose }: PanelHeaderProps) {
-  const badgeClass = TIER_BADGE_COLORS[company.tier] ?? 'bg-slate-100 text-slate-600';
-  const tierLabel  = TIER_LABELS[company.tier] ?? company.tier;
-  const flag       = countryFlag(company.country);
+  const displayName = company.name_kr || company.name;
+  const abbr        = initials(displayName);
+  const colorClass  = avatarClass(company.name); // use canonical English name for stable hash
+  const tierRank    = TIER_RANK[company.tier] ?? 0;
+  const tierShort   = TIER_SHORT[company.tier] ?? TIER_LABELS[company.tier] ?? company.tier;
+  const flag        = countryFlag(company.country);
 
   return (
     <div className="p-6 border-b border-slate-100 flex-shrink-0">
-      {/* Logo placeholder + close */}
-      <div className="flex justify-between items-start mb-4">
-        <div className="w-14 h-14 rounded-lg bg-slate-50 border border-slate-200 flex items-center justify-center">
-          <span className="text-lg font-bold text-slate-400" aria-hidden="true">
-            {initials(company.name_kr || company.name)}
-          </span>
+      {/* Row: avatar + name block + close button */}
+      <div className="flex items-start gap-3">
+        {/* Colored avatar circle — 40×40 px */}
+        <div
+          className={`w-10 h-10 rounded-full shrink-0 flex items-center justify-center text-sm font-bold select-none ${colorClass}`}
+          aria-hidden="true"
+          title={displayName}
+        >
+          {abbr}
         </div>
+
+        {/* Name + tier badge — grows to fill available width */}
+        <div className="flex-1 min-w-0">
+          <div className="flex items-center gap-1.5">
+            <h2 className="text-lg font-bold text-slate-900 leading-tight truncate">
+              {displayName}
+            </h2>
+            <span aria-label={`Country: ${company.country}`} className="shrink-0">
+              {flag}
+            </span>
+          </div>
+
+          {/* Tier badge: "Tier N · Label" */}
+          <p className="mt-0.5 text-xs font-medium text-slate-500">
+            <span className="font-semibold text-slate-700">
+              Tier {tierRank}
+            </span>
+            {' · '}
+            {tierShort}
+          </p>
+        </div>
+
+        {/* Close button — aligned to top-right */}
         <button
           onClick={onClose}
           aria-label="Close company detail panel"
-          className="p-1.5 rounded-lg text-slate-400 hover:text-slate-700 hover:bg-slate-100 transition-colors"
+          className="shrink-0 p-1.5 rounded-lg text-slate-400 hover:text-slate-700 hover:bg-slate-100 transition-colors"
         >
           <CloseIcon />
         </button>
       </div>
 
-      {/* Name + flag */}
-      <div className="flex items-center gap-2 mb-1">
-        <h2 className="text-xl font-bold text-slate-900 leading-tight">{company.name_kr || company.name}</h2>
-        <span aria-label={`Country: ${company.country}`}>{flag}</span>
+      {/* Stock price — sits below the avatar row */}
+      <div className="mt-3 pl-[52px]">
+        <StockPrice companyId={company.id} />
       </div>
 
-      {/* Tier badge + label */}
-      <div className="flex items-center gap-2 mb-2">
-        <span className={`px-2 py-0.5 rounded text-xs font-semibold uppercase tracking-wide ${badgeClass}`}>
-          {tierLabel}
-        </span>
-        <span className="text-xs text-slate-500">Manufacturing Node</span>
-      </div>
-
-      {/* Stock price */}
-      <StockPrice companyId={company.id} />
-
-      {/* Meta */}
-      <p className="text-sm text-slate-500 leading-relaxed mt-2">
-        {company.country}
-        {company.description && (
-          <>
-            <br />
-            <span className="line-clamp-2">{company.description}</span>
-          </>
-        )}
-      </p>
+      {/* Country + optional description */}
+      {company.description && (
+        <p className="mt-2 pl-[52px] text-sm text-slate-500 leading-relaxed line-clamp-2">
+          {company.description}
+        </p>
+      )}
     </div>
   );
 }
