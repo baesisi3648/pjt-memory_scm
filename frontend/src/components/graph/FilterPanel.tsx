@@ -2,6 +2,7 @@
 // @SPEC company_filter_overlay design reference
 import { useEffect, useMemo, useRef, useState } from 'react';
 import api from '../../services/api';
+import { useToastStore } from '../../stores/toastStore';
 import type { Company, Cluster, Alert, UserFilter } from '../../types/index';
 
 // ─── Tier preset configuration ────────────────────────────────────────────────
@@ -284,7 +285,7 @@ export function FilterPanel({
       .get<UserFilter[]>('/filters')
       .then((res) => setSavedPresets(res.data))
       .catch(() => {
-        // Non-fatal — saved presets section just stays empty
+        useToastStore.getState().addToast('저장된 필터를 불러오지 못했습니다.', 'error');
       });
   }, [isOpen]);
 
@@ -380,8 +381,9 @@ export function FilterPanel({
       setSavedPresets((prev) => [...prev, res.data]);
       setSavePresetName('');
       setShowSaveInput(false);
+      useToastStore.getState().addToast(`필터 "${name}"이(가) 저장되었습니다.`, 'success');
     } catch {
-      // Silently fail — UI stays intact
+      useToastStore.getState().addToast('필터 저장에 실패했습니다.', 'error');
     }
   };
 
@@ -390,8 +392,9 @@ export function FilterPanel({
     try {
       await api.delete(`/filters/${id}`);
       setSavedPresets((prev) => prev.filter((p) => p.id !== id));
+      useToastStore.getState().addToast('필터가 삭제되었습니다.', 'success');
     } catch {
-      // Silently fail
+      useToastStore.getState().addToast('필터 삭제에 실패했습니다.', 'error');
     }
   };
 
