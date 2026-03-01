@@ -2,10 +2,11 @@
 # @SPEC docs/planning/02-trd.md#authentication-api
 # @TEST tests/test_auth.py
 
-from fastapi import APIRouter, Depends, HTTPException, status
+from fastapi import APIRouter, Depends, HTTPException, Request, status
 from sqlmodel import Session, select
 
 from app.core.database import get_session
+from app.core.rate_limit import LOGIN_LIMIT, limiter
 from app.core.security import (
     create_access_token,
     get_current_user,
@@ -18,9 +19,12 @@ router = APIRouter()
 
 
 # @TASK P1-R1-T1.1 - Login endpoint
+# Rate-limited to 5 requests/minute per IP to prevent brute-force attacks.
 @router.post("/login", response_model=TokenResponse)
+@limiter.limit(LOGIN_LIMIT)
 def login(
-    request: LoginRequest,
+    request: Request,
+    body: LoginRequest,
     session: Session = Depends(get_session),
 ) -> TokenResponse:
     """
@@ -30,7 +34,7 @@ def login(
     Layer 2: Domain validation (user exists, password matches)
     Layer 4: Error responses with appropriate status codes
     """
-    user = session.exec(select(User).where(User.email == request.email)).first()
+    user = session.exec(select(User).where(User.email == body.email)).first()
     if user is None:
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
@@ -38,7 +42,7 @@ def login(
             headers={"WWW-Authenticate": "Bearer"},
         )
 
-    if not verify_password(request.password, user.hashed_password):
+    if not verify_password(body.password, user.hashed_password):
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
             detail="Invalid email or password",
