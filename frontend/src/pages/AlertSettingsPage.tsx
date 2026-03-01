@@ -373,8 +373,8 @@ export function AlertSettingsPage() {
     setIsLoading(true);
     setFetchError(null);
     try {
-      const res = await api.get<AlertRule[]>('/alert-rules');
-      setRules(res.data);
+      const res = await api.get<{ items: AlertRule[]; count: number }>('/alert-rules');
+      setRules(res.data.items);
     } catch {
       setFetchError('알림 규칙을 불러오는 데 실패했습니다.');
     } finally {

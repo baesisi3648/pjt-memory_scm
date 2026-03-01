@@ -150,14 +150,14 @@ export function DashboardPage() {
         api.get<{ items: Company[]; count: number }>('/companies'),
         api.get<{ items: Cluster[]; count: number }>('/clusters'),
         api.get<{ items: CompanyRelation[]; count: number }>('/relations'),
-        api.get<Alert[]>('/alerts', { params: { is_read: false } }),
+        api.get<{ items: Alert[]; count: number }>('/alerts', { params: { is_read: false } }),
       ]);
 
       setData({
         companies: companiesRes.data.items,
         clusters:  clustersRes.data.items,
         relations: relationsRes.data.items,
-        alerts:    alertsRes.data,
+        alerts:    alertsRes.data.items,
       });
     } catch {
       setError('Failed to load dashboard data. Please check your connection and try again.');
