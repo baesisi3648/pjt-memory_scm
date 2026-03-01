@@ -9,8 +9,10 @@
 # @TASK HHI-T1 - Concentration index (HHI) router
 # @TASK GDELT-2 - GDELT geopolitical events router
 # @TASK EDGAR-2 - SEC EDGAR filings router
+# @TASK DART-2 - DART Korean semiconductor filings router
 
 from app.api.auth import router as auth_router
+from app.api.dart import router as dart_router
 from app.api.edgar import router as edgar_router
 from app.api.dashboard import router as dashboard_router
 from app.api.clusters import router as clusters_router
@@ -35,6 +37,7 @@ from app.api.ws import router as ws_router
 __all__ = [
     "auth_router",
     "companies_router",
+    "dart_router",
     "clusters_router",
     "relations_router",
     "company_relations_router",

@@ -13,6 +13,7 @@ class Settings(BaseSettings):
     CORS_ORIGINS: list[str] = ["http://localhost:5173"]
     NEWS_API_KEY: str = ""
     FRED_API_KEY: str = ""
+    DART_API_KEY: str = ""
     LOG_LEVEL: str = "INFO"
 
     @property
