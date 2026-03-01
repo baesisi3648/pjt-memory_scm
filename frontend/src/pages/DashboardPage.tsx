@@ -7,6 +7,7 @@ import api from '../services/api';
 import type { Company, Cluster, CompanyRelation, Alert } from '../types/index';
 import { ValueChainGraph } from '../components/graph/ValueChainGraph';
 import { AlertBanner } from '../components/ui/AlertBanner';
+import { MetricCards } from '../components/dashboard/MetricCards';
 import { FilterPanel } from '../components/graph/FilterPanel';
 import { SidePanel } from '../components/graph/SidePanel';
 
@@ -220,6 +221,14 @@ export function DashboardPage() {
           companies={data.companies}
           onViewDetails={handleViewDetails}
           onAlertsChange={handleAlertsChange}
+        />
+      )}
+
+      {/* Metric summary cards — visible once data is loaded */}
+      {data && (
+        <MetricCards
+          companies={data.companies}
+          alerts={data.alerts}
         />
       )}
 
