@@ -169,19 +169,48 @@ function buildElements(
   });
 
   // Edge elements from relations — colored by source company's tier
+  // Uses unbundled-bezier with per-edge control-point-distance so parallel
+  // edges between the same tier pair fan out instead of overlapping.
   const companyIdSet = new Set(companies.map((c) => c.id));
   const companyTierMap = new Map(companies.map((c) => [c.id, c.tier]));
+  const SPREAD_GAP = 20;
+
+  // Collect valid edges with tier-pair metadata
+  const edgeInfos: { rel: CompanyRelation; sourceTier: string; targetTier: string; tierPairKey: string }[] = [];
   relations.forEach((rel) => {
     if (!companyIdSet.has(rel.source_id) || !companyIdSet.has(rel.target_id)) return;
     const sourceTier = companyTierMap.get(rel.source_id) ?? 'fab';
+    const targetTier = companyTierMap.get(rel.target_id) ?? 'fab';
+    const tierPairKey = `${sourceTier}->${targetTier}`;
+    edgeInfos.push({ rel, sourceTier, targetTier, tierPairKey });
+  });
+
+  // Count edges per tier-pair
+  const tierPairCount = new Map<string, number>();
+  edgeInfos.forEach((info) => {
+    tierPairCount.set(info.tierPairKey, (tierPairCount.get(info.tierPairKey) || 0) + 1);
+  });
+
+  // Build edge elements with spread distance
+  const tierPairIdx = new Map<string, number>();
+  edgeInfos.forEach((info) => {
+    const count = tierPairCount.get(info.tierPairKey) || 1;
+    const idx = tierPairIdx.get(info.tierPairKey) || 0;
+    tierPairIdx.set(info.tierPairKey, idx + 1);
+
+    const cpDist = (idx - (count - 1) / 2) * SPREAD_GAP;
+    const sameTier = info.sourceTier === info.targetTier;
+
     elements.push({
       data: {
-        id: `edge-${rel.id}`,
-        source: `company-${rel.source_id}`,
-        target: `company-${rel.target_id}`,
+        id: `edge-${info.rel.id}`,
+        source: `company-${info.rel.source_id}`,
+        target: `company-${info.rel.target_id}`,
         type: 'relation',
-        strength: rel.strength,
-        color: TIER_COLORS[sourceTier] ?? '#94a3b8',
+        strength: info.rel.strength,
+        color: TIER_COLORS[info.sourceTier] ?? '#94a3b8',
+        cpDist,
+        ...(sameTier ? { sameTier: 'yes' } : {}),
       },
     });
   });
@@ -341,6 +370,8 @@ function buildStylesheet(): Stylesheet[] {
       },
     },
     // Edge — width proportional to relationship strength, colored by source tier
+    // unbundled-bezier gives each edge an independent control point so parallel
+    // edges between the same tier pair fan out visually.
     {
       selector: 'edge[type = "relation"]',
       style: {
@@ -349,10 +380,20 @@ function buildStylesheet(): Stylesheet[] {
         'target-arrow-shape': 'vee',
         'arrow-scale': 0.7,
         'width': 'mapData(strength, 0, 1, 1, 4)',
-        'curve-style': 'bezier',
+        'curve-style': 'unbundled-bezier',
+        'control-point-distances': 'data(cpDist)',
+        'control-point-weights': 0.5,
         'opacity': 'mapData(strength, 0, 1, 0.3, 0.8)',
         'transition-property': 'opacity, line-color, width',
         'transition-duration': 200,
+      },
+    },
+    // Partner edges (same tier) — dashed to distinguish from cross-tier edges
+    {
+      selector: 'edge[sameTier = "yes"]',
+      style: {
+        'line-style': 'dashed',
+        'line-dash-pattern': [6, 3] as unknown as string,
       },
     },
     // Edge hover
