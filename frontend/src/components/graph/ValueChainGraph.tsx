@@ -25,6 +25,40 @@ const TIER_COLORS: Record<string, string> = {
   module:       '#f59e0b',
 };
 
+// Company name → logo filename mapping
+const COMPANY_LOGOS: Record<string, string> = {
+  'SK Materials': 'sk-materials',
+  'Soulbrain': 'soulbrain',
+  'DNF': 'dnf',
+  'Hansol Chemical': 'hansol-chemical',
+  'SUMCO': 'sumco',
+  'Shin-Etsu Chemical': 'shin-etsu',
+  'ASML': 'asml',
+  'Applied Materials': 'applied-materials',
+  'Lam Research': 'lam-research',
+  'Tokyo Electron': 'tokyo-electron',
+  'SEMES': 'semes',
+  'PSK': 'psk',
+  'Samsung Electronics': 'samsung',
+  'SK hynix': 'sk-hynix',
+  'Micron Technology': 'micron',
+  'TSMC': 'tsmc',
+  'Intel': 'intel',
+  'Kioxia': 'kioxia',
+  'ASE Group': 'ase-group',
+  'Amkor Technology': 'amkor',
+  'JCET': 'jcet',
+  'NEPES': 'nepes',
+  'SFA Semicon': 'sfa-semicon',
+  'Hana Micron': 'hana-micron',
+  'Samsung SDI': 'samsung-sdi',
+  'SK Nexilis': 'sk-nexilis',
+  'LG Innotek': 'lg-innotek',
+  'Innox Advanced Materials': 'innox',
+  'BH': 'bh',
+  'Daeduck Electronics': 'daeduck',
+};
+
 // Layout constants
 const CLUSTER_X_START = 120;
 const CLUSTER_X_GAP   = 260;
@@ -97,6 +131,8 @@ function buildElements(
 
     comps.forEach((company, i) => {
       const alertSeverity = alertMap.get(company.id) ?? null;
+      const logoFile = COMPANY_LOGOS[company.name];
+      const logoUrl = logoFile ? `/logos/${logoFile}.png` : undefined;
       elements.push({
         data: {
           id: `company-${company.id}`,
@@ -107,6 +143,7 @@ function buildElements(
           color: TIER_COLORS[tier],
           alertSeverity,
           relCount: relationCountMap.get(company.id) || 0,
+          ...(logoUrl ? { logoUrl } : {}),
         },
         position: {
           x: cx + (i % 2 === 0 ? 0 : 18),
@@ -214,6 +251,18 @@ function buildStylesheet(): Stylesheet[] {
         'transition-property': 'border-color, border-width, background-color',
         'transition-duration': 200,
       },
+    },
+    // Company node with logo
+    {
+      selector: 'node[type = "company"][logoUrl]',
+      style: {
+        'background-image': 'data(logoUrl)' as unknown as string,
+        'background-fit': 'contain',
+        'background-clip': 'node',
+        'background-image-containment': 'over',
+        'background-width': '60%',
+        'background-height': '60%',
+      } as Record<string, unknown>,
     },
     // Warning node overlay
     {
