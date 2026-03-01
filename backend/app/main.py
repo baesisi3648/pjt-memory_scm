@@ -22,6 +22,7 @@ from app.api import (
     exchange_router,
     filters_router,
     fred_router,
+    gdelt_router,
     news_router,
     relations_router,
     risk_router,
@@ -29,6 +30,7 @@ from app.api import (
     sentiment_router,
     stock_router,
     trends_router,
+    ws_router,
 )
 from app.core.config import settings
 from app.core.database import get_session
@@ -117,6 +119,10 @@ app.include_router(concentration_router, prefix="/api/v1", tags=["analytics"])
 app.include_router(sentiment_router, prefix="/api/v1", tags=["sentiment"])
 # Google Trends: GET /api/v1/trends?keywords=DRAM,HBM,AI+chip
 app.include_router(trends_router, prefix="/api/v1", tags=["trends"])
+# GDELT: GET /api/v1/geopolitical-events
+app.include_router(gdelt_router, prefix="/api/v1", tags=["gdelt"])
+# WebSocket: ws://host/api/v1/ws (real-time alert notifications)
+app.include_router(ws_router, prefix="/api/v1", tags=["websocket"])
 
 
 async def check_database(session: Session = Depends(get_session)) -> str:

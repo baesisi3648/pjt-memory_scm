@@ -7,6 +7,7 @@
 # @TASK RISK-1 - Risk score calculation router
 # @TASK PERF-2 - Dashboard unified endpoint router
 # @TASK HHI-T1 - Concentration index (HHI) router
+# @TASK GDELT-2 - GDELT geopolitical events router
 
 from app.api.auth import router as auth_router
 from app.api.dashboard import router as dashboard_router
@@ -26,6 +27,8 @@ from app.api.risk import router as risk_router
 from app.api.concentration import router as concentration_router
 from app.api.sentiment import router as sentiment_router
 from app.api.trends import router as trends_router
+from app.api.gdelt import router as gdelt_router
+from app.api.ws import router as ws_router
 
 __all__ = [
     "auth_router",
@@ -47,4 +50,6 @@ __all__ = [
     "concentration_router",
     "sentiment_router",
     "trends_router",
+    "gdelt_router",
+    "ws_router",
 ]

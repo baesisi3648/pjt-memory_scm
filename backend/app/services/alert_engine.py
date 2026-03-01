@@ -492,19 +492,55 @@ def evaluate_all_rules(session: Session) -> list[Alert]:
 # Scheduler-compatible wrapper (creates its own session)
 # ---------------------------------------------------------------------------
 
+def _broadcast_new_alerts(alerts: list[Alert]) -> None:
+    """
+    Push newly created alerts to all connected WebSocket clients.
+
+    This runs inside the APScheduler background thread, so we use
+    ``broadcast_from_thread`` to bridge into the async event loop.
+    """
+    from app.core.websocket_manager import manager
+
+    for alert in alerts:
+        message = {
+            "type": "new_alert",
+            "alert": {
+                "id": alert.id,
+                "severity": alert.severity,
+                "title": alert.title,
+                "company_id": alert.company_id,
+                "created_at": alert.created_at.isoformat() if alert.created_at else None,
+            },
+        }
+        manager.broadcast_from_thread(message)
+
+    if alerts:
+        logger.info(
+            "Broadcast %d new alert(s) via WebSocket", len(alerts)
+        )
+
+
 def run_alert_evaluation() -> None:
     """
     Standalone function for the scheduler.
 
     Creates its own Session, evaluates all rules, commits, and closes.
+    After a successful commit, broadcasts new alerts to WebSocket clients.
     Follows the same pattern as collect_stock_prices / collect_exchange_rates.
     """
     from app.core.database import engine
 
     with Session(engine) as session:
         try:
-            evaluate_all_rules(session)
+            created_alerts = evaluate_all_rules(session)
             session.commit()
+
+            # After commit, alert IDs are populated -- broadcast them.
+            if created_alerts:
+                # Refresh to ensure IDs are loaded after commit.
+                for alert in created_alerts:
+                    session.refresh(alert)
+                _broadcast_new_alerts(created_alerts)
         except Exception:
             logger.exception("Alert evaluation job failed")
             session.rollback()

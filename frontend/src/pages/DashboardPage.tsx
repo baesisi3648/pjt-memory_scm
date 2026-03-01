@@ -10,6 +10,8 @@ import { AlertBanner } from '../components/ui/AlertBanner';
 import { MetricCards } from '../components/dashboard/MetricCards';
 import { FilterPanel } from '../components/graph/FilterPanel';
 import { SidePanel } from '../components/graph/SidePanel';
+import { useWebSocket } from '../hooks/useWebSocket';
+import { useToastStore } from '../stores/toastStore';
 
 // ─── Loading spinner ───────────────────────────────────────────────────────────
 
@@ -142,6 +144,10 @@ export function DashboardPage() {
   // null = show all companies; number[] = show only those IDs
   const [selectedCompanyIds, setSelectedCompanyIds] = useState<number[] | null>(null);
 
+  // ── T-WS-3: Real-time WebSocket alert notifications ─────────────────────────
+  const { lastMessage } = useWebSocket();
+  const addToast = useToastStore((s) => s.addToast);
+
   // ── Fetch all dashboard data in parallel ──────────────────────────────────────
   const loadData = useCallback(async () => {
     setIsLoading(true);
@@ -170,6 +176,34 @@ export function DashboardPage() {
   useEffect(() => {
     loadData();
   }, [loadData]);
+
+  // ── T-WS-3: React to WebSocket alert messages ──────────────────────────────
+  useEffect(() => {
+    if (!lastMessage || lastMessage.type !== 'new_alert') return;
+
+    const alert = lastMessage.alert as {
+      id: number;
+      severity: string;
+      title: string;
+      company_id: number;
+    } | undefined;
+
+    if (!alert) return;
+
+    // Map alert severity to toast variant (toast supports success/error/info).
+    const toastVariant = alert.severity === 'critical' ? 'error' : 'info';
+    addToast(`New alert: ${alert.title}`, toastVariant);
+
+    // Refresh alerts from API to get the full alert object in the dashboard.
+    api
+      .get<{ items: Alert[]; count: number }>('/alerts', { params: { is_read: false } })
+      .then((res) => {
+        setData((prev) => (prev ? { ...prev, alerts: res.data.items } : prev));
+      })
+      .catch(() => {
+        // Silent fail -- alerts will refresh on next poll or page reload.
+      });
+  }, [lastMessage, addToast]);
 
   // ── Global search company selection ──────────────────────────────────────────
   useEffect(() => {
