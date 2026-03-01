@@ -63,7 +63,7 @@ const COMPANY_LOGOS: Record<string, string> = {
 const CLUSTER_X_START = 120;
 const CLUSTER_X_GAP   = 300;
 const CLUSTER_Y       = 300;
-const CLUSTER_W       = 220;
+const CLUSTER_W       = 240;
 const CLUSTER_H       = 340;
 const COMPANY_RADIUS  = 34;
 
@@ -120,17 +120,31 @@ function buildElements(
     });
   });
 
-  // Company nodes — positioned inside their cluster area
+  // Company nodes — positioned in a 2-column grid inside their cluster area
+  const GRID_COLS = 2;
+  const COL_GAP = 50;   // horizontal gap between columns
+  const ROW_GAP = 70;   // vertical gap between rows
+
   companiesByTier.forEach((comps, tier) => {
     const tierIdx = TIER_ORDER.indexOf(tier as typeof TIER_ORDER[number]);
     if (tierIdx === -1) return;
 
     const cx = CLUSTER_X_START + tierIdx * CLUSTER_X_GAP;
-    const totalH = comps.length > 1 ? CLUSTER_H - 40 : 0;
-    const spacing = comps.length > 1 ? totalH / (comps.length - 1) : 0;
+
+    // Sort by relation count descending so important nodes appear first (top)
+    const sorted = [...comps].sort(
+      (a, b) => (relationCountMap.get(b.id) || 0) - (relationCountMap.get(a.id) || 0),
+    );
+
+    const rows = Math.ceil(sorted.length / GRID_COLS);
+    const totalW = (GRID_COLS - 1) * COL_GAP;
+    const totalH = (rows - 1) * ROW_GAP;
+    const startX = cx - totalW / 2;
     const startY = CLUSTER_Y - totalH / 2;
 
-    comps.forEach((company, i) => {
+    sorted.forEach((company, i) => {
+      const col = i % GRID_COLS;
+      const row = Math.floor(i / GRID_COLS);
       const alertSeverity = alertMap.get(company.id) ?? null;
       const logoFile = COMPANY_LOGOS[company.name];
       const logoUrl = logoFile ? `/logos/${logoFile}.png` : undefined;
@@ -147,8 +161,8 @@ function buildElements(
           ...(logoUrl ? { logoUrl } : {}),
         },
         position: {
-          x: cx + (i % 2 === 0 ? 0 : 18),
-          y: comps.length === 1 ? CLUSTER_Y : startY + i * spacing,
+          x: startX + col * COL_GAP,
+          y: sorted.length === 1 ? CLUSTER_Y : startY + row * ROW_GAP,
         },
       });
     });
