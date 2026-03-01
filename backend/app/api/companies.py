@@ -5,7 +5,7 @@
 from typing import Optional
 
 from fastapi import APIRouter, Depends, HTTPException, Query, status
-from sqlmodel import Session, select
+from sqlmodel import Session, func, select
 
 from app.core.database import get_session
 from app.core.security import get_current_user
@@ -25,15 +25,17 @@ def list_companies(
         default=None,
         description="Comma-separated list of company IDs to filter",
     ),
+    skip: int = Query(default=0, ge=0, description="Number of records to skip"),
+    limit: int = Query(default=50, ge=1, le=500, description="Maximum number of records to return"),
     session: Session = Depends(get_session),
     current_user: User = Depends(get_current_user),
 ) -> CompanyListResponse:
     """
-    List companies with optional filters.
+    List companies with optional filters and pagination.
 
     Layer 1: Input validation via FastAPI Query parameters
     Layer 2: Domain filtering (cluster_id, tier, company_ids)
-    Layer 4: Structured response with count
+    Layer 4: Structured response with total count and paginated items
     """
     statement = select(Company)
 
@@ -54,10 +56,14 @@ def list_companies(
         if id_list:
             statement = statement.where(Company.id.in_(id_list))
 
-    companies = session.exec(statement).all()
+    # Separate count query so total reflects unfiltered result set size
+    count_statement = select(func.count()).select_from(statement.subquery())
+    total = session.exec(count_statement).one()
+
+    companies = session.exec(statement.offset(skip).limit(limit)).all()
     return CompanyListResponse(
         items=[CompanyResponse.model_validate(c) for c in companies],
-        count=len(companies),
+        count=total,
     )
 
 

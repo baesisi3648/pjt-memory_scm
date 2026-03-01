@@ -4,8 +4,8 @@
 
 import json
 
-from fastapi import APIRouter, Depends, HTTPException, status
-from sqlmodel import Session, select
+from fastapi import APIRouter, Depends, HTTPException, Query, status
+from sqlmodel import Session, func, select
 
 from app.core.database import get_session
 from app.core.security import get_current_user
@@ -13,6 +13,7 @@ from app.models.alert_rule import AlertRule
 from app.models.user import User
 from app.schemas.alert_rules import (
     AlertRuleCreateRequest,
+    AlertRuleListResponse,
     AlertRuleResponse,
     AlertRuleUpdateRequest,
 )
@@ -52,21 +53,30 @@ def _get_owned_rule(
 
 
 # @TASK P2-R7-T1.1 - List current user's alert rules
-@router.get("", response_model=list[AlertRuleResponse])
+@router.get("", response_model=AlertRuleListResponse)
 def list_alert_rules(
+    skip: int = Query(default=0, ge=0, description="Number of records to skip"),
+    limit: int = Query(default=50, ge=1, le=500, description="Maximum number of records to return"),
     current_user: User = Depends(get_current_user),
     session: Session = Depends(get_session),
-) -> list[AlertRuleResponse]:
+) -> AlertRuleListResponse:
     """
-    Return all alert rules belonging to the authenticated user.
+    Return all alert rules belonging to the authenticated user, with pagination.
 
     Layer 1: Auth via get_current_user dependency
     Layer 2: Scoped to current user's rules only
+    Layer 4: Structured response with total count and paginated items
     """
-    rules = session.exec(
-        select(AlertRule).where(AlertRule.user_id == current_user.id)
-    ).all()
-    return [_to_response(r) for r in rules]
+    statement = select(AlertRule).where(AlertRule.user_id == current_user.id)
+
+    count_statement = select(func.count()).select_from(statement.subquery())
+    total = session.exec(count_statement).one()
+
+    rules = session.exec(statement.offset(skip).limit(limit)).all()
+    return AlertRuleListResponse(
+        items=[_to_response(r) for r in rules],
+        count=total,
+    )
 
 
 # @TASK P2-R7-T1.2 - Create a new alert rule

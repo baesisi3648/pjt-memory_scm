@@ -19,3 +19,10 @@ class AlertResponse(BaseModel):
     created_at: datetime
 
     model_config = {"from_attributes": True}
+
+
+class AlertListResponse(BaseModel):
+    """Paginated response body for alert list endpoint."""
+
+    items: list[AlertResponse]
+    count: int

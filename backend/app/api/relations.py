@@ -5,7 +5,7 @@
 from typing import Optional
 
 from fastapi import APIRouter, Depends, HTTPException, Query, status
-from sqlmodel import Session, or_, select
+from sqlmodel import Session, func, or_, select
 
 from app.core.database import get_session
 from app.core.security import get_current_user
@@ -29,18 +29,20 @@ def list_relations(
         default=None,
         description="Comma-separated company IDs; filters where source_id OR target_id in list",
     ),
+    skip: int = Query(default=0, ge=0, description="Number of records to skip"),
+    limit: int = Query(default=50, ge=1, le=500, description="Maximum number of records to return"),
     session: Session = Depends(get_session),
     current_user: User = Depends(get_current_user),
 ) -> RelationListResponse:
     """
-    List all company relations with optional company_ids filter.
+    List all company relations with optional company_ids filter and pagination.
 
     When company_ids is provided, returns relations where source_id OR target_id
     is in the given list.
 
     Layer 1: Input validation via FastAPI Query parameters
     Layer 2: Domain filtering (company_ids)
-    Layer 4: Structured response with count
+    Layer 4: Structured response with total count and paginated items
     """
     statement = select(CompanyRelation)
 
@@ -60,10 +62,13 @@ def list_relations(
                 )
             )
 
-    relations = session.exec(statement).all()
+    count_statement = select(func.count()).select_from(statement.subquery())
+    total = session.exec(count_statement).one()
+
+    relations = session.exec(statement.offset(skip).limit(limit)).all()
     return RelationListResponse(
         items=[RelationResponse.model_validate(r) for r in relations],
-        count=len(relations),
+        count=total,
     )
 
 

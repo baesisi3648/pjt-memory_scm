@@ -72,7 +72,9 @@ class TestListAlertRules:
         response = client.get("/api/v1/alert-rules", headers=_auth_header(user))
 
         assert response.status_code == 200
-        assert response.json() == []
+        data = response.json()
+        assert data["count"] == 0
+        assert data["items"] == []
 
     def test_list_rules_returns_own_rules(
         self, client: TestClient, session: Session
@@ -88,9 +90,10 @@ class TestListAlertRules:
 
         assert response.status_code == 200
         data = response.json()
-        assert len(data) == 1
-        assert data[0]["name"] == "My Rule"
-        assert data[0]["user_id"] == user.id
+        assert data["count"] == 1
+        assert len(data["items"]) == 1
+        assert data["items"][0]["name"] == "My Rule"
+        assert data["items"][0]["user_id"] == user.id
 
     def test_list_rules_unauthenticated(self, client: TestClient):
         """Request without token returns 401."""
@@ -289,7 +292,9 @@ class TestDeleteAlertRule:
 
         # Verify it's gone
         response = client.get("/api/v1/alert-rules", headers=_auth_header(user))
-        assert response.json() == []
+        data = response.json()
+        assert data["count"] == 0
+        assert data["items"] == []
 
     def test_delete_other_users_rule_returns_403(
         self, client: TestClient, session: Session

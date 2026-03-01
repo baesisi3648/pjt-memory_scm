@@ -2,8 +2,8 @@
 # @SPEC docs/planning/02-trd.md#clusters-api
 # @TEST tests/test_clusters.py
 
-from fastapi import APIRouter, Depends, HTTPException, status
-from sqlmodel import Session, select
+from fastapi import APIRouter, Depends, HTTPException, Query, status
+from sqlmodel import Session, func, select
 
 from app.core.database import get_session
 from app.core.security import get_current_user
@@ -19,18 +19,25 @@ router = APIRouter()
 # @TASK P2-R2-T1.1 - List clusters endpoint
 @router.get("", response_model=ClusterListResponse)
 def list_clusters(
+    skip: int = Query(default=0, ge=0, description="Number of records to skip"),
+    limit: int = Query(default=50, ge=1, le=500, description="Maximum number of records to return"),
     session: Session = Depends(get_session),
     current_user: User = Depends(get_current_user),
 ) -> ClusterListResponse:
     """
-    List all clusters including parent_id for hierarchy.
+    List all clusters including parent_id for hierarchy, with pagination.
 
-    Layer 4: Structured response with count
+    Layer 4: Structured response with total count and paginated items
     """
-    clusters = session.exec(select(Cluster)).all()
+    statement = select(Cluster)
+
+    count_statement = select(func.count()).select_from(statement.subquery())
+    total = session.exec(count_statement).one()
+
+    clusters = session.exec(statement.offset(skip).limit(limit)).all()
     return ClusterListResponse(
         items=[ClusterResponse.model_validate(c) for c in clusters],
-        count=len(clusters),
+        count=total,
     )
 
 

@@ -5,32 +5,34 @@
 from typing import Optional
 
 from fastapi import APIRouter, Depends, HTTPException, Query, status
-from sqlmodel import Session, select
+from sqlmodel import Session, func, select
 
 from app.core.database import get_session
 from app.core.security import get_current_user
 from app.models.alert import Alert
 from app.models.user import User
-from app.schemas.alert import AlertResponse
+from app.schemas.alert import AlertListResponse, AlertResponse
 
 router = APIRouter()
 
 
 # @TASK P2-R4-T1.1 - List alerts with optional filters
-@router.get("/alerts", response_model=list[AlertResponse])
+@router.get("/alerts", response_model=AlertListResponse)
 def list_alerts(
     severity: Optional[str] = Query(default=None, description="Filter by severity: critical, warning, info"),
     is_read: Optional[bool] = Query(default=None, description="Filter by read status"),
     company_id: Optional[int] = Query(default=None, description="Filter by company ID"),
+    skip: int = Query(default=0, ge=0, description="Number of records to skip"),
+    limit: int = Query(default=50, ge=1, le=500, description="Maximum number of records to return"),
     current_user: User = Depends(get_current_user),
     session: Session = Depends(get_session),
-) -> list[Alert]:
+) -> AlertListResponse:
     """
-    List all alerts with optional filters.
+    List all alerts with optional filters and pagination.
 
     Layer 1: Input validation via FastAPI query params
     Layer 2: Domain filtering (severity, is_read, company_id)
-    Layer 4: Ordered by created_at descending
+    Layer 4: Ordered by created_at descending, structured response with total count
     """
     statement = select(Alert)
 
@@ -41,9 +43,15 @@ def list_alerts(
     if company_id is not None:
         statement = statement.where(Alert.company_id == company_id)
 
+    count_statement = select(func.count()).select_from(statement.subquery())
+    total = session.exec(count_statement).one()
+
     statement = statement.order_by(Alert.created_at.desc())
-    alerts = session.exec(statement).all()
-    return alerts
+    alerts = session.exec(statement.offset(skip).limit(limit)).all()
+    return AlertListResponse(
+        items=[AlertResponse.model_validate(a) for a in alerts],
+        count=total,
+    )
 
 
 # @TASK P2-R4-T1.2 - Mark alert as read

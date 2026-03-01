@@ -76,7 +76,8 @@ class TestListAlerts:
 
         assert response.status_code == 200
         data = response.json()
-        assert len(data) == 2
+        assert data["count"] == 2
+        assert len(data["items"]) == 2
 
     def test_list_alerts_filter_by_severity(self, client: TestClient, session: Session):
         """Filter alerts by severity returns only matching alerts."""
@@ -93,9 +94,10 @@ class TestListAlerts:
 
         assert response.status_code == 200
         data = response.json()
-        assert len(data) == 1
-        assert data[0]["severity"] == "critical"
-        assert data[0]["title"] == "Critical Alert"
+        assert data["count"] == 1
+        assert len(data["items"]) == 1
+        assert data["items"][0]["severity"] == "critical"
+        assert data["items"][0]["title"] == "Critical Alert"
 
     def test_list_alerts_filter_by_is_read(self, client: TestClient, session: Session):
         """Filter alerts by is_read status."""
@@ -111,9 +113,10 @@ class TestListAlerts:
 
         assert response.status_code == 200
         data = response.json()
-        assert len(data) == 1
-        assert data[0]["is_read"] is False
-        assert data[0]["title"] == "Unread Alert"
+        assert data["count"] == 1
+        assert len(data["items"]) == 1
+        assert data["items"][0]["is_read"] is False
+        assert data["items"][0]["title"] == "Unread Alert"
 
     def test_list_alerts_ordered_by_created_at_desc(self, client: TestClient, session: Session):
         """Alerts are returned in descending order by created_at."""
@@ -126,9 +129,10 @@ class TestListAlerts:
 
         assert response.status_code == 200
         data = response.json()
-        assert len(data) == 2
-        assert data[0]["title"] == "Newer"
-        assert data[1]["title"] == "Older"
+        assert data["count"] == 2
+        assert len(data["items"]) == 2
+        assert data["items"][0]["title"] == "Newer"
+        assert data["items"][1]["title"] == "Older"
 
     def test_list_alerts_unauthenticated(self, client: TestClient):
         """Request without token returns 401."""

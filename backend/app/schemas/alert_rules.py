@@ -31,3 +31,10 @@ class AlertRuleResponse(BaseModel):
     is_active: bool
 
     model_config = {"from_attributes": True}
+
+
+class AlertRuleListResponse(BaseModel):
+    """Paginated response body for alert rule list endpoint."""
+
+    items: list[AlertRuleResponse]
+    count: int
