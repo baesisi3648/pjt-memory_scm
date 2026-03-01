@@ -1,7 +1,6 @@
 export type Severity = 'critical' | 'warning' | 'info';
 export type Tier = 'raw_material' | 'equipment' | 'fab' | 'packaging' | 'module';
 export type RelationType = 'supplier' | 'customer' | 'partner';
-export type UserRole = 'admin' | 'analyst' | 'viewer';
 
 export interface Company {
   id: number;
