@@ -8,8 +8,10 @@
 # @TASK PERF-2 - Dashboard unified endpoint router
 # @TASK HHI-T1 - Concentration index (HHI) router
 # @TASK GDELT-2 - GDELT geopolitical events router
+# @TASK EDGAR-2 - SEC EDGAR filings router
 
 from app.api.auth import router as auth_router
+from app.api.edgar import router as edgar_router
 from app.api.dashboard import router as dashboard_router
 from app.api.clusters import router as clusters_router
 from app.api.companies import router as companies_router
@@ -46,6 +48,7 @@ __all__ = [
     "rss_router",
     "fred_router",
     "dashboard_router",
+    "edgar_router",
     "risk_router",
     "concentration_router",
     "sentiment_router",

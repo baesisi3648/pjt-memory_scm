@@ -19,6 +19,7 @@ from app.api import (
     concentration_router,
     dashboard_router,
     data_points_router,
+    edgar_router,
     exchange_router,
     filters_router,
     fred_router,
@@ -121,6 +122,8 @@ app.include_router(sentiment_router, prefix="/api/v1", tags=["sentiment"])
 app.include_router(trends_router, prefix="/api/v1", tags=["trends"])
 # GDELT: GET /api/v1/geopolitical-events
 app.include_router(gdelt_router, prefix="/api/v1", tags=["gdelt"])
+# SEC EDGAR: GET /api/v1/sec-filings, GET /api/v1/sec-filings/{ticker}
+app.include_router(edgar_router, prefix="/api/v1", tags=["sec-edgar"])
 # WebSocket: ws://host/api/v1/ws (real-time alert notifications)
 app.include_router(ws_router, prefix="/api/v1", tags=["websocket"])
 
