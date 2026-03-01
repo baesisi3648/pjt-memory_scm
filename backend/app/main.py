@@ -1,8 +1,13 @@
 import logging
 import time
+from datetime import datetime
 
-from fastapi import FastAPI, Request
+from fastapi import FastAPI, Request, Depends
 from fastapi.middleware.cors import CORSMiddleware
+from slowapi import _rate_limit_exceeded_handler
+from slowapi.errors import RateLimitExceeded
+from slowapi.middleware import SlowAPIMiddleware
+from sqlmodel import Session, text
 
 from app.api import (
     alert_rules_router,
@@ -11,18 +16,24 @@ from app.api import (
     clusters_router,
     companies_router,
     company_relations_router,
+    exchange_router,
     filters_router,
     news_router,
     relations_router,
     stock_router,
 )
 from app.core.config import settings
+from app.core.database import get_session
 from app.core.logging_config import setup_logging
+from app.core.rate_limit import limiter
 
 # Configure structured logging before anything else runs.
 setup_logging()
 
 logger = logging.getLogger(__name__)
+
+# Store application start time for uptime calculation
+APP_START_TIME = datetime.now()
 
 app = FastAPI(
     title=settings.PROJECT_NAME,
@@ -30,6 +41,12 @@ app = FastAPI(
     openapi_url="/api/v1/openapi.json",
     docs_url="/docs",
 )
+
+# Rate-limiting: attach limiter to app state so slowapi can find it,
+# register the SlowAPI middleware, and map RateLimitExceeded → 429.
+app.state.limiter = limiter
+app.add_exception_handler(RateLimitExceeded, _rate_limit_exceeded_handler)
+app.add_middleware(SlowAPIMiddleware)
 
 app.add_middleware(
     CORSMiddleware,
@@ -73,8 +90,36 @@ app.include_router(filters_router, prefix="/api/v1/filters", tags=["filters"])
 app.include_router(alert_rules_router, prefix="/api/v1/alert-rules", tags=["alert-rules"])
 # Stock: GET /api/v1/companies/{company_id}/stock
 app.include_router(stock_router, prefix="/api/v1/companies", tags=["stock"])
+# Exchange rates: GET /api/v1/exchange-rates
+app.include_router(exchange_router, prefix="/api/v1", tags=["exchange"])
+
+
+async def check_database(session: Session = Depends(get_session)) -> str:
+    """Check database connectivity by executing a simple query."""
+    try:
+        session.exec(text("SELECT 1"))
+        return "ok"
+    except Exception as e:
+        logger.error("Database health check failed: %s", str(e))
+        return "error"
 
 
 @app.get("/api/v1/health")
-def health_check():
-    return {"status": "ok", "version": settings.VERSION}
+async def health_check(db_status: str = Depends(check_database)):
+    """
+    Enhanced health check endpoint.
+
+    Returns:
+        - status: "ok" if healthy, "error" if not
+        - uptime_seconds: Seconds since application started
+        - database: "ok" or "error"
+        - version: Application version from settings
+    """
+    uptime_seconds = int((datetime.now() - APP_START_TIME).total_seconds())
+
+    return {
+        "status": "ok",
+        "uptime_seconds": uptime_seconds,
+        "database": db_status,
+        "version": settings.VERSION,
+    }
