@@ -1,5 +1,5 @@
 // @TASK P1-S1-T1 - Login screen
-// @SPEC memory_scm_design/memory_scm_platform_login/code.html
+// @SPEC docs/planning/08-stitch-prompts.md 화면 1
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuthStore } from '../stores/authStore';

@@ -3170,3 +3170,19 @@ entries:
     description: Update documentation 08-improvements.md
     impact:
       - none
+  - date: "2026-03-01T15:15:51"
+    type: refactor
+    domain: root
+    files:
+      - "frontend\\index.html"
+    description: Refactor index
+    impact:
+      - none
+  - date: "2026-03-01T15:16:01"
+    type: refactor
+    domain: root
+    files:
+      - "frontend\\src\\pages\\LoginPage.tsx"
+    description: Refactor LoginPage
+    impact:
+      - none
