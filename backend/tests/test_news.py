@@ -1,7 +1,7 @@
 # @TASK P2-R5-T1 - News items endpoint tests
 # @TEST tests/test_news.py
 
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 
 import pytest
 from fastapi.testclient import TestClient
@@ -48,7 +48,7 @@ def _create_news_item(
         url=f"https://example.com/news/{title.lower().replace(' ', '-')}",
         source="Test Source",
         company_id=company_id,
-        published_at=published_at or datetime.utcnow(),
+        published_at=published_at or datetime.now(timezone.utc),
     )
     session.add(news)
     session.commit()
@@ -84,7 +84,7 @@ class TestCompanyNews:
     def test_company_news_limit_param(self, client: TestClient, session: Session):
         """The limit query param restricts the number of returned items."""
         user = _create_test_user(session)
-        now = datetime.utcnow()
+        now = datetime.now(timezone.utc)
         for i in range(5):
             _create_news_item(
                 session,
@@ -106,7 +106,7 @@ class TestCompanyNews:
     def test_company_news_ordered_by_published_at_desc(self, client: TestClient, session: Session):
         """News items are returned in descending order by published_at."""
         user = _create_test_user(session)
-        now = datetime.utcnow()
+        now = datetime.now(timezone.utc)
         _create_news_item(session, company_id=1, title="Older News", published_at=now - timedelta(hours=2))
         _create_news_item(session, company_id=1, title="Newer News", published_at=now)
 

@@ -1,7 +1,7 @@
 # @TASK P2-R4-T1 - Alerts endpoint tests
 # @TEST tests/test_alerts.py
 
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 
 import pytest
 from fastapi.testclient import TestClient
@@ -51,7 +51,7 @@ def _create_alert(
         description="Test description",
         is_read=is_read,
         company_id=company_id,
-        created_at=created_at or datetime.utcnow(),
+        created_at=created_at or datetime.now(timezone.utc),
     )
     session.add(alert)
     session.commit()
@@ -118,7 +118,7 @@ class TestListAlerts:
     def test_list_alerts_ordered_by_created_at_desc(self, client: TestClient, session: Session):
         """Alerts are returned in descending order by created_at."""
         user = _create_test_user(session)
-        now = datetime.utcnow()
+        now = datetime.now(timezone.utc)
         _create_alert(session, title="Older", created_at=now - timedelta(hours=2))
         _create_alert(session, title="Newer", created_at=now)
 
