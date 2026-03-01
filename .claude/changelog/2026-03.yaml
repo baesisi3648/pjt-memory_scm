@@ -1248,3 +1248,540 @@ entries:
     description: Refactor AlertSettingsPage
     impact:
       - none
+  - date: "2026-03-01T09:07:26"
+    type: feature
+    domain: root
+    files:
+      - "backend\\app\\schemas\\data_point.py"
+    description: Create data_point in root
+    impact:
+      - "external dependency added: datetime, typing, pydantic"
+  - date: "2026-03-01T09:07:38"
+    type: feature
+    domain: root
+    files:
+      - "backend\\app\\api\\data_points.py"
+    description: Create data_points in root
+    impact:
+      - "external dependency added: datetime, typing, fastapi (+more)"
+      - "internal dependency added: app.core.database, app.core.security, app.models.data_point (+more)"
+  - date: "2026-03-01T09:07:45"
+    type: feature
+    domain: root
+    files:
+      - "backend\\app\\api\\__init__.py"
+    description: Add new functionality to __init__ in root
+    impact:
+      - none
+  - date: "2026-03-01T09:07:50"
+    type: refactor
+    domain: root
+    files:
+      - "backend\\app\\api\\__init__.py"
+    description: Refactor __init__
+    impact:
+      - none
+  - date: "2026-03-01T09:07:57"
+    type: refactor
+    domain: root
+    files:
+      - "backend\\app\\main.py"
+    description: Refactor main
+    impact:
+      - none
+  - date: "2026-03-01T09:07:58"
+    type: feature
+    domain: root
+    files:
+      - "frontend\\src\\components\\graph\\ValueChainGraph.tsx"
+    description: Add new functionality to ValueChainGraph in root
+    impact:
+      - none
+  - date: "2026-03-01T09:08:04"
+    type: feature
+    domain: root
+    files:
+      - "backend\\app\\main.py"
+    description: Add new functionality to main in root
+    impact:
+      - none
+  - date: "2026-03-01T09:08:04"
+    type: refactor
+    domain: root
+    files:
+      - "frontend\\src\\components\\graph\\ValueChainGraph.tsx"
+    description: Refactor ValueChainGraph
+    impact:
+      - none
+  - date: "2026-03-01T09:08:10"
+    type: refactor
+    domain: root
+    files:
+      - "frontend\\src\\components\\graph\\ValueChainGraph.tsx"
+    description: Refactor ValueChainGraph
+    impact:
+      - none
+  - date: "2026-03-01T09:08:15"
+    type: refactor
+    domain: root
+    files:
+      - "frontend\\src\\components\\graph\\SidePanel.tsx"
+    description: Refactor SidePanel
+    impact:
+      - none
+  - date: "2026-03-01T09:08:22"
+    type: refactor
+    domain: root
+    files:
+      - "frontend\\src\\components\\graph\\SidePanel.tsx"
+    description: Refactor SidePanel
+    impact:
+      - none
+  - date: "2026-03-01T09:08:25"
+    type: feature
+    domain: root
+    files:
+      - "backend\\app\\core\\cache.py"
+    description: Create cache in root
+    impact:
+      - "external dependency added: hashlib, json, logging (+more)"
+  - date: "2026-03-01T09:08:31"
+    type: refactor
+    domain: root
+    files:
+      - "backend\\app\\api\\companies.py"
+    description: Refactor companies
+    impact:
+      - none
+  - date: "2026-03-01T09:08:34"
+    type: refactor
+    domain: root
+    files:
+      - "backend\\app\\api\\clusters.py"
+    description: Refactor clusters
+    impact:
+      - none
+  - date: "2026-03-01T09:08:35"
+    type: refactor
+    domain: root
+    files:
+      - "backend\\app\\api\\relations.py"
+    description: Refactor relations
+    impact:
+      - none
+  - date: "2026-03-01T09:08:39"
+    type: feature
+    domain: root
+    files:
+      - "frontend\\src\\components\\graph\\SidePanel.tsx"
+    description: Add new functionality to SidePanel in root
+    impact:
+      - none
+  - date: "2026-03-01T09:08:42"
+    type: feature
+    domain: root
+    files:
+      - "backend\\Dockerfile"
+    description: Create Dockerfile in root
+    impact:
+      - none
+  - date: "2026-03-01T09:08:44"
+    type: feature
+    domain: root
+    files:
+      - "frontend\\Dockerfile"
+    description: Create Dockerfile in root
+    impact:
+      - none
+  - date: "2026-03-01T09:08:46"
+    type: feature
+    domain: root
+    files:
+      - docker-compose.yml
+    description: Create docker-compose in root
+    impact:
+      - configuration change
+  - date: "2026-03-01T09:08:48"
+    type: feature
+    domain: root
+    files:
+      - .dockerignore
+    description: Create .dockerignore in root
+    impact:
+      - none
+  - date: "2026-03-01T09:08:52"
+    type: refactor
+    domain: root
+    files:
+      - "backend\\app\\api\\companies.py"
+    description: Refactor companies
+    impact:
+      - none
+  - date: "2026-03-01T09:09:02"
+    type: refactor
+    domain: root
+    files:
+      - "backend\\app\\api\\clusters.py"
+    description: Refactor clusters
+    impact:
+      - none
+  - date: "2026-03-01T09:09:06"
+    type: feature
+    domain: root
+    files:
+      - "frontend\\src\\components\\layout\\GlobalSearch.tsx"
+    description: Create GlobalSearch in root
+    impact:
+      - "external dependency added: react"
+      - "internal dependency added: ../../services/api, ../../types/index"
+  - date: "2026-03-01T09:09:11"
+    type: refactor
+    domain: root
+    files:
+      - "frontend\\src\\components\\layout\\TopBar.tsx"
+    description: Refactor TopBar
+    impact:
+      - none
+  - date: "2026-03-01T09:09:13"
+    type: refactor
+    domain: root
+    files:
+      - "backend\\app\\api\\relations.py"
+    description: Refactor relations
+    impact:
+      - none
+  - date: "2026-03-01T09:09:15"
+    type: feature
+    domain: root
+    files:
+      - "backend\\app\\core\\config.py"
+    description: Add new functionality to config in root
+    impact:
+      - none
+  - date: "2026-03-01T09:09:16"
+    type: refactor
+    domain: root
+    files:
+      - "frontend\\src\\components\\layout\\TopBar.tsx"
+    description: Refactor TopBar
+    impact:
+      - none
+  - date: "2026-03-01T09:09:17"
+    type: feature
+    domain: root
+    files:
+      - "backend\\.env.example"
+    description: Create .env in root
+    impact:
+      - none
+  - date: "2026-03-01T09:09:19"
+    type: feature
+    domain: root
+    files:
+      - "backend\\pyproject.toml"
+    description: Add new functionality to pyproject in root
+    impact:
+      - configuration change
+  - date: "2026-03-01T09:09:21"
+    type: feature
+    domain: root
+    files:
+      - "frontend\\src\\components\\layout\\TopBar.tsx"
+    description: Add new functionality to TopBar in root
+    impact:
+      - none
+  - date: "2026-03-01T09:09:22"
+    type: feature
+    domain: "backend\\app\\services\\rss"
+    files:
+      - "backend\\app\\services\\rss_service.py"
+    description: "Create rss_service in backend\\app\\services\\rss"
+    impact:
+      - "external dependency added: logging, datetime, time (+more)"
+  - date: "2026-03-01T09:09:23"
+    type: fix
+    domain: root
+    files:
+      - "backend\\app\\core\\logging_config.py"
+    description: Fix issue in logging_config
+    impact:
+      - none
+  - date: "2026-03-01T09:09:26"
+    type: feature
+    domain: root
+    files:
+      - "backend\\app\\api\\rss.py"
+    description: Create rss in root
+    impact:
+      - "external dependency added: fastapi"
+      - "internal dependency added: app.core.security, app.models.user, app.services.rss_service"
+  - date: "2026-03-01T09:09:29"
+    type: feature
+    domain: root
+    files:
+      - "frontend\\src\\pages\\DashboardPage.tsx"
+    description: Add new functionality to DashboardPage in root
+    impact:
+      - none
+  - date: "2026-03-01T09:09:44"
+    type: refactor
+    domain: root
+    files:
+      - "backend\\app\\api\\__init__.py"
+    description: Refactor __init__
+    impact:
+      - none
+  - date: "2026-03-01T09:09:47"
+    type: refactor
+    domain: root
+    files:
+      - "backend\\app\\main.py"
+    description: Refactor main
+    impact:
+      - none
+  - date: "2026-03-01T09:09:48"
+    type: refactor
+    domain: root
+    files:
+      - "backend\\app\\core\\config.py"
+    description: Refactor config
+    impact:
+      - none
+  - date: "2026-03-01T09:09:57"
+    type: refactor
+    domain: root
+    files:
+      - "backend\\app\\main.py"
+    description: Refactor main
+    impact:
+      - none
+  - date: "2026-03-01T09:10:00"
+    type: feature
+    domain: "backend\\app\\services\\fred"
+    files:
+      - "backend\\app\\services\\fred_service.py"
+    description: "Create fred_service in backend\\app\\services\\fred"
+    impact:
+      - "external dependency added: logging, datetime, typing (+more)"
+      - "internal dependency added: app.core.config"
+  - date: "2026-03-01T09:10:03"
+    type: feature
+    domain: root
+    files:
+      - "backend\\app\\schemas\\dashboard.py"
+    description: Create dashboard in root
+    impact:
+      - "external dependency added: pydantic"
+      - "internal dependency added: app.schemas.alert, app.schemas.cluster, app.schemas.company (+more)"
+  - date: "2026-03-01T09:10:04"
+    type: feature
+    domain: root
+    files:
+      - "backend\\app\\api\\fred.py"
+    description: Create fred in root
+    impact:
+      - "external dependency added: fastapi"
+      - "internal dependency added: app.core.security, app.models.user, app.services.fred_service"
+  - date: "2026-03-01T09:10:15"
+    type: feature
+    domain: root
+    files:
+      - "backend\\app\\api\\dashboard.py"
+    description: Create dashboard in root
+    impact:
+      - "external dependency added: logging, fastapi, sqlmodel"
+      - "internal dependency added: app.core.cache, app.core.database, app.core.security (+more)"
+  - date: "2026-03-01T09:10:18"
+    type: refactor
+    domain: root
+    files:
+      - "backend\\tests\\conftest.py"
+    description: Refactor conftest
+    impact:
+      - none
+  - date: "2026-03-01T09:10:21"
+    type: refactor
+    domain: root
+    files:
+      - "backend\\app\\api\\__init__.py"
+    description: Refactor __init__
+    impact:
+      - none
+  - date: "2026-03-01T09:10:24"
+    type: refactor
+    domain: root
+    files:
+      - "backend\\app\\main.py"
+    description: Refactor main
+    impact:
+      - none
+  - date: "2026-03-01T09:10:25"
+    type: refactor
+    domain: root
+    files:
+      - "backend\\tests\\conftest.py"
+    description: Refactor conftest
+    impact:
+      - none
+  - date: "2026-03-01T09:10:26"
+    type: feature
+    domain: root
+    files:
+      - "backend\\app\\main.py"
+    description: Add new functionality to main in root
+    impact:
+      - none
+  - date: "2026-03-01T09:10:30"
+    type: feature
+    domain: root
+    files:
+      - "backend\\app\\api\\__init__.py"
+    description: Add new functionality to __init__ in root
+    impact:
+      - none
+  - date: "2026-03-01T09:10:36"
+    type: refactor
+    domain: root
+    files:
+      - "backend\\app\\api\\__init__.py"
+    description: Refactor __init__
+    impact:
+      - none
+  - date: "2026-03-01T09:10:46"
+    type: refactor
+    domain: root
+    files:
+      - "backend\\app\\main.py"
+    description: Refactor main
+    impact:
+      - none
+  - date: "2026-03-01T09:10:53"
+    type: feature
+    domain: root
+    files:
+      - "backend\\app\\main.py"
+    description: Add new functionality to main in root
+    impact:
+      - none
+  - date: "2026-03-01T09:11:29"
+    type: feature
+    domain: root
+    files:
+      - "backend\\tests\\test_dashboard.py"
+    description: Create test_dashboard in root
+    impact:
+      - "external dependency added: unittest.mock, fastapi.testclient, sqlmodel"
+      - "internal dependency added: app.core.security, app.models.alert, app.models.cluster (+more)"
+  - date: "2026-03-01T09:13:23"
+    type: feature
+    domain: root
+    files:
+      - "backend\\tests\\test_rss.py"
+    description: Create test_rss in root
+    impact:
+      - "external dependency added: datetime, time, unittest.mock (+more)"
+      - "internal dependency added: app.core.security, app.models.user, app.services.rss_service"
+  - date: "2026-03-01T09:14:21"
+    type: refactor
+    domain: root
+    files:
+      - "backend\\tests\\test_rss.py"
+    description: Refactor test_rss
+    impact:
+      - none
+  - date: "2026-03-01T09:14:24"
+    type: refactor
+    domain: root
+    files:
+      - "backend\\tests\\test_rss.py"
+    description: Refactor test_rss
+    impact:
+      - none
+  - date: "2026-03-01T09:17:47"
+    type: docs
+    domain: root
+    files:
+      - "docs\\planning\\08-improvements.md"
+    description: Update documentation 08-improvements.md
+    impact:
+      - none
+  - date: "2026-03-01T09:17:50"
+    type: docs
+    domain: root
+    files:
+      - "docs\\planning\\08-improvements.md"
+    description: Update documentation 08-improvements.md
+    impact:
+      - none
+  - date: "2026-03-01T09:17:52"
+    type: docs
+    domain: root
+    files:
+      - "docs\\planning\\08-improvements.md"
+    description: Update documentation 08-improvements.md
+    impact:
+      - none
+  - date: "2026-03-01T09:17:59"
+    type: docs
+    domain: root
+    files:
+      - "docs\\planning\\08-improvements.md"
+    description: Update documentation 08-improvements.md
+    impact:
+      - none
+  - date: "2026-03-01T09:18:01"
+    type: docs
+    domain: root
+    files:
+      - "docs\\planning\\08-improvements.md"
+    description: Update documentation 08-improvements.md
+    impact:
+      - none
+  - date: "2026-03-01T09:18:03"
+    type: docs
+    domain: root
+    files:
+      - "docs\\planning\\08-improvements.md"
+    description: Update documentation 08-improvements.md
+    impact:
+      - none
+  - date: "2026-03-01T09:18:10"
+    type: docs
+    domain: root
+    files:
+      - "docs\\planning\\08-improvements.md"
+    description: Update documentation 08-improvements.md
+    impact:
+      - none
+  - date: "2026-03-01T09:18:12"
+    type: docs
+    domain: root
+    files:
+      - "docs\\planning\\08-improvements.md"
+    description: Update documentation 08-improvements.md
+    impact:
+      - none
+  - date: "2026-03-01T09:18:15"
+    type: docs
+    domain: root
+    files:
+      - "docs\\planning\\08-improvements.md"
+    description: Update documentation 08-improvements.md
+    impact:
+      - none
+  - date: "2026-03-01T09:18:21"
+    type: docs
+    domain: root
+    files:
+      - "docs\\planning\\08-improvements.md"
+    description: Update documentation 08-improvements.md
+    impact:
+      - none
+  - date: "2026-03-01T09:18:23"
+    type: docs
+    domain: root
+    files:
+      - "docs\\planning\\08-improvements.md"
+    description: Update documentation 08-improvements.md
+    impact:
+      - none

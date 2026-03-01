@@ -2,7 +2,7 @@
 
 > 42개 개선 포인트 | 95% 무료 | 5단계 우선순위
 >
-> **완료 현황**: 14/42 (✅ 표시)
+> **완료 현황**: 24/42 (✅ 표시)
 
 ---
 
@@ -11,12 +11,12 @@
 | # | API | 용도 | 비용 | 난이도 | 우선순위 |
 |---|-----|------|------|--------|----------|
 | 1.1 | ✅ **Yahoo Finance** (`yfinance`) | 반도체 기업 주가/시가총액 실시간 조회 | 무료 | Low | **HIGH** |
-| 1.2 | **FRED API** (미연준 경제데이터) | 반도체 관련 매크로 지표 (ISM PMI, 산업생산지수) | 무료 | Low | MEDIUM |
+| 1.2 | ✅ **FRED API** (미연준 경제데이터) | 반도체 관련 매크로 지표 (ISM PMI, 산업생산지수) | 무료 | Low | MEDIUM |
 | 1.3 | ✅ **frankfurter.app** (환율) | KRW/USD, JPY/USD, TWD/USD 실시간 환율 | 무료 | Low | MEDIUM |
 | 1.4 | **GDELT Project** | 지정학적 이벤트 모니터링 (미중 반도체 규제, 대만 리스크) | 무료 | Medium | **HIGH** |
 | 1.5 | **SEC EDGAR** | 미국 반도체 기업 10-K/10-Q/8-K 공시 | 무료 | Medium | LOW |
 | 1.6 | **DART API** (금감원) | 삼성전자, SK하이닉스 분기보고서/사업보고서 | 무료 | Medium | MEDIUM |
-| 1.7 | **RSS Feed 수집기** | SemiWiki, EE Times 등 반도체 전문매체 직접 수집 | 무료 | Low | **HIGH** |
+| 1.7 | ✅ **RSS Feed 수집기** | SemiWiki, EE Times 등 반도체 전문매체 직접 수집 | 무료 | Low | **HIGH** |
 | 1.8 | **Google Trends** (`pytrends`) | "DRAM 가격", "HBM", "AI 칩" 등 검색 트렌드 | 무료 | Low | LOW |
 
 ### 상세 설명
@@ -36,10 +36,10 @@
 | 2.1 | **데이터 수집 파이프라인** | DataSource/DataPoint 모델만 존재, 스케줄러 미구현 | Medium | **CRITICAL** |
 | 2.2 | **이상 탐지 엔진** | AlertRule CRUD 있으나 실제 평가 엔진 없음 | High | **CRITICAL** |
 | 2.3 | **WebSocket 실시간 푸시** | TRD에 5초 이내 알림 요구사항 있으나 미구현 | Medium | MEDIUM |
-| 2.4 | **DataPoint API 엔드포인트** | 모델만 존재, API 없음 | Low | **HIGH** |
+| 2.4 | ✅ **DataPoint API 엔드포인트** | 모델만 존재, API 없음 | Low | **HIGH** |
 | 2.5 | **가격/재고 대시보드 카드** | PRD Phase 2로 연기됨 | Medium | **HIGH** |
 | 2.6 | **기업 로고** | SidePanel에 이니셜만 표시 | Low | LOW |
-| 2.7 | **글로벌 검색** | 필터패널 내 검색만 존재 | Low | MEDIUM |
+| 2.7 | ✅ **글로벌 검색** | 필터패널 내 검색만 존재 | Low | MEDIUM |
 | 2.8 | **리포트 내보내기** | PRD Phase 2 (CSV/PDF) | Medium | LOW |
 
 ### 상세 설명
@@ -96,11 +96,11 @@
 
 | # | 기능 | 현재 상태 | 난이도 | 우선순위 |
 |---|------|-----------|--------|----------|
-| 5.1 | **노드 크기 차등화** | 모든 기업 동일 크기 (34px) | Low | MEDIUM |
+| 5.1 | ✅ **노드 크기 차등화** | 모든 기업 동일 크기 (34px) | Low | MEDIUM |
 | 5.2 | ✅ **엣지 두께 = 관계 강도** | strength 필드 있으나 고정 width: 1.5 | Low | MEDIUM |
 | 5.3 | ✅ **Toast 알림 시스템** | 에러/성공 피드백 없음 | Low | **HIGH** |
 | 5.4 | **다크 모드** | TopBar만 다크, 본문은 라이트 | Medium | LOW |
-| 5.5 | **SidePanel 탭 인터페이스** | 전체 섹션 단일 스크롤 | Low | MEDIUM |
+| 5.5 | ✅ **SidePanel 탭 인터페이스** | 전체 섹션 단일 스크롤 | Low | MEDIUM |
 | 5.6 | **그래프 미니맵** | 줌인 시 전체 맥락 상실 | Low | MEDIUM |
 | 5.7 | **자동 레이아웃** (dagre) | 수동 preset 레이아웃, 기업 많으면 겹침 | Medium | MEDIUM |
 | 5.8 | **키보드 네비게이션** | 마우스만 지원 | Medium | LOW |
@@ -112,9 +112,9 @@
 
 | # | 기능 | 현재 상태 | 난이도 | 우선순위 |
 |---|------|-----------|--------|----------|
-| 6.1 | **백엔드 응답 캐싱** | 캐싱 없음 (뉴스 DB 캐시 제외) | Medium | **HIGH** |
+| 6.1 | ✅ **백엔드 응답 캐싱** | 캐싱 없음 (뉴스 DB 캐시 제외) | Medium | **HIGH** |
 | 6.2 | **React Query** (TanStack) | 수동 useState/useEffect 데이터 페칭 | Medium | **HIGH** |
-| 6.3 | **통합 그래프 데이터 API** | 대시보드 로드 시 4개 API 호출 | Low | MEDIUM |
+| 6.3 | ✅ **통합 그래프 데이터 API** | 대시보드 로드 시 4개 API 호출 | Low | MEDIUM |
 | 6.4 | **Cytoscape 증분 업데이트** | 전체 elements 순회 방식 | Medium | LOW |
 | 6.5 | **가상 스크롤** | SidePanel 리스트 전체 렌더링 | Low | LOW |
 
@@ -132,10 +132,10 @@
 |---|------|-----------|--------|----------|
 | 7.1 | **백그라운드 잡 시스템** | 스케줄러 미구현 (TRD에 APScheduler 명시) | Medium | **CRITICAL** |
 | 7.2 | ✅ **Alembic 마이그레이션** | create_all() 직접 호출, 마이그레이션 없음 | Low | **HIGH** |
-| 7.3 | **Docker Compose** | 로컬 직접 실행만 가능 | Low | MEDIUM |
+| 7.3 | ✅ **Docker Compose** | 로컬 직접 실행만 가능 | Low | MEDIUM |
 | 7.4 | **API 버저닝 전략** | /api/v1/ 프리픽스만 존재 | Low | LOW |
 | 7.5 | ✅ **헬스체크 강화** | `{"status": "ok"}`만 반환 | Low | MEDIUM |
-| 7.6 | **환경별 설정** | dev/staging/prod 구분 없음 | Low | MEDIUM |
+| 7.6 | ✅ **환경별 설정** | dev/staging/prod 구분 없음 | Low | MEDIUM |
 | 7.7 | **프론트엔드 env 변수** | API URL 하드코딩 | Low | LOW |
 | 7.8 | **테스트 인프라** | 백엔드 71개 테스트 있으나 CI 미연동 | Medium | **HIGH** |
 
