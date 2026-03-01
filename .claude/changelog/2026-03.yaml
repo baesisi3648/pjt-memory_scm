@@ -1785,3 +1785,573 @@ entries:
     description: Update documentation 08-improvements.md
     impact:
       - none
+  - date: "2026-03-01T09:31:22"
+    type: refactor
+    domain: root
+    files:
+      - "backend\\scripts\\seed.py"
+    description: Refactor seed
+    impact:
+      - none
+  - date: "2026-03-01T09:34:09"
+    type: refactor
+    domain: root
+    files:
+      - "backend\\scripts\\seed.py"
+    description: Refactor seed
+    impact:
+      - none
+  - date: "2026-03-01T09:34:17"
+    type: fix
+    domain: root
+    files:
+      - "backend\\scripts\\seed.py"
+    description: Fix issue in seed
+    impact:
+      - none
+  - date: "2026-03-01T09:36:10"
+    type: refactor
+    domain: "backend\\app\\services\\\news"
+    files:
+      - "backend\\app\\services\\\news_service.py"
+    description: Refactor news_service
+    impact:
+      - none
+  - date: "2026-03-01T09:36:27"
+    type: fix
+    domain: "backend\\app\\services\\\news"
+    files:
+      - "backend\\app\\services\\\news_service.py"
+    description: Fix issue in news_service
+    impact:
+      - none
+  - date: "2026-03-01T09:38:06"
+    type: refactor
+    domain: "backend\\app\\services\\\news"
+    files:
+      - "backend\\app\\services\\\news_service.py"
+    description: Refactor news_service
+    impact:
+      - none
+  - date: "2026-03-01T09:43:42"
+    type: feature
+    domain: "backend\\app\\services\\risk"
+    files:
+      - "backend\\app\\services\\risk_service.py"
+    description: "Create risk_service in backend\\app\\services\\risk"
+    impact:
+      - "external dependency added: logging, sqlmodel"
+      - "internal dependency added: app.models.alert, app.models.company_relation, app.models.company"
+  - date: "2026-03-01T09:43:43"
+    type: feature
+    domain: root
+    files:
+      - "backend\\app\\services\\data_collector.py"
+    description: Create data_collector in root
+    impact:
+      - "external dependency added: logging, datetime, sqlmodel (+more)"
+      - "internal dependency added: app.core.database, app.models.data_point, app.models.data_source (+more)"
+  - date: "2026-03-01T09:43:46"
+    type: feature
+    domain: root
+    files:
+      - "backend\\app\\api\\risk.py"
+    description: Create risk in root
+    impact:
+      - "external dependency added: fastapi, sqlmodel"
+      - "internal dependency added: app.core.database, app.core.security, app.models.user (+more)"
+  - date: "2026-03-01T09:43:47"
+    type: feature
+    domain: root
+    files:
+      - "backend\\app\\core\\scheduler.py"
+    description: Create scheduler in root
+    impact:
+      - "external dependency added: logging, apscheduler.schedulers.background, apscheduler.triggers.interval"
+      - "internal dependency added: app.services.data_collector"
+  - date: "2026-03-01T09:43:51"
+    type: refactor
+    domain: root
+    files:
+      - "backend\\app\\api\\__init__.py"
+    description: Refactor __init__
+    impact:
+      - none
+  - date: "2026-03-01T09:43:53"
+    type: refactor
+    domain: root
+    files:
+      - "backend\\app\\main.py"
+    description: Refactor main
+    impact:
+      - none
+  - date: "2026-03-01T09:43:56"
+    type: refactor
+    domain: root
+    files:
+      - "backend\\app\\api\\__init__.py"
+    description: Refactor __init__
+    impact:
+      - none
+  - date: "2026-03-01T09:44:00"
+    type: feature
+    domain: root
+    files:
+      - "backend\\app\\main.py"
+    description: Add new functionality to main in root
+    impact:
+      - none
+  - date: "2026-03-01T09:44:00"
+    type: refactor
+    domain: root
+    files:
+      - "backend\\app\\api\\__init__.py"
+    description: Refactor __init__
+    impact:
+      - none
+  - date: "2026-03-01T09:44:07"
+    type: feature
+    domain: "backend\\app\\services\\concentration"
+    files:
+      - "backend\\app\\services\\concentration_service.py"
+    description: "Create concentration_service in backend\\app\\services\\concentration"
+    impact:
+      - "external dependency added: sqlmodel"
+      - "internal dependency added: app.models.company, app.models.company_relation"
+  - date: "2026-03-01T09:44:08"
+    type: feature
+    domain: root
+    files:
+      - "backend\\app\\api\\concentration.py"
+    description: Create concentration in root
+    impact:
+      - "external dependency added: fastapi, sqlmodel"
+      - "internal dependency added: app.core.database, app.core.security, app.models.user (+more)"
+  - date: "2026-03-01T09:44:16"
+    type: refactor
+    domain: root
+    files:
+      - "backend\\app\\main.py"
+    description: Refactor main
+    impact:
+      - none
+  - date: "2026-03-01T09:44:21"
+    type: refactor
+    domain: root
+    files:
+      - "backend\\app\\api\\__init__.py"
+    description: Refactor __init__
+    impact:
+      - none
+  - date: "2026-03-01T09:44:22"
+    type: refactor
+    domain: root
+    files:
+      - "backend\\app\\main.py"
+    description: Refactor main
+    impact:
+      - none
+  - date: "2026-03-01T09:44:25"
+    type: refactor
+    domain: root
+    files:
+      - "backend\\pyproject.toml"
+    description: Refactor pyproject
+    impact:
+      - configuration change
+  - date: "2026-03-01T09:44:27"
+    type: refactor
+    domain: root
+    files:
+      - "backend\\app\\models\\\news_item.py"
+    description: Refactor news_item
+    impact:
+      - none
+  - date: "2026-03-01T09:44:27"
+    type: feature
+    domain: root
+    files:
+      - "backend\\app\\api\\__init__.py"
+    description: Add new functionality to __init__ in root
+    impact:
+      - none
+  - date: "2026-03-01T09:44:32"
+    type: feature
+    domain: root
+    files:
+      - "backend\\app\\api\\__init__.py"
+    description: Add new functionality to __init__ in root
+    impact:
+      - none
+  - date: "2026-03-01T09:44:36"
+    type: feature
+    domain: "backend\\app\\services\\sentiment"
+    files:
+      - "backend\\app\\services\\sentiment_service.py"
+    description: "Create sentiment_service in backend\\app\\services\\sentiment"
+    impact:
+      - "external dependency added: logging, textblob, sqlmodel (+more)"
+      - "internal dependency added: app.models.news_item"
+  - date: "2026-03-01T09:44:39"
+    type: feature
+    domain: root
+    files:
+      - "backend\\app\\api\\sentiment.py"
+    description: Create sentiment in root
+    impact:
+      - "external dependency added: fastapi, sqlmodel"
+      - "internal dependency added: app.core.database, app.core.security, app.models.user (+more)"
+  - date: "2026-03-01T09:44:42"
+    type: refactor
+    domain: root
+    files:
+      - "backend\\app\\main.py"
+    description: Refactor main
+    impact:
+      - none
+  - date: "2026-03-01T09:44:48"
+    type: refactor
+    domain: root
+    files:
+      - "backend\\app\\main.py"
+    description: Refactor main
+    impact:
+      - none
+  - date: "2026-03-01T09:44:55"
+    type: refactor
+    domain: root
+    files:
+      - "backend\\app\\api\\__init__.py"
+    description: Refactor __init__
+    impact:
+      - none
+  - date: "2026-03-01T09:44:57"
+    type: refactor
+    domain: root
+    files:
+      - "backend\\app\\api\\__init__.py"
+    description: Refactor __init__
+    impact:
+      - none
+  - date: "2026-03-01T09:44:58"
+    type: refactor
+    domain: root
+    files:
+      - "backend\\app\\main.py"
+    description: Refactor main
+    impact:
+      - none
+  - date: "2026-03-01T09:45:00"
+    type: feature
+    domain: root
+    files:
+      - "backend\\app\\main.py"
+    description: Add new functionality to main in root
+    impact:
+      - none
+  - date: "2026-03-01T09:50:01"
+    type: feature
+    domain: root
+    files:
+      - "frontend\\.env"
+    description: Create .env in root
+    impact:
+      - none
+  - date: "2026-03-01T09:50:04"
+    type: feature
+    domain: root
+    files:
+      - "frontend\\.env.example"
+    description: Create .env in root
+    impact:
+      - none
+  - date: "2026-03-01T09:50:09"
+    type: refactor
+    domain: root
+    files:
+      - "frontend\\src\\services\\api.ts"
+    description: Refactor api
+    impact:
+      - none
+  - date: "2026-03-01T09:50:12"
+    type: feature
+    domain: root
+    files:
+      - "frontend\\.gitignore"
+    description: Add new functionality to .gitignore in root
+    impact:
+      - none
+  - date: "2026-03-01T09:50:20"
+    type: feature
+    domain: root
+    files:
+      - "frontend\\src\\components\\graph\\SidePanel.tsx"
+    description: Add new functionality to SidePanel in root
+    impact:
+      - none
+  - date: "2026-03-01T09:50:21"
+    type: docs
+    domain: root
+    files:
+      - "docs\\planning\\08-improvements.md"
+    description: Update documentation 08-improvements.md
+    impact:
+      - none
+  - date: "2026-03-01T09:50:35"
+    type: docs
+    domain: root
+    files:
+      - "docs\\planning\\08-improvements.md"
+    description: Update documentation 08-improvements.md
+    impact:
+      - none
+  - date: "2026-03-01T09:50:40"
+    type: refactor
+    domain: root
+    files:
+      - "backend\\pyproject.toml"
+    description: Refactor pyproject
+    impact:
+      - configuration change
+  - date: "2026-03-01T09:50:46"
+    type: docs
+    domain: root
+    files:
+      - "docs\\planning\\08-improvements.md"
+    description: Update documentation 08-improvements.md
+    impact:
+      - none
+  - date: "2026-03-01T09:50:55"
+    type: docs
+    domain: root
+    files:
+      - "docs\\planning\\08-improvements.md"
+    description: Update documentation 08-improvements.md
+    impact:
+      - none
+  - date: "2026-03-01T09:50:57"
+    type: feature
+    domain: root
+    files:
+      - "frontend\\src\\index.css"
+    description: Add new functionality to index in root
+    impact:
+      - none
+  - date: "2026-03-01T09:51:04"
+    type: docs
+    domain: root
+    files:
+      - "docs\\planning\\08-improvements.md"
+    description: Update documentation 08-improvements.md
+    impact:
+      - none
+  - date: "2026-03-01T09:51:18"
+    type: refactor
+    domain: root
+    files:
+      - "frontend\\src\\components\\graph\\SidePanel.tsx"
+    description: Refactor SidePanel
+    impact:
+      - none
+  - date: "2026-03-01T09:51:51"
+    type: refactor
+    domain: root
+    files:
+      - "frontend\\src\\components\\graph\\SidePanel.tsx"
+    description: Refactor SidePanel
+    impact:
+      - none
+  - date: "2026-03-01T09:51:51"
+    type: feature
+    domain: "backend\\app\\services\\trends"
+    files:
+      - "backend\\app\\services\\trends_service.py"
+    description: "Create trends_service in backend\\app\\services\\trends"
+    impact:
+      - "external dependency added: logging, datetime, pytrends.request"
+  - date: "2026-03-01T09:51:56"
+    type: feature
+    domain: root
+    files:
+      - "frontend\\src\\types\\cytoscape-navigator.d.ts"
+    description: Create cytoscape-navigator.d in root
+    impact:
+      - "external dependency added: cytoscape"
+  - date: "2026-03-01T09:51:59"
+    type: feature
+    domain: root
+    files:
+      - "backend\\app\\api\\trends.py"
+    description: Create trends in root
+    impact:
+      - "external dependency added: fastapi"
+      - "internal dependency added: app.core.security, app.models.user, app.services.trends_service"
+  - date: "2026-03-01T09:52:05"
+    type: refactor
+    domain: root
+    files:
+      - "backend\\app\\api\\__init__.py"
+    description: Refactor __init__
+    impact:
+      - none
+  - date: "2026-03-01T09:52:05"
+    type: feature
+    domain: root
+    files:
+      - "frontend\\src\\hooks\\useCytoscape.ts"
+    description: Add new functionality to useCytoscape in root
+    impact:
+      - none
+  - date: "2026-03-01T09:52:05"
+    type: feature
+    domain: root
+    files:
+      - ".github\\workflows\\ci.yml"
+    description: Create ci in root
+    impact:
+      - configuration change
+  - date: "2026-03-01T09:52:10"
+    type: refactor
+    domain: root
+    files:
+      - "backend\\app\\api\\__init__.py"
+    description: Refactor __init__
+    impact:
+      - none
+  - date: "2026-03-01T09:52:15"
+    type: refactor
+    domain: root
+    files:
+      - "frontend\\src\\hooks\\useCytoscape.ts"
+    description: Refactor useCytoscape
+    impact:
+      - none
+  - date: "2026-03-01T09:52:16"
+    type: refactor
+    domain: root
+    files:
+      - "backend\\app\\main.py"
+    description: Refactor main
+    impact:
+      - none
+  - date: "2026-03-01T09:52:22"
+    type: refactor
+    domain: root
+    files:
+      - "backend\\app\\main.py"
+    description: Refactor main
+    impact:
+      - none
+  - date: "2026-03-01T09:52:23"
+    type: feature
+    domain: root
+    files:
+      - "frontend\\src\\hooks\\useCytoscape.ts"
+    description: Add new functionality to useCytoscape in root
+    impact:
+      - none
+  - date: "2026-03-01T09:52:30"
+    type: refactor
+    domain: root
+    files:
+      - "frontend\\src\\components\\graph\\ValueChainGraph.tsx"
+    description: Refactor ValueChainGraph
+    impact:
+      - none
+  - date: "2026-03-01T09:52:39"
+    type: refactor
+    domain: root
+    files:
+      - "frontend\\src\\components\\graph\\ValueChainGraph.tsx"
+    description: Refactor ValueChainGraph
+    impact:
+      - none
+  - date: "2026-03-01T09:52:49"
+    type: feature
+    domain: root
+    files:
+      - "frontend\\src\\components\\graph\\ValueChainGraph.tsx"
+    description: Add new functionality to ValueChainGraph in root
+    impact:
+      - none
+  - date: "2026-03-01T09:53:01"
+    type: feature
+    domain: root
+    files:
+      - "frontend\\src\\components\\graph\\ValueChainGraph.tsx"
+    description: Add new functionality to ValueChainGraph in root
+    impact:
+      - none
+  - date: "2026-03-01T09:53:03"
+    type: docs
+    domain: root
+    files:
+      - "docs\\planning\\08-improvements.md"
+    description: Update documentation 08-improvements.md
+    impact:
+      - none
+  - date: "2026-03-01T09:53:06"
+    type: feature
+    domain: root
+    files:
+      - "backend\\tests\\test_trends.py"
+    description: Create test_trends in root
+    impact:
+      - "external dependency added: datetime, unittest.mock, pandas (+more)"
+      - "internal dependency added: app.core.security, app.models.user, app.services.trends_service"
+  - date: "2026-03-01T09:53:10"
+    type: docs
+    domain: root
+    files:
+      - "docs\\planning\\08-improvements.md"
+    description: Update documentation 08-improvements.md
+    impact:
+      - none
+  - date: "2026-03-01T09:53:17"
+    type: feature
+    domain: root
+    files:
+      - "frontend\\src\\index.css"
+    description: Add new functionality to index in root
+    impact:
+      - none
+  - date: "2026-03-01T09:53:26"
+    type: feature
+    domain: root
+    files:
+      - "frontend\\src\\index.css"
+    description: Add new functionality to index in root
+    impact:
+      - none
+  - date: "2026-03-01T09:53:38"
+    type: refactor
+    domain: root
+    files:
+      - "frontend\\src\\components\\graph\\ValueChainGraph.tsx"
+    description: Refactor ValueChainGraph
+    impact:
+      - none
+  - date: "2026-03-01T09:55:24"
+    type: docs
+    domain: root
+    files:
+      - "docs\\planning\\08-improvements.md"
+    description: Update documentation 08-improvements.md
+    impact:
+      - none
+  - date: "2026-03-01T09:55:49"
+    type: docs
+    domain: root
+    files:
+      - "docs\\planning\\08-improvements.md"
+    description: Update documentation 08-improvements.md
+    impact:
+      - none
+  - date: "2026-03-01T09:55:56"
+    type: docs
+    domain: root
+    files:
+      - "docs\\planning\\08-improvements.md"
+    description: Update documentation 08-improvements.md
+    impact:
+      - none
