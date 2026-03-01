@@ -19,6 +19,7 @@ dependencies = [
     "cachetools>=5.5.0",
     "textblob>=0.18.0",
     "pytrends>=4.9.0",
+    "reportlab>=4.0",
 ]
 
 [project.optional-dependencies]

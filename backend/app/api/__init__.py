@@ -10,10 +10,12 @@
 # @TASK GDELT-2 - GDELT geopolitical events router
 # @TASK EDGAR-2 - SEC EDGAR filings router
 # @TASK DART-2 - DART Korean semiconductor filings router
+# @TASK EXPORT-1 - Report export (CSV/PDF) router
 
 from app.api.auth import router as auth_router
 from app.api.dart import router as dart_router
 from app.api.edgar import router as edgar_router
+from app.api.export import router as export_router
 from app.api.dashboard import router as dashboard_router
 from app.api.clusters import router as clusters_router
 from app.api.companies import router as companies_router
@@ -52,6 +54,7 @@ __all__ = [
     "fred_router",
     "dashboard_router",
     "edgar_router",
+    "export_router",
     "risk_router",
     "concentration_router",
     "sentiment_router",

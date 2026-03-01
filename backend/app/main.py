@@ -22,6 +22,7 @@ from app.api import (
     data_points_router,
     edgar_router,
     exchange_router,
+    export_router,
     filters_router,
     fred_router,
     gdelt_router,
@@ -123,6 +124,8 @@ app.include_router(sentiment_router, prefix="/api/v1", tags=["sentiment"])
 app.include_router(trends_router, prefix="/api/v1", tags=["trends"])
 # GDELT: GET /api/v1/geopolitical-events
 app.include_router(gdelt_router, prefix="/api/v1", tags=["gdelt"])
+# Export: GET /api/v1/export/companies.csv, alerts.csv, relations.csv, report.pdf
+app.include_router(export_router, prefix="/api/v1/export", tags=["export"])
 # SEC EDGAR: GET /api/v1/sec-filings, GET /api/v1/sec-filings/{ticker}
 app.include_router(edgar_router, prefix="/api/v1", tags=["sec-edgar"])
 # DART: GET /api/v1/dart-filings, GET /api/v1/dart-filings/{corp_code}
