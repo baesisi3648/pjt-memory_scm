@@ -203,30 +203,33 @@ def seed_alerts(session: Session, cm: dict[str, int]) -> None:
 def seed_news(session: Session, cm: dict[str, int]) -> None:
     news = [
         ("ASML, High-NA EUV 2호기 삼성전자 납품 완료", "Reuters",
-         cm["ASML"], 2, "https://www.reuters.com/technology/asml-high-na-euv/"),
+         cm["ASML"], 2),
         ("SK하이닉스, HBM4 개발 착수…2027년 양산 목표", "한국경제",
-         cm["SK hynix"], 1, "https://www.hankyung.com/it/article/sk-hynix-hbm4"),
+         cm["SK hynix"], 1),
         ("삼성전자, 2nm GAA 공정 시험 생산 시작", "전자신문",
-         cm["Samsung Electronics"], 3, "https://www.etnews.com/samsung-2nm-gaa"),
+         cm["Samsung Electronics"], 3),
         ("TSMC, 일본 구마모토 2공장 건설 본격화", "Nikkei Asia",
-         cm["TSMC"], 5, "https://asia.nikkei.com/Business/Tech/TSMC-kumamoto"),
+         cm["TSMC"], 5),
         ("마이크론, 중국 시안 공장 NAND 생산 축소", "Bloomberg",
-         cm["Micron Technology"], 4, "https://www.bloomberg.com/news/micron-xian-nand"),
+         cm["Micron Technology"], 4),
         ("SUMCO, 실리콘 웨이퍼 장기 공급 계약 체결", "日経新聞",
-         cm["SUMCO"], 7, "https://www.nikkei.com/article/sumco-wafer-supply"),
+         cm["SUMCO"], 7),
         ("램리서치, 식각 장비 시장 점유율 1위 탈환", "SemiEngineering",
-         cm["Lam Research"], 6, "https://semiengineering.com/lam-research-etch-market/"),
+         cm["Lam Research"], 6),
         ("네패스, 차량용 반도체 패키징 라인 증설", "매일경제",
-         cm["NEPES"], 8, "https://www.mk.co.kr/news/nepes-auto-packaging"),
+         cm["NEPES"], 8),
         ("인텔, 파운드리 사업부 분사 검토", "CNBC",
-         cm["Intel"], 10, "https://www.cnbc.com/intel-foundry-spinoff/"),
+         cm["Intel"], 10),
         ("키옥시아-WD 합병 협상 재개", "日経アジア",
-         cm["Kioxia"], 12, "https://asia.nikkei.com/Business/kioxia-wd-merger"),
+         cm["Kioxia"], 12),
     ]
-    for title, source, cid, days_ago, url in news:
+    for title, source, cid, days_ago in news:
+        # Google News search link — always resolves, no WAF blocking
+        from urllib.parse import quote
+        search_url = f"https://news.google.com/search?q={quote(title)}"
         session.add(NewsItem(
             title=title,
-            url=url,
+            url=search_url,
             source=source,
             company_id=cid,
             published_at=NOW - timedelta(days=days_ago),
