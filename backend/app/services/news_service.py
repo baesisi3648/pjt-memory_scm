@@ -39,19 +39,15 @@ async def fetch_company_news(
     if cached:
         return list(cached)
 
-    # No fresh cache — fetch from NewsAPI
-    if not settings.NEWS_API_KEY or not company_name:
-        # Fallback to any existing DB data if no API key
-        return list(
-            session.exec(
-                select(NewsItem)
-                .where(NewsItem.company_id == company_id)
-                .order_by(NewsItem.published_at.desc())
-                .limit(limit)
-            ).all()
-        )
+    # No fresh cache — fetch from API
+    if not company_name:
+        return []
 
-    articles = await _call_newsapi(company_name, limit)
+    # Try NewsAPI first (if key configured), then Google News RSS as fallback
+    if settings.NEWS_API_KEY:
+        articles = await _call_newsapi(company_name, limit)
+    else:
+        articles = await _call_google_news_rss(company_name, limit)
 
     if not articles:
         # Return stale cache if API returns nothing
@@ -99,6 +95,44 @@ async def fetch_company_news(
         session.refresh(item)
 
     return new_items
+
+
+async def _call_google_news_rss(company_name: str, limit: int = 10) -> list[dict]:
+    """Fetch news via Google News RSS (free, no API key required)."""
+    from urllib.parse import quote
+    import feedparser
+
+    # Use exact match for company name + broad industry terms
+    query = f'"{company_name}" (semiconductor OR chip OR 반도체)'
+    url = f"https://news.google.com/rss/search?q={quote(query)}&hl=en&gl=US&ceid=US:en"
+
+    try:
+        async with httpx.AsyncClient(timeout=10.0) as client:
+            resp = await client.get(url)
+            resp.raise_for_status()
+
+        feed = feedparser.parse(resp.text)
+        articles = []
+        for entry in feed.entries[:limit]:
+            published_at = None
+            if hasattr(entry, "published_parsed") and entry.published_parsed:
+                from time import mktime
+                published_at = datetime.fromtimestamp(
+                    mktime(entry.published_parsed), tz=timezone.utc
+                ).isoformat()
+
+            articles.append({
+                "title": entry.get("title", ""),
+                "url": entry.get("link", ""),
+                "source": {"name": entry.get("source", {}).get("title", "Google News")
+                           if hasattr(entry, "source") else "Google News"},
+                "publishedAt": published_at,
+            })
+        return articles
+
+    except Exception:
+        logger.exception("Error fetching Google News RSS for %r", company_name)
+        return []
 
 
 INDUSTRY_KEYWORDS = "semiconductor OR chip OR memory OR DRAM OR NAND OR HBM OR wafer OR foundry OR 반도체"
