@@ -3,6 +3,7 @@
 Fetches real news articles for semiconductor companies and caches them in the DB.
 """
 
+import logging
 from datetime import datetime, timedelta, timezone
 
 import httpx
@@ -10,6 +11,8 @@ from sqlmodel import Session, select
 
 from app.core.config import settings
 from app.models.news_item import NewsItem
+
+logger = logging.getLogger(__name__)
 
 NEWSAPI_URL = "https://newsapi.org/v2/everything"
 CACHE_TTL_HOURS = 6
@@ -126,5 +129,21 @@ async def _call_newsapi(company_name: str, page_size: int = 10) -> list[dict]:
                 if a.get("title") and a["title"] != "[Removed]"
                 and a.get("url")
             ]
-    except (httpx.HTTPError, Exception):
+    except httpx.HTTPStatusError as exc:
+        logger.error(
+            "NewsAPI returned HTTP %d for company=%r: %s",
+            exc.response.status_code,
+            company_name,
+            exc.response.text[:200],
+        )
+        return []
+    except httpx.HTTPError as exc:
+        logger.error(
+            "Network error calling NewsAPI for company=%r: %s",
+            company_name,
+            exc,
+        )
+        return []
+    except Exception:
+        logger.exception("Unexpected error calling NewsAPI for company=%r", company_name)
         return []

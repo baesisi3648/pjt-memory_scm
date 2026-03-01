@@ -1,4 +1,7 @@
-from fastapi import FastAPI
+import logging
+import time
+
+from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
 
 from app.api import (
@@ -14,6 +17,12 @@ from app.api import (
     stock_router,
 )
 from app.core.config import settings
+from app.core.logging_config import setup_logging
+
+# Configure structured logging before anything else runs.
+setup_logging()
+
+logger = logging.getLogger(__name__)
 
 app = FastAPI(
     title=settings.PROJECT_NAME,
@@ -29,6 +38,22 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+
+@app.middleware("http")
+async def log_requests(request: Request, call_next):
+    """Log method, path, status code and wall-clock duration for every request."""
+    start = time.perf_counter()
+    response = await call_next(request)
+    duration_ms = (time.perf_counter() - start) * 1000
+    logger.info(
+        "method=%s path=%s status=%d duration_ms=%.1f",
+        request.method,
+        request.url.path,
+        response.status_code,
+        duration_ms,
+    )
+    return response
 
 
 app.include_router(auth_router, prefix="/api/v1/auth", tags=["auth"])
