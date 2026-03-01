@@ -10,25 +10,36 @@ records in a consistent pipe-delimited format:
 
 Call ``setup_logging()`` once at application startup (inside main.py)
 before any other module-level loggers are used.
+
+The default log level is read from ``settings.LOG_LEVEL`` so it can be
+controlled via the ``LOG_LEVEL`` environment variable (or ``.env`` file).
 """
 
 import logging
 import sys
 
+from app.core.config import settings
+
 
 LOG_FORMAT = "%(asctime)s | %(levelname)s | %(name)s | %(message)s"
 DATE_FORMAT = "%Y-%m-%dT%H:%M:%S"
 
+# Resolve the configured log level string (e.g. "DEBUG") to a numeric value.
+_DEFAULT_LEVEL: int = getattr(logging, settings.LOG_LEVEL.upper(), logging.INFO)
 
-def setup_logging(level: int = logging.INFO) -> None:
+
+def setup_logging(level: int | None = None) -> None:
     """Configure the root logger.
 
     Parameters
     ----------
     level:
-        Minimum log level that will be emitted.  Defaults to INFO.
-        Pass ``logging.DEBUG`` during development for more verbose output.
+        Minimum log level that will be emitted.  When *None* (the default),
+        the level is determined by the ``LOG_LEVEL`` setting from
+        ``app.core.config.settings``.
     """
+    if level is None:
+        level = _DEFAULT_LEVEL
     formatter = logging.Formatter(fmt=LOG_FORMAT, datefmt=DATE_FORMAT)
 
     handler = logging.StreamHandler(sys.stdout)
