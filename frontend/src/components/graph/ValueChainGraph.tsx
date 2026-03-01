@@ -267,9 +267,9 @@ function buildStylesheet(): Stylesheet[] {
         'target-arrow-color': '#cbd5e1',
         'target-arrow-shape': 'triangle',
         'arrow-scale': 0.8,
-        'width': 1.5,
+        'width': 'mapData(strength, 0, 1, 1, 4)',
         'curve-style': 'bezier',
-        'opacity': 0.7,
+        'opacity': 'mapData(strength, 0, 1, 0.4, 0.9)',
       },
     },
     // Edge hover
