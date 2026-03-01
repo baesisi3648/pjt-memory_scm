@@ -52,6 +52,13 @@ function buildElements(
     }
   });
 
+  // Build relation count lookup: company_id → number of edges
+  const relationCountMap = new Map<number, number>();
+  relations.forEach((rel) => {
+    relationCountMap.set(rel.source_id, (relationCountMap.get(rel.source_id) || 0) + 1);
+    relationCountMap.set(rel.target_id, (relationCountMap.get(rel.target_id) || 0) + 1);
+  });
+
   // Group companies by tier
   const companiesByTier = new Map<string, Company[]>();
   TIER_ORDER.forEach((t) => companiesByTier.set(t, []));
@@ -99,6 +106,7 @@ function buildElements(
           tier,
           color: TIER_COLORS[tier],
           alertSeverity,
+          relCount: relationCountMap.get(company.id) || 0,
         },
         position: {
           x: cx + (i % 2 === 0 ? 0 : 18),
@@ -187,8 +195,8 @@ function buildStylesheet(): Stylesheet[] {
         'border-color': 'data(color)',
         'border-width': 2,
         'border-opacity': 0.9,
-        'width': COMPANY_RADIUS,
-        'height': COMPANY_RADIUS,
+        'width': 'mapData(relCount, 0, 10, 28, 48)',
+        'height': 'mapData(relCount, 0, 10, 28, 48)',
         'shape': 'ellipse',
         'label': 'data(label)',
         'text-valign': 'bottom',
