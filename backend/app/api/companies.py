@@ -7,6 +7,7 @@ from typing import Optional
 from fastapi import APIRouter, Depends, HTTPException, Query, status
 from sqlmodel import Session, func, select
 
+from app.core.cache import get_cached, make_cache_key, set_cached
 from app.core.database import get_session
 from app.core.security import get_current_user
 from app.models.company import Company
@@ -37,6 +38,19 @@ def list_companies(
     Layer 2: Domain filtering (cluster_id, tier, company_ids)
     Layer 4: Structured response with total count and paginated items
     """
+    # -- TTL cache (5 min) for this rarely-changing dataset --
+    cache_key = make_cache_key(
+        "companies",
+        cluster_id=cluster_id,
+        tier=tier,
+        company_ids=company_ids,
+        skip=skip,
+        limit=limit,
+    )
+    cached = get_cached(cache_key)
+    if cached is not None:
+        return cached
+
     statement = select(Company)
 
     if cluster_id is not None:
@@ -61,10 +75,12 @@ def list_companies(
     total = session.exec(count_statement).one()
 
     companies = session.exec(statement.offset(skip).limit(limit)).all()
-    return CompanyListResponse(
+    result = CompanyListResponse(
         items=[CompanyResponse.model_validate(c) for c in companies],
         count=total,
     )
+    set_cached(cache_key, result)
+    return result
 
 
 # @TASK P2-R1-T1.2 - Get company detail endpoint

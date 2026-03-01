@@ -7,6 +7,7 @@ from typing import Optional
 from fastapi import APIRouter, Depends, HTTPException, Query, status
 from sqlmodel import Session, func, or_, select
 
+from app.core.cache import get_cached, make_cache_key, set_cached
 from app.core.database import get_session
 from app.core.security import get_current_user
 from app.models.company import Company
@@ -44,6 +45,14 @@ def list_relations(
     Layer 2: Domain filtering (company_ids)
     Layer 4: Structured response with total count and paginated items
     """
+    # -- TTL cache (5 min) for this rarely-changing dataset --
+    cache_key = make_cache_key(
+        "relations", company_ids=company_ids, skip=skip, limit=limit
+    )
+    cached = get_cached(cache_key)
+    if cached is not None:
+        return cached
+
     statement = select(CompanyRelation)
 
     if company_ids is not None:
@@ -66,10 +75,12 @@ def list_relations(
     total = session.exec(count_statement).one()
 
     relations = session.exec(statement.offset(skip).limit(limit)).all()
-    return RelationListResponse(
+    result = RelationListResponse(
         items=[RelationResponse.model_validate(r) for r in relations],
         count=total,
     )
+    set_cached(cache_key, result)
+    return result
 
 
 # @TASK P2-R3-T1.2 - Relations for a specific company

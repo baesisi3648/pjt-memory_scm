@@ -5,6 +5,7 @@
 from fastapi import APIRouter, Depends, HTTPException, Query, status
 from sqlmodel import Session, func, select
 
+from app.core.cache import get_cached, make_cache_key, set_cached
 from app.core.database import get_session
 from app.core.security import get_current_user
 from app.models.cluster import Cluster
@@ -29,16 +30,24 @@ def list_clusters(
 
     Layer 4: Structured response with total count and paginated items
     """
+    # -- TTL cache (5 min) for this rarely-changing dataset --
+    cache_key = make_cache_key("clusters", skip=skip, limit=limit)
+    cached = get_cached(cache_key)
+    if cached is not None:
+        return cached
+
     statement = select(Cluster)
 
     count_statement = select(func.count()).select_from(statement.subquery())
     total = session.exec(count_statement).one()
 
     clusters = session.exec(statement.offset(skip).limit(limit)).all()
-    return ClusterListResponse(
+    result = ClusterListResponse(
         items=[ClusterResponse.model_validate(c) for c in clusters],
         count=total,
     )
+    set_cached(cache_key, result)
+    return result
 
 
 # @TASK P2-R2-T1.2 - List companies in a cluster
