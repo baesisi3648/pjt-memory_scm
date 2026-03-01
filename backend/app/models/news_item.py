@@ -21,6 +21,7 @@ class NewsItem(SQLModel, table=True):
     company_id: Optional[int] = Field(default=None, foreign_key="companies.id", index=True)
     published_at: Optional[datetime] = Field(default=None, index=True)
     created_at: datetime = Field(default_factory=datetime.utcnow)
+    sentiment: Optional[float] = Field(default=None)
 
     # Relationships
     company: Optional["Company"] = Relationship(back_populates="news_items")
